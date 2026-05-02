@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
+  Divider,
   Drawer,
   List,
   ListItem,
@@ -31,7 +32,9 @@ const activeItemStyle = {
 };
 
 export default function AppDrawer() {
-  const [activeRoute, setActiveRoute] = useState(RouteList[0]?.path || "");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const activeRoute = location.pathname;
 
   return (
     <>
@@ -44,7 +47,7 @@ export default function AppDrawer() {
               <ListItem disablePadding key={route.path}>
                 <ListItemButton
                   selected={activeRoute === route.path}
-                  onClick={() => setActiveRoute(route.path)}
+                  onClick={() => navigate(route.path)}
                   sx={activeItemStyle}
                 >
                   <ListItemText primary={route.displayName} />
@@ -52,6 +55,7 @@ export default function AppDrawer() {
               </ListItem>
             ))}
           </List>
+          <Divider sx={{ my: 1 }} />
         </Box>
       </Drawer>
     </>
