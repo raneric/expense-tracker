@@ -1,7 +1,9 @@
+import Main from "./ui/layout/Main";
+
 function App() {
   return (
     <>
-      <p>Hello</p>
+      <Main />
     </>
   );
 }
