@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { RouteList } from "../../../utils/Const";
 import { Logo } from "../../core/Logo";
+import LogoImage from "../../../assets/logo.png";
 
 const drawerStyle = {
   width: 240,
@@ -39,7 +40,7 @@ export default function AppDrawer() {
   return (
     <>
       <Drawer variant="permanent" sx={drawerStyle}>
-        <Logo />
+        <Logo src={LogoImage} />
 
         <Box sx={{ p: 1 }}>
           <List>

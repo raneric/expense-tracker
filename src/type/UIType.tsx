@@ -4,4 +4,4 @@ export const LOGO_SIZES = {
   Large: "16em",
 } as const;
 
-export type LogoSize = (typeof LOGO_SIZES)[keyof typeof LOGO_SIZES];
+export type LogoWidth = (typeof LOGO_SIZES)[keyof typeof LOGO_SIZES];

@@ -1,8 +1,13 @@
 import { Box } from "@mui/material";
-import { LOGO_SIZES, type LogoSize } from "../../type/UIType";
+import { LOGO_SIZES, type LogoWidth } from "../../type/UIType";
 
-export function Logo(props: { logoSize?: LogoSize }) {
-  const logoSize: LogoSize = props.logoSize || LOGO_SIZES.Small;
+type LogoProps = {
+  src: string;
+  logoSize?: LogoWidth;
+};
+
+export function Logo({ logoSize, src }: LogoProps) {
+  const maxWidth: LogoWidth = logoSize || LOGO_SIZES.Small;
   return (
     <Box
       sx={{
@@ -14,11 +19,11 @@ export function Logo(props: { logoSize?: LogoSize }) {
     >
       <Box
         component="img"
-        src="/src/assets/logo.png"
+        src={src}
         alt="Logo"
         sx={{
           width: "100%",
-          maxWidth: logoSize,
+          maxWidth,
         }}
       />
     </Box>
