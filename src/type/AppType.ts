@@ -17,7 +17,7 @@ export interface Withdrawal {
   user: User;
 }
 
-export type User = {
+export interface User {
   id: string;
   email: string;
-};
+}
