@@ -14,6 +14,8 @@ const Colors = {
   limeGreenA400: '#76ff03',
   limeGreenA700: '#64dd17',
   limeDark: '#163404',
+  paperBackground: '#ffffff',
+  backgroundDefault: '#f5f5f5',
 };
 
 export default Colors;

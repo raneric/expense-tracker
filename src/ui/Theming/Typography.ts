@@ -11,4 +11,11 @@ const CustomFontSize = {
   tableHeader: '1.1rem',
 };
 
-export default CustomFontSize;
+const FontColor = {
+  primary: '#212121',
+  secondary: '#757575',
+};
+
+const fontFamilies = '"Roboto", "Helvetica", "Arial", sans-serif';
+
+export { CustomFontSize, FontColor, fontFamilies };

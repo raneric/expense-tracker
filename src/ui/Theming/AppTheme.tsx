@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 import Colors from './Colors';
+import { FontColor, fontFamilies } from './Typography';
 
 const theme = createTheme({
   palette: {
@@ -8,19 +9,19 @@ const theme = createTheme({
       dark: Colors.lightBlue700,
     },
     secondary: {
-      main: Colors.limeGreenA100, // Lime green
+      main: Colors.limeGreenA100,
     },
     background: {
-      default: '#f5f5f5', // Light gray
-      paper: '#ffffff', // White
+      default: Colors.backgroundDefault,
+      paper: Colors.paperBackground,
     },
     text: {
-      primary: '#212121', // Black
-      secondary: '#757575', // Gray
+      primary: FontColor.primary,
+      secondary: FontColor.secondary,
     },
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: fontFamilies,
   },
 });
 

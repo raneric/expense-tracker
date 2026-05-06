@@ -23,8 +23,8 @@ import { useLoaderData } from 'react-router-dom';
 import { rows } from '../../../utils/Const';
 import SectionTitle from '../../core/SectionTitle';
 import Colors from '../../Theming/Colors';
-import CustomFontSize from '../../Theming/Typography';
 import type { Withdrawal } from '../../../type/AppType';
+import { CustomFontSize } from '../../Theming/Typography';
 
 export default function WithdrawTable() {
   const [page, setPage] = useState(0);
