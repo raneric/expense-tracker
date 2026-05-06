@@ -21,3 +21,11 @@ export interface User {
   id: string;
   email: string;
 }
+
+export type ValidatorConfig = {
+  regex: RegExp;
+  emptyMessage: string;
+  invalidMessage: string;
+  setError: React.Dispatch<React.SetStateAction<string>>;
+  setValid: React.Dispatch<React.SetStateAction<boolean>>;
+};
