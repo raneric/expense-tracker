@@ -3,12 +3,12 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Divider,
   InputAdornment,
   TextField,
 } from '@mui/material';
 import { useState } from 'react';
 import WithdrawRepository from '../../../repositories/WithdrawRepository';
+import Colors from '../../Theming/Colors';
 
 type DialogProps = {
   isOpen: boolean;
@@ -43,8 +43,16 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
   return (
     <>
       <Dialog open={isOpen} onClose={onClose}>
-        <DialogTitle>Add Withdraw</DialogTitle>
-        <Divider />
+        <DialogTitle
+          sx={{
+            fontWeight: 'bold',
+            backgroundColor: Colors.lightBlue900,
+            color: Colors.lightBlue200,
+          }}
+        >
+          Withdrawal info
+        </DialogTitle>
+
         <DialogContent>
           <TextField
             label='Reason'
@@ -83,7 +91,16 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
               },
             }}
           />
-          <Button variant='contained' onClick={handleSubmit} fullWidth>
+          <Button
+            variant='contained'
+            sx={{
+              backgroundColor: Colors.lightBlue900,
+              color: Colors.lightBlue200,
+              fontWeight: 'bold',
+            }}
+            onClick={handleSubmit}
+            fullWidth
+          >
             Submit
           </Button>
         </DialogContent>

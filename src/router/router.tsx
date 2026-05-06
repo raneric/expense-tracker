@@ -1,21 +1,22 @@
-import { createBrowserRouter } from "react-router-dom";
-import Dashboard from "../ui/layout/dashboard/Dashboard";
-import Error from "../ui/layout/error/Error";
-import Main from "../ui/layout/Main";
-import WithdrawHistory from "../ui/layout/withdraw/WithdrawHistory";
-import { AppRoutes } from "../utils/Const";
-import Profile from "../ui/layout/profile/Profile";
-import Gaz from "../ui/layout/gaz/Gaz";
+import { createBrowserRouter } from 'react-router-dom';
+import Dashboard from '../ui/layout/dashboard/Dashboard';
+import Error from '../ui/layout/error/Error';
+import Main from '../ui/layout/Main';
+import WithdrawHistory from '../ui/layout/withdraw/WithdrawHistory';
+import { AppRoutes } from '../utils/Const';
+import Profile from '../ui/layout/profile/Profile';
+import Gaz from '../ui/layout/gaz/Gaz';
+import { withdrawalLoader } from '../loaders/withdrawalLoader';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Main />,
     errorElement: <Error />,
     children: [
       {
         element: <Dashboard />,
-        path: "/",
+        path: '/',
       },
       {
         element: <Dashboard />,
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       {
         element: <WithdrawHistory />,
         path: AppRoutes.WITHDRAWS,
+        loader: withdrawalLoader,
       },
       {
         element: <Profile />,

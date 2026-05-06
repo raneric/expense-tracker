@@ -1,4 +1,4 @@
-import type { AppRoutes } from "../utils/Const";
+import type { AppRoutes } from '../utils/Const';
 
 type RoutePath = (typeof AppRoutes)[keyof typeof AppRoutes];
 
@@ -8,13 +8,14 @@ export type AppRoute = {
   displayName: string;
 };
 
-export type Withdraw = {
+export interface Withdrawal {
   id: string;
   reason: string;
   date: Date;
   amount: number;
+  location: string;
   user: User;
-};
+}
 
 export type User = {
   id: string;
