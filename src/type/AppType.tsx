@@ -7,3 +7,16 @@ export type AppRoute = {
   name: string;
   displayName: string;
 };
+
+export type Withdraw = {
+  id: string;
+  reason: string;
+  date: Date;
+  amount: number;
+  user: User;
+};
+
+export type User = {
+  id: string;
+  email: string;
+};

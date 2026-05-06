@@ -7,7 +7,7 @@ export default function CustomAppBar() {
     <>
       <AppBar
         position="fixed"
-        elevation={0}
+        elevation={2}
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
