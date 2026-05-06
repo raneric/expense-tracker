@@ -1,21 +1,22 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
+import Colors from './Colors';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#03A9F4", // Blue
-      dark: "#0288D1", // Darker blue for hover/active states
+      main: Colors.lightBlue400,
+      dark: Colors.lightBlue700,
     },
     secondary: {
-      main: "#e6f9a0", // Lime green
+      main: Colors.limeGreenA100, // Lime green
     },
     background: {
-      default: "#f5f5f5", // Light gray
-      paper: "#ffffff", // White
+      default: '#f5f5f5', // Light gray
+      paper: '#ffffff', // White
     },
     text: {
-      primary: "#212121", // Black
-      secondary: "#757575", // Gray
+      primary: '#212121', // Black
+      secondary: '#757575', // Gray
     },
   },
   typography: {

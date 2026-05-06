@@ -3,11 +3,12 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Divider,
   InputAdornment,
   TextField,
-} from "@mui/material";
-import { useState } from "react";
-import WithdrawRepository from "../../../repositories/WithdrawRepository";
+} from '@mui/material';
+import { useState } from 'react';
+import WithdrawRepository from '../../../repositories/WithdrawRepository';
 
 type DialogProps = {
   isOpen: boolean;
@@ -15,10 +16,10 @@ type DialogProps = {
 };
 
 export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
-  const [reason, setReason] = useState("");
-  const [location, setLocation] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [amount, setAmount] = useState("");
+  const [reason, setReason] = useState('');
+  const [location, setLocation] = useState('');
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [amount, setAmount] = useState('');
   const [amountError, setAmountError] = useState(false);
 
   const handleSubmit = () => {
@@ -32,7 +33,7 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setAmount(value);
-    if (value === "" || (!isNaN(Number(value)) && !isNaN(parseFloat(value)))) {
+    if (value === '' || (!isNaN(Number(value)) && !isNaN(parseFloat(value)))) {
       setAmountError(false);
     } else {
       setAmountError(true);
@@ -43,47 +44,46 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
     <>
       <Dialog open={isOpen} onClose={onClose}>
         <DialogTitle>Add Withdraw</DialogTitle>
+        <Divider />
         <DialogContent>
           <TextField
-            label="Reason"
+            label='Reason'
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             fullWidth
-            margin="normal"
+            margin='normal'
           />
           <TextField
-            label="Date"
-            type="date"
+            label='Date'
+            type='date'
             value={date}
             onChange={(e) => setDate(e.target.value)}
             fullWidth
-            margin="normal"
+            margin='normal'
           />
           <TextField
-            label="Location"
+            label='Location'
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             fullWidth
-            margin="normal"
+            margin='normal'
           />
           <TextField
-            label="Amount"
-            type="text"
+            label='Amount'
+            type='text'
             value={amount}
             onChange={handleAmountChange}
             fullWidth
-            margin="normal"
+            margin='normal'
             error={amountError}
-            helperText={amountError ? "Please enter a valid number" : ""}
+            helperText={amountError ? 'Please enter a valid number' : ''}
             slotProps={{
               input: {
-                endAdornment: (
-                  <InputAdornment position="end">Ar</InputAdornment>
-                ),
+                endAdornment: <InputAdornment position='end'>Ar</InputAdornment>,
               },
             }}
           />
-          <Button variant="contained" onClick={handleSubmit} fullWidth>
+          <Button variant='contained' onClick={handleSubmit} fullWidth>
             Submit
           </Button>
         </DialogContent>
