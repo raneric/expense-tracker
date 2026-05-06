@@ -5,21 +5,39 @@ export const AppRoutes = {
   WITHDRAWS: '/withdraws',
   GAZ: '/gaz',
   PROFILE: '/profile',
+  LOGIN: '/login',
 };
 
 export const RouteList: AppRoute[] = [
-  { path: AppRoutes.DASHBOARD, name: 'dashboard', displayName: 'Dashboard' },
+  {
+    path: AppRoutes.DASHBOARD,
+    name: 'dashboard',
+    displayName: 'Dashboard',
+  },
   {
     path: AppRoutes.WITHDRAWS,
     name: 'withdraws',
     displayName: 'Withdraw history',
   },
-  { path: AppRoutes.GAZ, name: 'gaz', displayName: 'Gaz' },
-  { path: AppRoutes.PROFILE, name: 'profile', displayName: 'Profile' },
+  {
+    path: AppRoutes.GAZ,
+    name: 'gaz',
+    displayName: 'Gaz',
+  },
+  {
+    path: AppRoutes.PROFILE,
+    name: 'profile',
+    displayName: 'Profile',
+  },
+  {
+    path: AppRoutes.LOGIN,
+    name: 'login',
+    displayName: 'Login',
+  },
 ];
 
 // -------------- Temporary Fake Data ----------------------
-const users: User[] = [
+export const users: User[] = [
   { id: 'u1', email: 'alice.johnson@example.com' },
   { id: 'u2', email: 'brian.smith@example.com' },
   { id: 'u3', email: 'carla.davis@example.com' },

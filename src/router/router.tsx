@@ -7,6 +7,7 @@ import { AppRoutes } from '../utils/Const';
 import Profile from '../ui/layout/profile/Profile';
 import Gaz from '../ui/layout/gaz/Gaz';
 import { withdrawalLoader } from '../loaders/withdrawalLoader';
+import Login from '../ui/layout/login/Login';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
         path: AppRoutes.GAZ,
       },
     ],
+  },
+  {
+    element: <Login />,
+    path: AppRoutes.LOGIN,
   },
 ]);
 

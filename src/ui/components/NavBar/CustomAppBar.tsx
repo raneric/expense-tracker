@@ -1,4 +1,5 @@
-import { AppBar, Button, Toolbar } from "@mui/material";
+import { ExitToAppTwoTone } from '@mui/icons-material';
+import { AppBar, Button, Toolbar } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -6,7 +7,7 @@ export default function CustomAppBar() {
   return (
     <>
       <AppBar
-        position="fixed"
+        position='fixed'
         elevation={2}
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
@@ -15,8 +16,9 @@ export default function CustomAppBar() {
         }}
       >
         <Toolbar>
-          <Button color="inherit" sx={{ marginLeft: "auto" }}>
-            Login
+          <Button color='inherit' sx={{ marginLeft: 'auto' }}>
+            Logout
+            <ExitToAppTwoTone />
           </Button>
         </Toolbar>
       </AppBar>

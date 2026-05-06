@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
-import { LOGO_SIZES, type LogoWidth } from "../../type/UIType";
+import { Box } from '@mui/material';
+import { LOGO_SIZES, type LogoWidth } from '../../type/UIType';
 
 type LogoProps = {
   src: string;
@@ -11,18 +11,18 @@ export function Logo({ logoSize, src }: LogoProps) {
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         p: 1,
       }}
     >
       <Box
-        component="img"
+        component='img'
         src={src}
-        alt="Logo"
+        alt='Logo'
         sx={{
-          width: "100%",
+          width: '100%',
           maxWidth,
         }}
       />
