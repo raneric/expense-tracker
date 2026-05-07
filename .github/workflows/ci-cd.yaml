@@ -1,0 +1,33 @@
+name: deploy-to-firebase-hosting
+run-name: Build and deploy app to firebase hosting
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+
+      - name: Build Vite App
+        run: npm run build
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Deploy to Firebase Hosting
+        run: |
+          firebase deploy \
+            --only hosting \
+            --project ${{ secrets.FIREBASE_PROJECT_ID }} \
+            --token ${{ secrets.FIREBASE_TOKEN }}
