@@ -1,9 +1,9 @@
-import { AreaChart, HelpTwoTone } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
-import { LineChart } from '@mui/x-charts';
-import { rows } from '../../../utils/Const';
-import SectionTitle from '../../core/SectionTitle';
+import { AreaChart } from '@mui/icons-material';
+import { Box } from '@mui/material';
+import { Gauge, LineChart } from '@mui/x-charts';
+import { useLoaderData } from 'react-router-dom';
 import Colors from '../../Theming/Colors';
+import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle';
 
 const chartLineStyle = {
   '& .MuiChartsAxis-bottom .MuiChartsAxis-line': {
@@ -16,24 +16,14 @@ const chartLineStyle = {
   },
 };
 
-//TODO: FIX ERROR ON DATASET AND BOX
 export default function Dashboard() {
-  const titleBoxAlign = { display: 'flex', alignItems: 'center', gap: 1 };
+  const withdrawalData = useLoaderData();
+
   return (
     <>
       <SectionTitle>
-        <Box sx={titleBoxAlign}>
-          <AreaChart />
-          <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
-            Dashboard
-          </Typography>
-        </Box>
-        <Box sx={titleBoxAlign}>
-          <Typography variant='body2' sx={{ opacity: 0.88 }}>
-            Display charts related to withdrawals
-          </Typography>
-          <HelpTwoTone sx={{ fontSize: '1.8rem' }} />
-        </Box>
+        <Tittle icon={<AreaChart />} displayText='Dashboard' />
+        <TittleHelperInfo displayText='Display charts related to withdrawals' />
       </SectionTitle>
       <Box
         sx={{
@@ -45,7 +35,7 @@ export default function Dashboard() {
       >
         <LineChart
           sx={chartLineStyle}
-          dataset={rows}
+          dataset={withdrawalData}
           xAxis={[
             {
               dataKey: 'date',
@@ -70,6 +60,26 @@ export default function Dashboard() {
             },
           ]}
           height={300}
+        />
+      </Box>
+      <Box
+        sx={{
+          maxWidth: '10rem',
+          height: '10rem',
+          backgroundColor: Colors.paperBackground,
+          borderRadius: '0.8rem',
+        }}
+      >
+        <Gauge
+          value={30}
+          startAngle={-110}
+          endAngle={110}
+          sx={{
+            ['& .MuiGauge-valueText']: {
+              fontWeight: 'bold',
+            },
+          }}
+          text={({ value, valueMax }) => `${value} / ${valueMax}`}
         />
       </Box>
     </>

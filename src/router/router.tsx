@@ -8,6 +8,7 @@ import Profile from '../ui/layout/profile/Profile';
 import Gaz from '../ui/layout/gaz/Gaz';
 import { withdrawalLoader } from '../loaders/withdrawalLoader';
 import Login from '../ui/layout/login/Login';
+import { dashboardLoader } from '../loaders/dashboardLoader';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
       {
         element: <Dashboard />,
         path: AppRoutes.DASHBOARD,
+        loader: dashboardLoader,
       },
       {
         element: <WithdrawHistory />,
@@ -34,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         element: <Gaz />,
-        path: AppRoutes.GAZ,
+        path: AppRoutes.GAS,
       },
     ],
   },

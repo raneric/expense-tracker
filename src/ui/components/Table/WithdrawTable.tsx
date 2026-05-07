@@ -2,7 +2,6 @@ import {
   AccountBalanceWallet,
   CalendarMonth,
   ExploreTwoTone,
-  HelpTwoTone,
   InfoTwoTone,
   PaidTwoTone,
 } from '@mui/icons-material';
@@ -16,16 +15,15 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography,
 } from '@mui/material';
 import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { rows } from '../../../utils/Const';
-import SectionTitle from '../../core/SectionTitle';
-import Colors from '../../Theming/Colors';
 import type { Withdrawal } from '../../../type/AppType';
-import { CustomFontSize } from '../../Theming/Typography';
+import { rows } from '../../../utils/Const';
 import { toLocalMgCurrency } from '../../../utils/usilities';
+import Colors from '../../Theming/Colors';
+import { CustomFontSize } from '../../Theming/Typography';
+import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle';
 
 export default function WithdrawTable() {
   const [page, setPage] = useState(0);
@@ -49,23 +47,11 @@ export default function WithdrawTable() {
   };
   const headerCellContentStyle = { display: 'flex', alignItems: 'center', gap: '0.5rem' };
 
-  const titleBoxAlign = { display: 'flex', alignItems: 'center', gap: 1 };
-
   return (
     <Box>
       <SectionTitle>
-        <Box sx={titleBoxAlign}>
-          <AccountBalanceWallet />
-          <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
-            Withdrawal Activity
-          </Typography>
-        </Box>
-        <Box sx={titleBoxAlign}>
-          <Typography variant='body2' sx={{ opacity: 0.88 }}>
-            Track your recent transactions and spending patterns
-          </Typography>
-          <HelpTwoTone sx={{ fontSize: '1.8rem' }} />
-        </Box>
+        <Tittle displayText='Withdrawal Activity' icon={<AccountBalanceWallet />} />
+        <TittleHelperInfo displayText=' Track your recent transactions and spending patterns' />
       </SectionTitle>
       <TableContainer component={Paper}>
         <Table>

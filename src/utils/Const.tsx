@@ -6,7 +6,7 @@ import { removeDuplicateValues } from './usilities';
 export const AppRoutes = {
   DASHBOARD: '/dashboard',
   WITHDRAWS: '/withdraws',
-  GAZ: '/gaz',
+  GAS: '/gas',
   PROFILE: '/profile',
   LOGIN: '/login',
 };
@@ -25,7 +25,7 @@ export const RouteList: AppRoute[] = [
     icon: <SyncAlt />,
   },
   {
-    path: AppRoutes.GAZ,
+    path: AppRoutes.GAS,
     name: 'gas',
     displayName: 'Gas',
     icon: <CalendarMonth />,
