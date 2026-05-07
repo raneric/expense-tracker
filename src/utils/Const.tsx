@@ -72,7 +72,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Gas'],
     date: new Date('2026-04-30'),
     location: 'Chicago',
-    amount: 42.3,
+    amount: 42000,
     user: users[2],
   },
   {
@@ -80,7 +80,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Medical'],
     date: new Date('2026-04-29'),
     location: 'Houston',
-    amount: 315.2,
+    amount: 315000,
     user: users[0],
   },
   {
@@ -88,7 +88,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Rent'],
     date: new Date('2026-04-28'),
     location: 'San Francisco',
-    amount: 1350.0,
+    amount: 13500,
     user: users[1],
   },
   {
@@ -96,7 +96,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Utilities'],
     date: new Date('2026-04-27'),
     location: 'Seattle',
-    amount: 98.75,
+    amount: 100000,
     user: users[2],
   },
   {
@@ -104,7 +104,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Subscription'],
     date: new Date('2026-04-26'),
     location: 'Austin',
-    amount: 22.99,
+    amount: 22000,
     user: users[0],
   },
   {
@@ -112,7 +112,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Dining'],
     date: new Date('2026-04-25'),
     location: 'Miami',
-    amount: 76.4,
+    amount: 30000,
     user: users[1],
   },
   {
@@ -120,7 +120,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Travel'],
     date: new Date('2026-04-24'),
     location: 'Denver',
-    amount: 519.0,
+    amount: 40000,
     user: users[2],
   },
   {
@@ -128,7 +128,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Office Supplies'],
     date: new Date('2026-04-23'),
     location: 'Boston',
-    amount: 63.12,
+    amount: 63000,
     user: users[0],
   },
   {
@@ -136,7 +136,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Shopping'],
     date: new Date('2026-04-22'),
     location: 'Portland',
-    amount: 184.7,
+    amount: 15000,
     user: users[1],
   },
   {
@@ -144,7 +144,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Gym'],
     date: new Date('2026-04-21'),
     location: 'San Diego',
-    amount: 45.0,
+    amount: 16000,
     user: users[2],
   },
   {
@@ -152,7 +152,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Insurance'],
     date: new Date('2026-04-20'),
     location: 'Philadelphia',
-    amount: 212.6,
+    amount: 17000,
     user: users[0],
   },
   {
@@ -160,7 +160,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Education'],
     date: new Date('2026-04-19'),
     location: 'Atlanta',
-    amount: 540.0,
+    amount: 18000,
     user: users[1],
   },
   {
@@ -168,7 +168,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Gift'],
     date: new Date('2026-04-18'),
     location: 'Dallas',
-    amount: 120.0,
+    amount: 19000,
     user: users[2],
   },
   {
@@ -176,7 +176,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Home Repair'],
     date: new Date('2026-04-17'),
     location: 'Phoenix',
-    amount: 287.9,
+    amount: 20000,
     user: users[0],
   },
   {
@@ -184,7 +184,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Entertainment'],
     date: new Date('2026-04-16'),
     location: 'Las Vegas',
-    amount: 89.1,
+    amount: 21000,
     user: users[1],
   },
   {
@@ -192,7 +192,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Parking'],
     date: new Date('2026-04-15'),
     location: 'San Jose',
-    amount: 18.0,
+    amount: 22000,
     user: users[2],
   },
   {
@@ -200,7 +200,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Pet Care'],
     date: new Date('2026-04-14'),
     location: 'Orlando',
-    amount: 65.55,
+    amount: 23000,
     user: users[0],
   },
   {
@@ -208,7 +208,7 @@ export const rows: Withdrawal[] = [
     reasons: ['Taxi'],
     date: new Date('2026-04-13'),
     location: 'Nashville',
-    amount: 31.25,
+    amount: 24000,
     user: users[1],
   },
 ];
