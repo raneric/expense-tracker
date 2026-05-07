@@ -1,4 +1,6 @@
+import { AccountBox, CalendarMonth, SyncAlt } from '@mui/icons-material';
 import type { AppRoute, User, Withdrawal } from '../type/AppType';
+import DashboardCustomize from '@mui/icons-material/DashboardCustomize';
 
 export const AppRoutes = {
   DASHBOARD: '/dashboard',
@@ -13,21 +15,25 @@ export const RouteList: AppRoute[] = [
     path: AppRoutes.DASHBOARD,
     name: 'dashboard',
     displayName: 'Dashboard',
+    icon: <DashboardCustomize />,
   },
   {
     path: AppRoutes.WITHDRAWS,
     name: 'withdraws',
     displayName: 'Withdraw history',
+    icon: <SyncAlt />,
   },
   {
     path: AppRoutes.GAZ,
     name: 'gaz',
     displayName: 'Gaz',
+    icon: <CalendarMonth />,
   },
   {
     path: AppRoutes.PROFILE,
     name: 'profile',
     displayName: 'Profile',
+    icon: <AccountBox />,
   },
   {
     path: AppRoutes.LOGIN,

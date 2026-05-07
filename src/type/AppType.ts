@@ -6,6 +6,7 @@ export type AppRoute = {
   path: RoutePath;
   name: string;
   displayName: string;
+  icon?: React.ReactNode;
 };
 
 export interface Withdrawal {

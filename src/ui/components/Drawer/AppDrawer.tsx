@@ -1,5 +1,14 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import {
+  Box,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import { AppRoutes, RouteList } from '../../../utils/Const';
 import { Logo } from '../../core/Logo';
 import LogoImage from '../../../assets/logo.png';
@@ -43,6 +52,7 @@ export default function AppDrawer() {
                   onClick={() => navigate(route.path)}
                   sx={activeItemStyle}
                 >
+                  <ListItemIcon>{route.icon}</ListItemIcon>
                   <ListItemText primary={route.displayName} />
                 </ListItemButton>
               </ListItem>
