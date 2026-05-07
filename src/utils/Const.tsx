@@ -1,6 +1,7 @@
 import { AccountBox, CalendarMonth, SyncAlt } from '@mui/icons-material';
 import type { AppRoute, User, Withdrawal } from '../type/AppType';
 import DashboardCustomize from '@mui/icons-material/DashboardCustomize';
+import { removeDuplicateValues } from './usilities';
 
 export const AppRoutes = {
   DASHBOARD: '/dashboard',
@@ -25,8 +26,8 @@ export const RouteList: AppRoute[] = [
   },
   {
     path: AppRoutes.GAZ,
-    name: 'gaz',
-    displayName: 'Gaz',
+    name: 'gas',
+    displayName: 'Gas',
     icon: <CalendarMonth />,
   },
   {
@@ -52,23 +53,23 @@ export const users: User[] = [
 export const rows: Withdrawal[] = [
   {
     id: '1',
-    reason: 'ATM Withdrawal',
+    reasons: ['Food', 'Subscription'],
     date: new Date('2026-05-02'),
     location: 'New York',
-    amount: 240.0,
+    amount: 200000,
     user: users[0],
   },
   {
     id: '2',
-    reason: 'Groceries',
+    reasons: ['Groceries'],
     date: new Date('2026-05-01'),
     location: 'Los Angeles',
-    amount: 128.5,
+    amount: 30000,
     user: users[1],
   },
   {
     id: '3',
-    reason: 'Gas',
+    reasons: ['Gas'],
     date: new Date('2026-04-30'),
     location: 'Chicago',
     amount: 42.3,
@@ -76,7 +77,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '4',
-    reason: 'Medical',
+    reasons: ['Medical'],
     date: new Date('2026-04-29'),
     location: 'Houston',
     amount: 315.2,
@@ -84,7 +85,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '5',
-    reason: 'Rent',
+    reasons: ['Rent'],
     date: new Date('2026-04-28'),
     location: 'San Francisco',
     amount: 1350.0,
@@ -92,7 +93,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '6',
-    reason: 'Utilities',
+    reasons: ['Utilities'],
     date: new Date('2026-04-27'),
     location: 'Seattle',
     amount: 98.75,
@@ -100,7 +101,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '7',
-    reason: 'Subscription',
+    reasons: ['Subscription'],
     date: new Date('2026-04-26'),
     location: 'Austin',
     amount: 22.99,
@@ -108,7 +109,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '8',
-    reason: 'Dining',
+    reasons: ['Dining'],
     date: new Date('2026-04-25'),
     location: 'Miami',
     amount: 76.4,
@@ -116,7 +117,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '9',
-    reason: 'Travel',
+    reasons: ['Travel'],
     date: new Date('2026-04-24'),
     location: 'Denver',
     amount: 519.0,
@@ -124,7 +125,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '10',
-    reason: 'Office Supplies',
+    reasons: ['Office Supplies'],
     date: new Date('2026-04-23'),
     location: 'Boston',
     amount: 63.12,
@@ -132,7 +133,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '11',
-    reason: 'Shopping',
+    reasons: ['Shopping'],
     date: new Date('2026-04-22'),
     location: 'Portland',
     amount: 184.7,
@@ -140,7 +141,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '12',
-    reason: 'Gym',
+    reasons: ['Gym'],
     date: new Date('2026-04-21'),
     location: 'San Diego',
     amount: 45.0,
@@ -148,7 +149,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '13',
-    reason: 'Insurance',
+    reasons: ['Insurance'],
     date: new Date('2026-04-20'),
     location: 'Philadelphia',
     amount: 212.6,
@@ -156,7 +157,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '14',
-    reason: 'Education',
+    reasons: ['Education'],
     date: new Date('2026-04-19'),
     location: 'Atlanta',
     amount: 540.0,
@@ -164,7 +165,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '15',
-    reason: 'Gift',
+    reasons: ['Gift'],
     date: new Date('2026-04-18'),
     location: 'Dallas',
     amount: 120.0,
@@ -172,7 +173,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '16',
-    reason: 'Home Repair',
+    reasons: ['Home Repair'],
     date: new Date('2026-04-17'),
     location: 'Phoenix',
     amount: 287.9,
@@ -180,7 +181,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '17',
-    reason: 'Entertainment',
+    reasons: ['Entertainment'],
     date: new Date('2026-04-16'),
     location: 'Las Vegas',
     amount: 89.1,
@@ -188,7 +189,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '18',
-    reason: 'Parking',
+    reasons: ['Parking'],
     date: new Date('2026-04-15'),
     location: 'San Jose',
     amount: 18.0,
@@ -196,7 +197,7 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '19',
-    reason: 'Pet Care',
+    reasons: ['Pet Care'],
     date: new Date('2026-04-14'),
     location: 'Orlando',
     amount: 65.55,
@@ -204,10 +205,14 @@ export const rows: Withdrawal[] = [
   },
   {
     id: '20',
-    reason: 'Taxi',
+    reasons: ['Taxi'],
     date: new Date('2026-04-13'),
     location: 'Nashville',
     amount: 31.25,
     user: users[1],
   },
 ];
+
+export const reasonsList: string[] = removeDuplicateValues<string>(
+  rows.flatMap((row: Withdrawal) => row.reasons),
+);

@@ -25,6 +25,7 @@ import SectionTitle from '../../core/SectionTitle';
 import Colors from '../../Theming/Colors';
 import type { Withdrawal } from '../../../type/AppType';
 import { CustomFontSize } from '../../Theming/Typography';
+import { toLocalMgCurrency } from '../../../utils/usilities';
 
 export default function WithdrawTable() {
   const [page, setPage] = useState(0);
@@ -72,7 +73,7 @@ export default function WithdrawTable() {
             <TableRow>
               <TableCell sx={headerCellStyle}>
                 <Box sx={headerCellContentStyle}>
-                  <span>Reason</span>
+                  <span>Reasons</span>
                   <InfoTwoTone />
                 </Box>
               </TableCell>
@@ -101,10 +102,10 @@ export default function WithdrawTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((withdrawal: Withdrawal) => (
                 <TableRow key={withdrawal.id} hover>
-                  <TableCell>{withdrawal.reason}</TableCell>
+                  <TableCell>{withdrawal.reasons.join(', ')}</TableCell>
                   <TableCell>{withdrawal.date.toDateString()}</TableCell>
                   <TableCell>{withdrawal.location}</TableCell>
-                  <TableCell align='right'>{withdrawal.amount} Ar</TableCell>
+                  <TableCell align='right'>{toLocalMgCurrency(withdrawal.amount)}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

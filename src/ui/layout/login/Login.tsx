@@ -1,13 +1,13 @@
 import { LoginTwoTone } from '@mui/icons-material';
 import { Box, Button, CircularProgress, Paper, TextField } from '@mui/material';
+import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import LogoImage from '../../../assets/logo.png';
 import { useUser } from '../../../context/UserContext';
+import { AppRoutes } from '../../../utils/Const';
+import { validateInput } from '../../../utils/validationFunctions';
 import { Logo } from '../../core/Logo';
 import Colors from '../../Theming/Colors';
-import { Navigate } from 'react-router-dom';
-import { AppRoutes } from '../../../utils/Const';
-import { useState } from 'react';
-import { validateInput } from '../../../utils/validationFunctions';
 
 export default function Login() {
   const { login, state } = useUser();
@@ -68,76 +68,74 @@ export default function Login() {
   };
 
   return (
-    <>
-      <Box
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        p: 2,
+      }}
+    >
+      <Paper
+        elevation={6}
         sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          p: 2,
+          width: '100%',
+          maxWidth: 400,
+          p: 4,
+          borderRadius: 3,
         }}
       >
-        <Paper
-          elevation={6}
-          sx={{
-            width: '100%',
-            maxWidth: 400,
-            p: 4,
-            borderRadius: 3,
-          }}
+        <Logo src={LogoImage} />
+        <br />
+        <Box
+          component='form'
+          method='post'
+          noValidate
+          autoComplete='off'
+          onSubmit={handleSubmit}
+          sx={{ display: 'grid', gap: 4 }}
         >
-          <Logo src={LogoImage} />
-          <br />
-          <Box
-            component='form'
-            method='post'
-            noValidate
-            autoComplete='off'
-            onSubmit={handleSubmit}
-            sx={{ display: 'grid', gap: 4 }}
+          <TextField
+            id='email'
+            name='email'
+            error={!isValidEmail}
+            helperText={emailErrorMessage}
+            type='email'
+            label='Email'
+            variant='outlined'
+            onChange={validateEmailPattern}
+            fullWidth
+          />
+
+          <TextField
+            id='password'
+            name='password'
+            type='password'
+            label='Password'
+            variant='outlined'
+            error={!isValidPassword}
+            helperText={passwordErrorMessage}
+            onChange={validatePasswordPattern}
+            fullWidth
+          />
+
+          <Button
+            sx={{
+              backgroundColor: Colors.lightBlue900,
+              color: Colors.lightBlue200,
+              fontWeight: 'bold',
+            }}
+            type='submit'
+            variant='contained'
+            size='large'
+            fullWidth
+            endIcon={<LoginTwoTone />}
           >
-            <TextField
-              id='email'
-              name='email'
-              error={!isValidEmail}
-              helperText={emailErrorMessage}
-              type='email'
-              label='Email'
-              variant='outlined'
-              onChange={validateEmailPattern}
-              fullWidth
-            />
-
-            <TextField
-              id='password'
-              name='password'
-              type='password'
-              label='Password'
-              variant='outlined'
-              error={!isValidPassword}
-              helperText={passwordErrorMessage}
-              onChange={validatePasswordPattern}
-              fullWidth
-            />
-
-            <Button
-              sx={{
-                backgroundColor: Colors.lightBlue900,
-                color: Colors.lightBlue200,
-                fontWeight: 'bold',
-              }}
-              type='submit'
-              variant='contained'
-              size='large'
-              fullWidth
-              endIcon={<LoginTwoTone />}
-            >
-              {state.loading ? <CircularProgress aria-label='Loading…' /> : <span>LOGIN</span>}
-            </Button>
-          </Box>
-        </Paper>
-      </Box>
-    </>
+            {state.loading ? <CircularProgress aria-label='Loading…' /> : <span>LOGIN</span>}
+          </Button>
+        </Box>
+      </Paper>
+    </Box>
   );
 }
