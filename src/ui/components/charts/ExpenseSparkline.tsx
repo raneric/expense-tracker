@@ -61,9 +61,6 @@ export default function ExpenseSparkLine({
         justifyContent: 'center',
         alignItems: 'center',
         maxWidth: '21em',
-        backgroundColor: 'white',
-        borderRadius: '0.8em',
-        pb: '0.6rem',
       }}
     >
       <Stack direction='column' sx={{ width: 300 }}>

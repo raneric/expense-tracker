@@ -1,6 +1,6 @@
 import { AccountBalanceWallet } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
-import { Fab, Stack } from '@mui/material';
+import { Card, Fab, Stack } from '@mui/material';
 import { useState } from 'react';
 import WithdrawTable from '../../components/Table/WithdrawTable';
 import ExpenseSparkLine from '../../components/charts/ExpenseSparkline';
@@ -43,6 +43,8 @@ export default function WithdrawalHistory() {
     setSelectedRow(data);
   };
 
+  const chartCardStyle = { pt: 1, pb: 1, pl: 2, pr: 2, borderRadius: '0.6em' };
+
   return (
     <Stack spacing={2}>
       <SectionTitle>
@@ -50,16 +52,20 @@ export default function WithdrawalHistory() {
         <TittleHelperInfo displayText=' Track your recent transactions' />
       </SectionTitle>
       <Stack spacing={2} direction='row'>
-        <ExpenseSparkLine
-          dimension={currentDimension}
-          dataLabel='Withdrawal off today'
-          dataset={currentDataset}
-        />
-        <ExpenseSparkLine
-          dimension={dimensionWithForecast}
-          dataLabel='Forecasted'
-          dataset={datasetWithForecast}
-        />
+        <Card sx={chartCardStyle}>
+          <ExpenseSparkLine
+            dimension={currentDimension}
+            dataLabel='Withdrawal off today'
+            dataset={currentDataset}
+          />
+        </Card>
+        <Card sx={chartCardStyle}>
+          <ExpenseSparkLine
+            dimension={dimensionWithForecast}
+            dataLabel='Forecasted'
+            dataset={datasetWithForecast}
+          />
+        </Card>
       </Stack>
 
       <WithdrawTable
