@@ -31,12 +31,12 @@ export default function WithdrawalHistory() {
       <Stack spacing={2} direction='row'>
         <ExpenseSparkLine
           dimension={currentDimension}
-          dataLabel='Current amount'
+          dataLabel='Withdrawal off today'
           dataset={currentDataset}
         />
         <ExpenseSparkLine
           dimension={dimensionWithForecast}
-          dataLabel='Forecasted amount'
+          dataLabel='Forecasted'
           dataset={datasetWithForecast}
         />
       </Stack>

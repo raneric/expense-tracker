@@ -1,6 +1,15 @@
-import { CalendarMonth, ExploreTwoTone, InfoTwoTone, PaidTwoTone } from '@mui/icons-material';
+import {
+  CalendarMonth,
+  DeleteForever,
+  ExploreTwoTone,
+  InfoTwoTone,
+  PaidTwoTone,
+  Settings,
+} from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -16,7 +25,6 @@ import { rows } from '../../../utils/Const';
 import { toLocalMgCurrency } from '../../../utils/utilities';
 import Colors from '../../Theming/Colors';
 import { CustomFontSize } from '../../Theming/Typography';
-
 export default function WithdrawTable({ withdrawals }: { withdrawals: Withdrawal[] }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -32,9 +40,9 @@ export default function WithdrawTable({ withdrawals }: { withdrawals: Withdrawal
 
   const headerCellStyle = {
     fontWeight: 'bold',
-    color: Colors.lightBlue200,
+    color: Colors.tint200,
     fontSize: CustomFontSize.tableHeader,
-    backgroundColor: Colors.lightBlue900,
+    backgroundColor: Colors.tint900,
   };
   const headerCellContentStyle = { display: 'flex', alignItems: 'center', gap: '0.5rem' };
   const forecastedStyle = { color: 'warning.main', fontWeight: 'bold' };
@@ -68,6 +76,12 @@ export default function WithdrawTable({ withdrawals }: { withdrawals: Withdrawal
                   <PaidTwoTone />
                 </Box>
               </TableCell>
+              <TableCell sx={headerCellStyle}>
+                <Box sx={{ ...headerCellContentStyle, justifyContent: 'end' }}>
+                  <span>Actions</span>
+                  <Settings />
+                </Box>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -86,6 +100,18 @@ export default function WithdrawTable({ withdrawals }: { withdrawals: Withdrawal
                   </TableCell>
                   <TableCell sx={withdrawal.isForecast ? forecastedStyle : {}} align='right'>
                     {toLocalMgCurrency(withdrawal.amount)}
+                  </TableCell>
+                  <TableCell
+                    size='small'
+                    sx={withdrawal.isForecast ? { ...forecastedStyle, width: 200 } : {}}
+                    align='right'
+                  >
+                    <IconButton>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton>
+                      <DeleteForever />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

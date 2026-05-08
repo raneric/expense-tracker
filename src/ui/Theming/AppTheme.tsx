@@ -5,13 +5,13 @@ import { FontColor, fontFamilies } from './Typography';
 const theme = createTheme({
   palette: {
     primary: {
-      main: Colors.lightBlue400,
-      light: Colors.lightBlue300,
-      dark: Colors.lightBlue600,
+      main: Colors.tint400,
+      light: Colors.tint300,
+      dark: Colors.tint600,
       contrastText: Colors.onPrimary,
     },
     secondary: {
-      main: Colors.limeGreenA100,
+      main: Colors.A100,
     },
     background: {
       default: Colors.backgroundDefault,

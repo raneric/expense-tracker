@@ -72,11 +72,11 @@ export const rows: Withdrawal[] = [
   {
     id: '3',
     reasons: ['Gas'],
-    date: new Date('2026-04-30'),
+    date: new Date('2026-05-10'),
     location: 'Chicago',
     amount: 42000,
     user: users[2],
-    isForecast: false,
+    isForecast: true,
   },
   {
     id: '4',

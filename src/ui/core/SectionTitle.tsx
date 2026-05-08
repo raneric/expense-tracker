@@ -12,7 +12,7 @@ function SectionTitle({ children }: BasePropsType) {
     mb: 2,
     borderRadius: 2,
     backgroundColor: 'primary.dark',
-    color: Colors.lightBlue50,
+    color: Colors.tint50,
   };
 
   return (

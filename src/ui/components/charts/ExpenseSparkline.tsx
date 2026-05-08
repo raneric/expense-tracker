@@ -63,6 +63,7 @@ export default function ExpenseSparkLine({
         maxWidth: '21em',
         backgroundColor: 'white',
         borderRadius: '0.8em',
+        pb: '0.6rem',
       }}
     >
       <Stack direction='column' sx={{ width: 300 }}>
@@ -95,7 +96,7 @@ export default function ExpenseSparkLine({
             width={200}
             area
             showHighlight
-            color={Colors.limeGreenA700}
+            color={Colors.A700}
             onHighlightedAxisChange={(axisItems) => {
               setWeekIndex(axisItems[0]?.dataIndex ?? null);
             }}

@@ -7,11 +7,11 @@ import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle'
 
 const chartLineStyle = {
   '& .MuiChartsAxis-bottom .MuiChartsAxis-line': {
-    stroke: Colors.lightBlue900,
+    stroke: Colors.tint900,
     strokeWidth: '0.09rem',
   },
   '& .MuiChartsAxis-left .MuiChartsAxis-line': {
-    stroke: Colors.lightBlue900,
+    stroke: Colors.tint900,
     strokeWidth: '0.09rem',
   },
 };
@@ -56,7 +56,7 @@ export default function Dashboard() {
             {
               dataKey: 'amount',
               label: 'Withdrawals (MGA)',
-              color: Colors.lightBlue200,
+              color: Colors.tint200,
             },
           ]}
           height={300}
