@@ -11,7 +11,7 @@ function SectionTitle({ children }: BasePropsType) {
     p: 2,
     mb: 2,
     borderRadius: 2,
-    backgroundColor: Colors.lightBlue700,
+    backgroundColor: 'primary.dark',
     color: Colors.lightBlue50,
   };
 

@@ -16,6 +16,13 @@ const Colors = {
   limeDark: '#163404',
   paperBackground: '#ffffff',
   backgroundDefault: '#f5f5f5',
+  error: '#d32f2f',
+  errorLight: '#ef5350',
+  errorDark: '#c62828',
+  warning: '#ed6c02',
+  warningLight: '#ff9800',
+  warningDark: '#e65100',
+  onPrimary: '#001a2d',
 };
 
 export default Colors;

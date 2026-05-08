@@ -1,10 +1,13 @@
+import { HistoryToggleOff } from '@mui/icons-material';
 import {
   Autocomplete,
   Box,
   Button,
+  Chip,
   Dialog,
   DialogContent,
   DialogTitle,
+  Fade,
   InputAdornment,
   TextField,
 } from '@mui/material';
@@ -24,6 +27,7 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [amount, setAmount] = useState('');
   const [amountError, setAmountError] = useState(false);
+  const [isForecast, setIsForecast] = useState(false);
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,6 +47,12 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
     }
   };
 
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedDate = e.target.value;
+    setDate(selectedDate);
+    setIsForecast(new Date() < new Date(selectedDate));
+  };
+
   const handleReasonsChange = (_: React.SyntheticEvent<Element>, newValue: string[]) => {
     setReason(newValue);
   };
@@ -55,9 +65,14 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
             fontWeight: 'bold',
             backgroundColor: Colors.lightBlue900,
             color: Colors.lightBlue200,
+            display: 'flex',
+            justifyContent: 'space-between',
           }}
         >
-          Withdrawal info
+          <span>Withdrawal info</span>
+          <Fade in={isForecast}>
+            <Chip color='secondary' icon={<HistoryToggleOff />} label='Forecast' />
+          </Fade>
         </DialogTitle>
         <DialogContent>
           <Box component='form' method='post' onSubmit={handleSubmit}>
@@ -79,7 +94,7 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
               label='Date'
               type='date'
               value={date}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={handleDateChange}
               fullWidth
               margin='normal'
             />
