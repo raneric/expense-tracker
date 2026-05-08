@@ -1,6 +1,6 @@
 const Colors = {
   tint50: '#e1f5fe',
-  tint: '#b3e5fc',
+  tint100: '#b3e5fc',
   tint200: '#81d4fa',
   tint300: '#4fc3f7',
   tint400: '#29b6f6',

@@ -122,8 +122,8 @@ export default function Login() {
 
           <Button
             sx={{
-              backgroundColor: Colors.lightBlue900,
-              color: Colors.lightBlue200,
+              backgroundColor: Colors.tint900,
+              color: Colors.tint200,
               fontWeight: 'bold',
             }}
             type='submit'

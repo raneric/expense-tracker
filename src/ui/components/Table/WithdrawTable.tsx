@@ -25,7 +25,21 @@ import { rows } from '../../../utils/Const';
 import { toLocalMgCurrency } from '../../../utils/utilities';
 import Colors from '../../Theming/Colors';
 import { CustomFontSize } from '../../Theming/Typography';
-export default function WithdrawTable({ withdrawals }: { withdrawals: Withdrawal[] }) {
+import type { WithdrawTableProps } from '../../../type/PropsType';
+
+/**
+ * A table for displaying withdrawal information.
+ * @param props - The properties for the WithdrawTable component.
+ * @param props.withdrawals - An array of withdrawal objects to display in the table.
+ * @param props.onRowEditClick - A callback function that is called when the edit button is clicked for a row. It receives the corresponding withdrawal object as an argument.
+ * @param props.onRowDeleteClick - A callback function that is called when the delete button is clicked for a row. It receives the ID of the corresponding withdrawal as an argument.
+ * @returns A React component that renders a table of withdrawals with pagination, edit, and delete functionality.
+ */
+export default function WithdrawTable({
+  withdrawals,
+  onRowEditClick,
+  onRowDeleteClick,
+}: WithdrawTableProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -46,6 +60,7 @@ export default function WithdrawTable({ withdrawals }: { withdrawals: Withdrawal
   };
   const headerCellContentStyle = { display: 'flex', alignItems: 'center', gap: '0.5rem' };
   const forecastedStyle = { color: 'warning.main', fontWeight: 'bold' };
+
   return (
     <Box>
       <TableContainer component={Paper}>
@@ -106,10 +121,10 @@ export default function WithdrawTable({ withdrawals }: { withdrawals: Withdrawal
                     sx={withdrawal.isForecast ? { ...forecastedStyle, width: 200 } : {}}
                     align='right'
                   >
-                    <IconButton>
+                    <IconButton onClick={() => onRowEditClick(withdrawal)}>
                       <EditIcon />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={() => onRowDeleteClick(withdrawal.id)}>
                       <DeleteForever />
                     </IconButton>
                   </TableCell>

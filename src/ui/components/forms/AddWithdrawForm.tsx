@@ -1,4 +1,5 @@
 import { HistoryToggleOff } from '@mui/icons-material';
+
 import {
   Autocomplete,
   Box,
@@ -11,50 +12,46 @@ import {
   InputAdornment,
   TextField,
 } from '@mui/material';
-import { useState } from 'react';
-import WithdrawRepository from '../../../repositories/WithdrawRepository';
-import { reasonsList } from '../../../utils/Const';
+
 import Colors from '../../Theming/Colors';
 
-type DialogProps = {
-  isOpen: boolean;
-  onClose: () => void;
-};
+import type { Withdrawal } from '../../../type/AppType';
+import type { DialogFormProps } from '../../../type/PropsType';
+import { reasonsList } from '../../../utils/Const';
 
-export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
-  const [reason, setReason] = useState<string[]>([]);
-  const [location, setLocation] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const [amount, setAmount] = useState('');
-  const [amountError, setAmountError] = useState(false);
-  const [isForecast, setIsForecast] = useState(false);
+/**
+ * A form for adding or editing withdrawal information.
+ * @param props - The properties for the AddWithdrawForm component.
+ * @returns A React component that renders a form for adding or editing withdrawal information.
+ */
+export default function AddWithdrawForm({
+  isOpen,
+  formData,
+  onClose,
+  onInputDataChange,
+}: DialogFormProps<Withdrawal>) {
+  const amountError = isNaN(formData.amount);
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(reason);
-    const repo = new WithdrawRepository();
-    repo.getAll();
     onClose();
   };
 
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setAmount(value);
-    if (value === '' || (!isNaN(Number(value)) && !isNaN(parseFloat(value)))) {
-      setAmountError(false);
+  const handleChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement, Element>,
+    input: string,
+  ) => {
+    if (input === 'date') {
+      const date = new Date(e.target.value);
+      const isForecast = date > new Date();
+      onInputDataChange({ ...formData, date, isForecast });
     } else {
-      setAmountError(true);
+      onInputDataChange({ ...formData, [input]: e.target.value });
     }
   };
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedDate = e.target.value;
-    setDate(selectedDate);
-    setIsForecast(new Date() < new Date(selectedDate));
-  };
-
   const handleReasonsChange = (_: React.SyntheticEvent<Element>, newValue: string[]) => {
-    setReason(newValue);
+    onInputDataChange({ ...formData, reasons: newValue });
   };
 
   return (
@@ -63,14 +60,14 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
         <DialogTitle
           sx={{
             fontWeight: 'bold',
-            backgroundColor: Colors.lightBlue900,
-            color: Colors.lightBlue200,
+            backgroundColor: Colors.tint900,
+            color: Colors.tint200,
             display: 'flex',
             justifyContent: 'space-between',
           }}
         >
           <span>Withdrawal info</span>
-          <Fade in={isForecast}>
+          <Fade in={formData.isForecast}>
             <Chip color='secondary' icon={<HistoryToggleOff />} label='Forecast' />
           </Fade>
         </DialogTitle>
@@ -80,6 +77,7 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
               multiple
               id='tags-standard'
               options={reasonsList}
+              value={formData.reasons}
               onChange={handleReasonsChange}
               renderInput={(params) => (
                 <TextField
@@ -93,23 +91,23 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
             <TextField
               label='Date'
               type='date'
-              value={date}
-              onChange={handleDateChange}
+              value={formData.date.toISOString().split('T')[0]}
+              onChange={(e) => handleChange(e, 'date')}
               fullWidth
               margin='normal'
             />
             <TextField
               label='Location'
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              value={formData.location}
+              onChange={(e) => handleChange(e, 'location')}
               fullWidth
               margin='normal'
             />
             <TextField
               label='Amount'
               type='text'
-              value={amount}
-              onChange={handleAmountChange}
+              value={formData.amount}
+              onChange={(e) => handleChange(e, 'amount')}
               fullWidth
               margin='normal'
               error={amountError}
@@ -124,8 +122,8 @@ export default function AddWithdrawForm({ isOpen, onClose }: DialogProps) {
               variant='contained'
               type='submit'
               sx={{
-                backgroundColor: Colors.lightBlue900,
-                color: Colors.lightBlue200,
+                backgroundColor: Colors.tint900,
+                color: Colors.tint200,
                 fontWeight: 'bold',
               }}
               fullWidth

@@ -44,6 +44,20 @@ export const RouteList: AppRoute[] = [
 ];
 
 // -------------- Temporary Fake Data ----------------------
+
+export const initialWithdrawal = {
+  id: '',
+  reasons: [],
+  date: new Date(),
+  amount: 0,
+  location: '',
+  user: {
+    id: '',
+    email: '',
+  },
+  isForecast: false,
+};
+
 export const users: User[] = [
   { id: 'u1', email: 'alice.johnson@example.com' },
   { id: 'u2', email: 'brian.smith@example.com' },
