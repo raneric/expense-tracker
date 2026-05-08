@@ -1,7 +1,7 @@
 import { AccountBox, CalendarMonth, SyncAlt } from '@mui/icons-material';
 import type { AppRoute, User, Withdrawal } from '../type/AppType';
 import DashboardCustomize from '@mui/icons-material/DashboardCustomize';
-import { removeDuplicateValues } from './usilities';
+import { removeDuplicateValues } from './utilities';
 
 export const AppRoutes = {
   DASHBOARD: '/dashboard',

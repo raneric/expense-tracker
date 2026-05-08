@@ -1,10 +1,4 @@
-import {
-  AccountBalanceWallet,
-  CalendarMonth,
-  ExploreTwoTone,
-  InfoTwoTone,
-  PaidTwoTone,
-} from '@mui/icons-material';
+import { CalendarMonth, ExploreTwoTone, InfoTwoTone, PaidTwoTone } from '@mui/icons-material';
 import {
   Box,
   Paper,
@@ -17,18 +11,15 @@ import {
   TableRow,
 } from '@mui/material';
 import { useState } from 'react';
-import { useLoaderData } from 'react-router-dom';
 import type { Withdrawal } from '../../../type/AppType';
 import { rows } from '../../../utils/Const';
-import { toLocalMgCurrency } from '../../../utils/usilities';
+import { toLocalMgCurrency } from '../../../utils/utilities';
 import Colors from '../../Theming/Colors';
 import { CustomFontSize } from '../../Theming/Typography';
-import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle';
 
-export default function WithdrawTable() {
+export default function WithdrawTable({ withdrawals }: { withdrawals: Withdrawal[] }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const withdrawals = useLoaderData();
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -46,13 +37,9 @@ export default function WithdrawTable() {
     backgroundColor: Colors.lightBlue900,
   };
   const headerCellContentStyle = { display: 'flex', alignItems: 'center', gap: '0.5rem' };
-
+  const forecastedStyle = { color: 'warning.main', fontWeight: 'bold' };
   return (
     <Box>
-      <SectionTitle>
-        <Tittle displayText='Withdrawal Activity' icon={<AccountBalanceWallet />} />
-        <TittleHelperInfo displayText=' Track your recent transactions and spending patterns' />
-      </SectionTitle>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -88,10 +75,18 @@ export default function WithdrawTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((withdrawal: Withdrawal) => (
                 <TableRow key={withdrawal.id} hover>
-                  <TableCell>{withdrawal.reasons.join(', ')}</TableCell>
-                  <TableCell>{withdrawal.date.toDateString()}</TableCell>
-                  <TableCell>{withdrawal.location}</TableCell>
-                  <TableCell align='right'>{toLocalMgCurrency(withdrawal.amount)}</TableCell>
+                  <TableCell sx={withdrawal.isForecast ? forecastedStyle : {}}>
+                    {withdrawal.reasons.join(', ')}
+                  </TableCell>
+                  <TableCell sx={withdrawal.isForecast ? forecastedStyle : {}}>
+                    {withdrawal.date.toDateString()}
+                  </TableCell>
+                  <TableCell sx={withdrawal.isForecast ? forecastedStyle : {}}>
+                    {withdrawal.location}
+                  </TableCell>
+                  <TableCell sx={withdrawal.isForecast ? forecastedStyle : {}} align='right'>
+                    {toLocalMgCurrency(withdrawal.amount)}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

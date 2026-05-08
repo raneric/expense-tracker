@@ -1,16 +1,47 @@
+import { AccountBalanceWallet } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Fab } from '@mui/material';
+import { Fab, Stack } from '@mui/material';
 import { useState } from 'react';
 import WithdrawTable from '../../components/Table/WithdrawTable';
+import ExpenseSparkLine from '../../components/charts/ExpenseSparkline';
 import AddWithdrawForm from '../../components/forms/AddWithdrawForm';
-export default function WithdrawHistory() {
+import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle';
+import { useLoaderData } from 'react-router-dom';
+import type { Withdrawal } from '../../../type/AppType';
+export default function WithdrawalHistory() {
+  const withdrawalData = useLoaderData();
+
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(true);
   const handleCLose = () => setIsOpen(false);
 
+  const datasetWithForecast = withdrawalData.map((row: Withdrawal) => row.amount);
+  const dimensionWithForecast = withdrawalData.map((row: Withdrawal) => row.date);
+
+  const rowsOffToday = withdrawalData.filter((row: Withdrawal) => !row.isForecast);
+  const currentDataset = rowsOffToday.map((filteredRow: Withdrawal) => filteredRow.amount);
+  const currentDimension = rowsOffToday.map((row: Withdrawal) => row.date);
+
   return (
-    <Box sx={{ position: 'relative', minHeight: '100%', p: 2 }}>
-      <WithdrawTable />
+    <Stack spacing={2}>
+      <SectionTitle>
+        <Tittle displayText='Withdrawal Activity' icon={<AccountBalanceWallet />} />
+        <TittleHelperInfo displayText=' Track your recent transactions and spending patterns' />
+      </SectionTitle>
+      <Stack spacing={2} direction='row'>
+        <ExpenseSparkLine
+          dimension={currentDimension}
+          dataLabel='Current amount'
+          dataset={currentDataset}
+        />
+        <ExpenseSparkLine
+          dimension={dimensionWithForecast}
+          dataLabel='Forecasted amount'
+          dataset={datasetWithForecast}
+        />
+      </Stack>
+
+      <WithdrawTable withdrawals={withdrawalData} />
       <AddWithdrawForm isOpen={isOpen} onClose={handleCLose} />
       <Fab
         color='secondary'
@@ -20,6 +51,6 @@ export default function WithdrawHistory() {
       >
         <AddIcon />
       </Fab>
-    </Box>
+    </Stack>
   );
 }
