@@ -13,12 +13,21 @@ export interface ExpenseSparkLineProps<T> {
 export interface WithdrawTableProps {
   withdrawals: Withdrawal[];
   onRowEditClick: (withdrawal: Withdrawal) => void;
-  onRowDeleteClick: (id: string) => void;
+  onRowDeleteClick: (withdrawal: Withdrawal) => void;
 }
 
-export interface DialogFormProps<T> {
+export interface DialogProps {
   isOpen: boolean;
-  formData: T;
   onClose: () => void;
+}
+
+export interface FeedbackDialogProps extends DialogProps {
+  message: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+export interface DialogFormProps<T> extends DialogProps {
+  formData: T;
   onInputDataChange: (data: T) => void;
 }

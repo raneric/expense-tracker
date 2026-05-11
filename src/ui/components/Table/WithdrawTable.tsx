@@ -124,7 +124,7 @@ export default function WithdrawTable({
                     <IconButton onClick={() => onRowEditClick(withdrawal)}>
                       <EditIcon />
                     </IconButton>
-                    <IconButton onClick={() => onRowDeleteClick(withdrawal.id)}>
+                    <IconButton onClick={() => onRowDeleteClick(withdrawal)}>
                       <DeleteForever />
                     </IconButton>
                   </TableCell>

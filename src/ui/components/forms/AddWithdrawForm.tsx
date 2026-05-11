@@ -75,7 +75,7 @@ export default function AddWithdrawForm({
           <Box component='form' method='post' onSubmit={handleSubmit}>
             <Autocomplete
               multiple
-              id='tags-standard'
+              id='reasons-autocomplete'
               options={reasonsList}
               value={formData.reasons}
               onChange={handleReasonsChange}
