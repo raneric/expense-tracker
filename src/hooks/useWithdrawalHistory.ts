@@ -12,17 +12,17 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
     type: 'closed',
   });
 
-  const currentWithdrawals = withdrawals.filter((w) => !w.isForecast);
+  const currentWithdrawals = withdrawals.filter((withdraw) => !withdraw.isForecast);
 
   const charts = {
     current: {
-      dataset: currentWithdrawals.map((w) => w.amount),
-      dimension: currentWithdrawals.map((w) => w.date),
+      dataset: currentWithdrawals.map((withdraw) => withdraw.amount),
+      dimension: currentWithdrawals.map((withdraw) => withdraw.date),
     },
 
     forecast: {
-      dataset: withdrawals.map((w) => w.amount),
-      dimension: withdrawals.map((w) => w.date),
+      dataset: withdrawals.map((withdraw) => withdraw.amount),
+      dimension: withdrawals.map((withdraw) => withdraw.date),
     },
   };
 

@@ -34,7 +34,7 @@ export default function ExpenseSparkLine({
       [`& .${lineClasses.area}`]: { opacity: 0.2 },
       [`& .${lineClasses.line}`]: { strokeWidth: 3 },
       [`& .${chartsAxisHighlightClasses.root}`]: {
-        stroke: 'rgb(137, 86, 255)',
+        stroke: 'rgb(86, 255, 193)',
         strokeDasharray: 'none',
         strokeWidth: 2,
       },
@@ -48,9 +48,6 @@ export default function ExpenseSparkLine({
 
   return (
     <Box
-      onFocus={() => {
-        setWeekIndex((p) => (p === null ? 0 : p));
-      }}
       role='button'
       aria-label='Showing withdrawals amount'
       tabIndex={0}
@@ -83,9 +80,7 @@ export default function ExpenseSparkLine({
           }}
         >
           <Typography sx={{ fontSize: '1.25rem', fontWeight: 500, minWidth: 150 }}>
-            {weekIndex
-              ? toLocalMgCurrency(dataset[weekIndex ?? dataset.length - 1])
-              : toLocalMgCurrency(total)}
+            {weekIndex !== null ? toLocalMgCurrency(dataset[weekIndex]) : toLocalMgCurrency(total)}
           </Typography>
 
           <SparkLineChart
