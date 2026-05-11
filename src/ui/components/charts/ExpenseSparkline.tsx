@@ -76,7 +76,8 @@ export default function ExpenseSparkLine({
           sx={{
             justifyContent: 'space-between',
             alignItems: 'flex-end',
-            borderBottom: 'solid 2px rgba(137, 86, 255, 0.2)',
+            borderBottom: 2,
+            borderColor: Colors.A700,
           }}
         >
           <Typography sx={{ fontSize: '1.25rem', fontWeight: 500, minWidth: 150 }}>
@@ -91,10 +92,9 @@ export default function ExpenseSparkLine({
             color={Colors.A700}
             onHighlightedAxisChange={(axisItems) => {
               setWeekIndex(axisItems[0]?.dataIndex ?? null);
+              console.log(axisItems[0]?.dataIndex);
             }}
-            highlightedAxis={
-              weekIndex === null ? [] : [{ axisId: 'week-axis', dataIndex: weekIndex }]
-            }
+            highlightedAxis={weekIndex === null ? [] : [{ axisId: 'days', dataIndex: weekIndex }]}
             {...settings}
           />
         </Stack>
