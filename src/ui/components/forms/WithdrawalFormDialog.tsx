@@ -15,43 +15,45 @@ import {
 
 import Colors from '../../Theming/Colors';
 
+import { useState } from 'react';
 import type { Withdrawal } from '../../../type/AppType';
 import type { DialogFormProps } from '../../../type/PropsType';
-import { reasonsList } from '../../../utils/Const';
+import { initialWithdrawal, reasonsList } from '../../../utils/Const';
+import { isNanOrNegative } from '../../../utils/utilities';
 
 /**
  * A form for adding or editing withdrawal information.
  * @param props - The properties for the AddWithdrawForm component.
  * @returns A React component that renders a form for adding or editing withdrawal information.
  */
-export default function AddWithdrawForm({
+export default function WithdrawalFormDialog({
   isOpen,
-  formData,
+  initialData,
   onClose,
-  onInputDataChange,
+  onSubmit,
 }: DialogFormProps<Withdrawal>) {
-  const amountError = isNaN(formData.amount);
+  const [formData, setFormData] = useState<Withdrawal>(initialData ?? initialWithdrawal);
+  const [amountError, setAmountError] = useState(false);
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    onSubmit(formData);
     onClose();
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement, Element>,
-    input: string,
-  ) => {
-    if (input === 'date') {
-      const date = new Date(e.target.value);
-      const isForecast = date > new Date();
-      onInputDataChange({ ...formData, date, isForecast });
-    } else {
-      onInputDataChange({ ...formData, [input]: e.target.value });
+  const handleChange = <K extends keyof Withdrawal>(key: K, value: Withdrawal[K]) => {
+    if (key === 'date') {
+      const isForecast = (value as Date) > new Date();
+      setFormData((prev) => ({
+        ...prev,
+        isForecast,
+      }));
     }
-  };
 
-  const handleReasonsChange = (_: React.SyntheticEvent<Element>, newValue: string[]) => {
-    onInputDataChange({ ...formData, reasons: newValue });
+    setFormData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
   return (
@@ -78,7 +80,7 @@ export default function AddWithdrawForm({
               id='reasons-autocomplete'
               options={reasonsList}
               value={formData.reasons}
-              onChange={handleReasonsChange}
+              onChange={(_, newValue) => handleChange('reasons', newValue)}
               renderInput={(params) => (
                 <TextField
                   margin='normal'
@@ -92,14 +94,14 @@ export default function AddWithdrawForm({
               label='Date'
               type='date'
               value={formData.date.toISOString().split('T')[0]}
-              onChange={(e) => handleChange(e, 'date')}
+              onChange={(e) => handleChange('date', new Date(e.target.value))}
               fullWidth
               margin='normal'
             />
             <TextField
               label='Location'
               value={formData.location}
-              onChange={(e) => handleChange(e, 'location')}
+              onChange={(e) => handleChange('location', e.target.value)}
               fullWidth
               margin='normal'
             />
@@ -107,7 +109,14 @@ export default function AddWithdrawForm({
               label='Amount'
               type='text'
               value={formData.amount}
-              onChange={(e) => handleChange(e, 'amount')}
+              onChange={(e) => {
+                if (isNanOrNegative(e.target.value)) {
+                  setAmountError(true);
+                  return;
+                }
+                setAmountError(false);
+                handleChange('amount', Number(e.target.value));
+              }}
               fullWidth
               margin='normal'
               error={amountError}

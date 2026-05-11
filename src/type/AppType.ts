@@ -10,7 +10,7 @@ export type AppRoute = {
 };
 
 export interface Withdrawal {
-  id: string;
+  id?: string;
   reasons: string[];
   date: Date;
   amount: number;

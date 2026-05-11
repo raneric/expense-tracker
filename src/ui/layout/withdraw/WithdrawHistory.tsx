@@ -1,89 +1,40 @@
 import { AccountBalanceWallet } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
-import { Card, Fab, Stack } from '@mui/material';
-import { useCallback, useMemo, useState } from 'react';
-import WithdrawTable from '../../components/Table/WithdrawTable';
-import ExpenseSparkLine from '../../components/charts/ExpenseSparkline';
-import AddWithdrawForm from '../../components/forms/AddWithdrawForm';
-import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle';
-import { useLoaderData } from 'react-router-dom';
+import { Fab, Stack } from '@mui/material';
+import { useLoaderData, useSubmit } from 'react-router-dom';
 import type { Withdrawal } from '../../../type/AppType';
 import { initialWithdrawal } from '../../../utils/Const';
-import ConfirmationDialog from '../../components/FeedbackDialog/ConfirmationDialog';
 import { toLocalMgCurrency } from '../../../utils/utilities';
+import ConfirmationDialog from '../../components/FeedbackDialog/ConfirmationDialog';
+import WithdrawTable from '../../components/Table/WithdrawTable';
+import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle';
+import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
+import { WithdrawalCharts } from '../../components/charts/WithdrawalCharts';
+import WithdrawalFormDialog from '../../components/forms/WithdrawalFormDialog';
 
 /**
  * The WithdrawalHistory component is responsible for displaying the user's withdrawal history. It includes a section title, two sparkline charts (one for current withdrawals and one for forecasted withdrawals), a table of withdrawal transactions, and a form dialog for adding or editing withdrawals. The component uses the useLoaderData hook to fetch withdrawal data and manages the state for the form dialog and selected withdrawal row.
  * @returns A React component that renders the withdrawal history section of the application.
  */
 export default function WithdrawalHistory() {
-  const withdrawals = useLoaderData() as Withdrawal[];
+  const withdrawals = useLoaderData();
+  const submit = useSubmit();
+  const { dialog, charts, openCreateDialog, openEditDialog, openDeleteDialog, closeDialog } =
+    useWithdrawalHistory(withdrawals);
 
-  const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
-  const [selectedWithdrawal, setSelectedWithdrawal] = useState<Withdrawal>(initialWithdrawal);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [confirmDeleteMessage, setConfirmDeleteMessage] = useState('');
-  const [withdrawalToDelete, setWithdrawalToDelete] = useState<Withdrawal | null>(null);
-  /**
-   * Memoized chart datasets
-   * Prevents recalculation on every render
-   */
-  const { forecastDataset, forecastDimension, currentDataset, currentDimension } = useMemo(() => {
-    const currentRows = withdrawals.filter(({ isForecast }) => !isForecast);
+  const isFormDialogOpen = dialog.type === 'create' || dialog.type === 'edit';
+  const formInitialData = dialog.type === 'edit' ? dialog.withdrawal : initialWithdrawal;
 
-    return {
-      forecastDataset: withdrawals.map(({ amount }) => amount),
-      forecastDimension: withdrawals.map(({ date }) => date),
+  const handleUpdateSubmit = (withdrawal: Withdrawal) => {
+    const formData = new FormData();
 
-      currentDataset: currentRows.map(({ amount }) => amount),
-      currentDimension: currentRows.map(({ date }) => date),
-    };
-  }, [withdrawals]);
+    for (const [key, value] of Object.entries(withdrawal)) {
+      formData.append(key, String(value));
+    }
 
-  const handleFormDialogOpen = useCallback(() => {
-    setIsFormDialogOpen(true);
-  }, []);
-
-  const handleFormDialogClose = useCallback(() => {
-    setIsFormDialogOpen(false);
-  }, []);
-
-  const handleFormDataChange = useCallback((data: Withdrawal) => {
-    setSelectedWithdrawal(data);
-  }, []);
-
-  const handleConfirmDialog = useCallback(() => {
-    setIsDeleteDialogOpen(false);
-    console.log(withdrawalToDelete);
-    setWithdrawalToDelete(null);
-  }, [withdrawalToDelete]);
-
-  const handleRowEditClick = useCallback((withdrawal: Withdrawal) => {
-    setSelectedWithdrawal(withdrawal);
-    setIsFormDialogOpen(true);
-  }, []);
-
-  const handleRowDeleteClick = useCallback((withdrawal: Withdrawal) => {
-    setWithdrawalToDelete(withdrawal);
-    setConfirmDeleteMessage(
-      `Are you sure you want to delete the withdrawal of ${toLocalMgCurrency(withdrawal.amount)} on ${withdrawal.date.toDateString()}?`,
-    );
-    setIsDeleteDialogOpen(true);
-  }, []);
-
-  const handleDeleteCancel = useCallback(() => {
-    setIsDeleteDialogOpen(false);
-    setWithdrawalToDelete(null);
-  }, []);
-
-  const chartCardSx = useMemo(
-    () => ({
-      px: 2,
-      py: 1,
-      borderRadius: '0.6em',
-    }),
-    [],
-  );
+    submit(formData, { method: 'delete', action: '/withdrawals' });
+    closeDialog();
+  };
 
   return (
     <Stack spacing={2}>
@@ -92,41 +43,42 @@ export default function WithdrawalHistory() {
         <TittleHelperInfo displayText='Track your recent transactions' />
       </SectionTitle>
 
-      <Stack direction='row' spacing={2}>
-        <Card sx={chartCardSx}>
-          <ExpenseSparkLine
-            dimension={currentDimension}
-            dataset={currentDataset}
-            dataLabel='Withdrawal off today'
-          />
-        </Card>
-
-        <Card sx={chartCardSx}>
-          <ExpenseSparkLine
-            dimension={forecastDimension}
-            dataset={forecastDataset}
-            dataLabel='Forecasted'
-          />
-        </Card>
-      </Stack>
+      <WithdrawalCharts current={charts.current} forecast={charts.forecast} />
 
       <WithdrawTable
         withdrawals={withdrawals}
-        onRowEditClick={handleRowEditClick}
-        onRowDeleteClick={handleRowDeleteClick}
+        onRowEditClick={openEditDialog}
+        onRowDeleteClick={openDeleteDialog}
       />
 
-      <AddWithdrawForm
-        formData={selectedWithdrawal}
+      <WithdrawalFormDialog
+        key={dialog.type === 'edit' ? `edit-${dialog.withdrawal.id}` : 'create'}
         isOpen={isFormDialogOpen}
-        onClose={handleFormDialogClose}
-        onInputDataChange={handleFormDataChange}
+        initialData={formInitialData}
+        onClose={closeDialog}
+        onSubmit={handleUpdateSubmit}
+      />
+
+      <ConfirmationDialog
+        isOpen={dialog.type === 'delete'}
+        onClose={closeDialog}
+        onCancel={closeDialog}
+        onConfirm={() => {
+          if (dialog.type === 'delete') {
+            handleUpdateSubmit(dialog.withdrawal);
+          }
+        }}
+        message={
+          dialog.type === 'delete'
+            ? `Delete withdrawal of ${toLocalMgCurrency(dialog.withdrawal.amount)} on ${dialog.withdrawal.date.toDateString()}?`
+            : ''
+        }
       />
 
       <Fab
         color='secondary'
         aria-label='add withdraw'
-        onClick={handleFormDialogOpen}
+        onClick={openCreateDialog}
         sx={{
           position: 'fixed',
           bottom: 24,
@@ -135,13 +87,6 @@ export default function WithdrawalHistory() {
       >
         <AddIcon />
       </Fab>
-      <ConfirmationDialog
-        isOpen={isDeleteDialogOpen}
-        onClose={() => setIsDeleteDialogOpen(false)}
-        message={confirmDeleteMessage}
-        onConfirm={handleConfirmDialog}
-        onCancel={handleDeleteCancel}
-      />
     </Stack>
   );
 }

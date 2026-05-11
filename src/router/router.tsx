@@ -6,10 +6,10 @@ import WithdrawalHistory from '../ui/layout/withdraw/WithdrawHistory';
 import { AppRoutes } from '../utils/Const';
 import Profile from '../ui/layout/profile/Profile';
 import Gaz from '../ui/layout/gaz/Gaz';
-import { withdrawalLoader } from '../loaders/withdrawalLoader';
 import Login from '../ui/layout/login/Login';
-import { dashboardLoader } from '../loaders/dashboardLoader';
-
+import { dashboardLoader } from './loaders/dashboardLoader';
+import { withdrawalLoader } from './loaders/withdrawalLoader';
+import { action as withdrawalAction } from './actions/withdrawalAction';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -29,6 +29,7 @@ const router = createBrowserRouter([
         element: <WithdrawalHistory />,
         path: AppRoutes.WITHDRAWS,
         loader: withdrawalLoader,
+        action: withdrawalAction,
       },
       {
         element: <Profile />,

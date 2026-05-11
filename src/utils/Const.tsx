@@ -5,7 +5,7 @@ import { removeDuplicateValues } from './utilities';
 
 export const AppRoutes = {
   DASHBOARD: '/dashboard',
-  WITHDRAWS: '/withdraws',
+  WITHDRAWS: '/withdrawals',
   GAS: '/gas',
   PROFILE: '/profile',
   LOGIN: '/login',
@@ -20,8 +20,8 @@ export const RouteList: AppRoute[] = [
   },
   {
     path: AppRoutes.WITHDRAWS,
-    name: 'withdraws',
-    displayName: 'Withdraw history',
+    name: 'withdrawals',
+    displayName: 'Withdrawal history',
     icon: <SyncAlt />,
   },
   {
@@ -46,7 +46,6 @@ export const RouteList: AppRoute[] = [
 // -------------- Temporary Fake Data ----------------------
 
 export const initialWithdrawal = {
-  id: '',
   reasons: [],
   date: new Date(),
   amount: 0,

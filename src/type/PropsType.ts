@@ -28,6 +28,11 @@ export interface FeedbackDialogProps extends DialogProps {
 }
 
 export interface DialogFormProps<T> extends DialogProps {
-  formData: T;
-  onInputDataChange: (data: T) => void;
+  initialData: T;
+  onSubmit: (data: T) => void;
+}
+
+export interface DimensionalChartProps<T, U> {
+  dataset: T[];
+  dimension: U[];
 }

@@ -10,3 +10,7 @@ export function toLocalMgCurrency(amount: number) {
 
   return `${formatter.format(amount)} Ar`;
 }
+
+export function isNanOrNegative(value: string): boolean {
+  return isNaN(Number(value)) || Number(value) < 0;
+}
