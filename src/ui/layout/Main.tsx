@@ -3,7 +3,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import { AppRoutes } from '../../utils/Const';
 import AppDrawer from '../components/Drawer/AppDrawer';
-import CustomAppBar from '../components/NavBar/CustomAppBar';
+import CustomAppBar from '../components/AppBar/CustomAppBar';
 
 export default function Main() {
   const { state } = useUser();
