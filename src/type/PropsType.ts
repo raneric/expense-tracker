@@ -1,6 +1,5 @@
-import type { Dayjs } from 'dayjs';
-import type { Withdrawal } from './AppType';
 import { type PickerDayProps } from '@mui/x-date-pickers';
+import type { Withdrawal } from './AppType';
 export interface BasePropsType {
   children?: React.ReactNode;
 }
@@ -39,9 +38,22 @@ export interface DimensionalChartProps<T, U> {
 }
 
 export interface CalendarProps {
-  forecastDate: Dayjs;
+  gasEvents: GasEvent[];
 }
 
+type GasEventType = 'done' | 'previous' | 'current';
+export interface GasEvent {
+  startDate: string;
+  endDate: string | null;
+  totalDays: number | null;
+  type: GasEventType;
+}
+
+export type GasEventData = {
+  startDates: Set<string>;
+  endDates: Set<string>;
+  forecastedDate?: string;
+};
 export interface CalendarDayProps extends PickerDayProps {
-  highlightedDays: string[];
+  gasEventData?: GasEventData;
 }

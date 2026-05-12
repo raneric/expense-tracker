@@ -1,15 +1,14 @@
 import { Badge, Box, Paper, Typography } from '@mui/material';
-import {
-  DateCalendar,
-  LocalizationProvider,
-  PickerDay,
-  type PickerDayProps,
-} from '@mui/x-date-pickers';
+import { DateCalendar, LocalizationProvider, PickerDay } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Colors from '../../Theming/Colors';
+import { memo, useMemo } from 'react';
 import type { CalendarDayProps, CalendarProps } from '../../../type/PropsType';
+import { generateGasEventData } from '../../../utils/utilities';
+import Colors from '../../Theming/Colors';
 
-export default function Calendar({ forecastDate }: CalendarProps) {
+export default function Calendar({ gasEvents }: CalendarProps) {
+  const gasEventData = useMemo(() => generateGasEventData(gasEvents), [gasEvents]);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Paper
@@ -28,45 +27,47 @@ export default function Calendar({ forecastDate }: CalendarProps) {
             borderRadius: '0.6em 0.6em 0 0',
           }}
         >
-          <Typography variant='h6'>Forecast date: {forecastDate.format('dddd, MMMM D')}</Typography>
+          <Typography variant='h6'>
+            Forecast date: {gasEventData.forecastedDate ?? 'N/A'}
+          </Typography>
         </Box>
         <DateCalendar
           slots={{ day: DayCell }}
-          slotProps={{
-            day: {
-              highlightedDays: ['2026-05-18'],
-            } as CalendarDayProps,
-          }}
+          showDaysOutsideCurrentMonth
+          slotProps={{ day: { gasEventData } as CalendarDayProps }}
         />
       </Paper>
     </LocalizationProvider>
   );
 }
 
-function DayCell(props: PickerDayProps & { highlightedDays?: string[] }) {
-  const { highlightedDays = [], day, outsideCurrentMonth, today, ...other } = props;
+const DayCell = memo(function (props: CalendarDayProps) {
+  const { gasEventData, day, today, ...other } = props;
 
-  const isSelected = highlightedDays.includes(day.format('YYYY-MM-DD'));
+  const currentDay = useMemo(() => day.format('YYYY-MM-DD'), [day]);
+
+  const getBadge = () => {
+    if (gasEventData?.startDates.has(currentDay)) {
+      return '⛽';
+    } else if (gasEventData?.forecastedDate === currentDay) {
+      return '📅';
+    }
+    return undefined;
+  };
 
   return (
-    <Badge
-      key={props.day.toString()}
-      overlap='circular'
-      badgeContent={isSelected ? '📌' : undefined}
-    >
+    <Badge overlap='circular' badgeContent={getBadge()}>
       <PickerDay
         sx={{
           ...(today && {
             backgroundColor: Colors.A100,
             color: Colors.limeDark,
-            borderRadius: '50%',
             fontWeight: 'bold',
           }),
         }}
         {...other}
-        outsideCurrentMonth={outsideCurrentMonth}
         day={day}
       />
     </Badge>
   );
-}
+});
