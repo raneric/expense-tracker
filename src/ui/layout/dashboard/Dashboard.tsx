@@ -2,9 +2,9 @@ import { AreaChart } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { Gauge, LineChart } from '@mui/x-charts';
 import { useLoaderData } from 'react-router-dom';
-import Colors from '../../Theming/Colors';
 import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle';
-import { BorderRadius } from '../../Theming/Dimensions';
+import Colors from '../../Theming/Colors';
+import AppDimensions from '../../Theming/Dimensions';
 
 const chartLineStyle = {
   '& .MuiChartsAxis-bottom .MuiChartsAxis-line': {
@@ -31,7 +31,7 @@ export default function Dashboard() {
           maxWidth: '32rem',
           height: '20rem',
           backgroundColor: Colors.paperBackground,
-          borderRadius: BorderRadius.medium,
+          borderRadius: AppDimensions.BorderRadius.medium,
         }}
       >
         <LineChart
@@ -68,7 +68,7 @@ export default function Dashboard() {
           maxWidth: '10rem',
           height: '10rem',
           backgroundColor: Colors.paperBackground,
-          borderRadius: BorderRadius.medium,
+          borderRadius: AppDimensions.BorderRadius.medium,
         }}
       >
         <Gauge

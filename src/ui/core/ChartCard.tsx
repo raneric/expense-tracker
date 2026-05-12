@@ -1,6 +1,6 @@
 import { Card } from '@mui/material';
 import type { BasePropsType } from '../../type/PropsType';
-import { BorderRadius } from '../Theming/Dimensions';
+import AppDimensions from '../Theming/Dimensions';
 
 export default function ChartCard({ children }: BasePropsType) {
   return (
@@ -8,7 +8,7 @@ export default function ChartCard({ children }: BasePropsType) {
       sx={{
         px: 2,
         py: 1,
-        borderRadius: BorderRadius.small,
+        borderRadius: AppDimensions.BorderRadius.small,
       }}
     >
       {children}

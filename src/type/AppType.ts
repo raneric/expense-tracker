@@ -31,3 +31,5 @@ export type ValidatorConfig = {
   setError: React.Dispatch<React.SetStateAction<string>>;
   setValid: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+export type PrimitiveType = string | boolean | Date | number;

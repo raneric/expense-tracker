@@ -12,7 +12,7 @@ export default function Calendar({ gasEvents }: CalendarProps) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Paper
-        elevation={3}
+        elevation={1}
         sx={{
           width: 320,
           borderRadius: 3,

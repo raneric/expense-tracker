@@ -1,6 +1,8 @@
 import { createTheme } from '@mui/material/styles';
 import Colors from './Colors';
-import { FontColor, fontFamilies } from './Typography';
+import AppTypography from './Typography';
+
+const { FontColor, FontFamilies } = AppTypography;
 
 const theme = createTheme({
   palette: {
@@ -33,7 +35,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: fontFamilies,
+    fontFamily: FontFamilies,
   },
 });
 

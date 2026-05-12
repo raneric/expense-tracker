@@ -1,15 +1,17 @@
 import { CalendarMonth } from '@mui/icons-material';
-import { CardContent, CardHeader, Paper, Stack, Typography } from '@mui/material';
+import { CardContent, CardHeader, Paper, Stack } from '@mui/material';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import type { GasEvent } from '../../../type/PropsType';
 import Calendar from '../../components/calendar/Calendar';
+import InfoRow from '../../core/InfoRow';
 import { SectionTitle, Tittle } from '../../core/SectionTitle';
 import Colors from '../../Theming/Colors';
 
 export default function Gas() {
   const data: GasEvent[] = useLoaderData();
+
   const eventData = useMemo<{
     previous: GasEvent | null;
     current: GasEvent | null;
@@ -26,15 +28,18 @@ export default function Gas() {
         current = event;
       }
     }
+
     const forecast = dayjs(current?.startDate)
       .add(previous?.totalDays ?? 0, 'day')
       .format('YYYY-MM-DD');
+
     return {
       current,
       previous,
       forecast,
     };
   }, [data]);
+
   return (
     <>
       <SectionTitle>
@@ -42,7 +47,7 @@ export default function Gas() {
       </SectionTitle>
       <Stack direction='row' spacing={2}>
         <Calendar gasEvents={data} />
-        <Paper elevation={3} sx={{ borderRadius: 3, minWidth: '21em' }}>
+        <Paper elevation={1} sx={{ borderRadius: 3, minWidth: '21em' }}>
           <CardHeader
             sx={{
               textAlign: 'center',
@@ -54,12 +59,15 @@ export default function Gas() {
             title='Current Gas Bottle Status'
           />
           <CardContent>
-            <Typography variant='body2'>
-              {`In use since ${eventData.current?.startDate}.`}
-            </Typography>
-            <Typography variant='body2'>
-              {`Expected to run out around: ${eventData.forecast}.`}
-            </Typography>
+            <Stack spacing={1}>
+              <InfoRow
+                label='📆 In use since'
+                value={
+                  eventData.current?.startDate === undefined ? '' : eventData.current?.startDate
+                }
+              />
+              <InfoRow label='❌ Expected to run:' value={eventData.forecast} />
+            </Stack>
           </CardContent>
         </Paper>
       </Stack>

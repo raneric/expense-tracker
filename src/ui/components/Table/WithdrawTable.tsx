@@ -24,8 +24,8 @@ import type { Withdrawal } from '../../../type/AppType';
 import { rows } from '../../../utils/Const';
 import { toLocalMgCurrency } from '../../../utils/utilities';
 import Colors from '../../Theming/Colors';
-import { CustomFontSize } from '../../Theming/Typography';
 import type { WithdrawTableProps } from '../../../type/PropsType';
+import AppTypography from '../../Theming/Typography';
 
 /**
  * A table for displaying withdrawal information.
@@ -55,7 +55,7 @@ export default function WithdrawTable({
   const headerCellStyle = {
     fontWeight: 'bold',
     color: Colors.tint200,
-    fontSize: CustomFontSize.tableHeader,
+    fontSize: AppTypography.FontSize.tableHeader,
     backgroundColor: Colors.tint900,
   };
   const headerCellContentStyle = { display: 'flex', alignItems: 'center', gap: '0.5rem' };

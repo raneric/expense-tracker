@@ -57,3 +57,8 @@ export type GasEventData = {
 export interface CalendarDayProps extends PickerDayProps {
   gasEventData?: GasEventData;
 }
+
+export interface InfoRowProps {
+  label: string;
+  value: string;
+}
