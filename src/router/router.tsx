@@ -5,11 +5,12 @@ import Main from '../ui/layout/Main';
 import WithdrawalHistory from '../ui/layout/withdraw/WithdrawHistory';
 import { AppRoutes } from '../utils/Const';
 import Profile from '../ui/layout/profile/Profile';
-import Gaz from '../ui/layout/gaz/Gaz';
 import Login from '../ui/layout/login/Login';
 import { dashboardLoader } from './loaders/dashboardLoader';
 import { withdrawalLoader } from './loaders/withdrawalLoader';
 import { action as withdrawalAction } from './actions/withdrawalAction';
+import Gas from '../ui/layout/gas/Gas';
+import { gasLoader } from './loaders/gasLoader';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -36,8 +37,9 @@ const router = createBrowserRouter([
         path: AppRoutes.PROFILE,
       },
       {
-        element: <Gaz />,
+        element: <Gas />,
         path: AppRoutes.GAS,
+        loader: gasLoader,
       },
     ],
   },

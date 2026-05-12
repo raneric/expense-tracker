@@ -1,5 +1,6 @@
+import type { Dayjs } from 'dayjs';
 import type { Withdrawal } from './AppType';
-
+import { type PickerDayProps } from '@mui/x-date-pickers';
 export interface BasePropsType {
   children?: React.ReactNode;
 }
@@ -35,4 +36,12 @@ export interface DialogFormProps<T> extends DialogProps {
 export interface DimensionalChartProps<T, U> {
   dataset: T[];
   dimension: U[];
+}
+
+export interface CalendarProps {
+  forecastDate: Dayjs;
+}
+
+export interface CalendarDayProps extends PickerDayProps {
+  highlightedDays: string[];
 }

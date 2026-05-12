@@ -92,7 +92,6 @@ export default function ExpenseSparkLine({
             color={Colors.A700}
             onHighlightedAxisChange={(axisItems) => {
               setWeekIndex(axisItems[0]?.dataIndex ?? null);
-              console.log(axisItems[0]?.dataIndex);
             }}
             highlightedAxis={weekIndex === null ? [] : [{ axisId: 'days', dataIndex: weekIndex }]}
             {...settings}
