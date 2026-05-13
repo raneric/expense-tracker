@@ -8,8 +8,8 @@ import ConfirmationDialog from '../../components/FeedbackDialog/ConfirmationDial
 import WithdrawTable from '../../components/Table/WithdrawTable';
 import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle';
 import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
-import { WithdrawalCharts } from '../../components/charts/WithdrawalCharts';
-import WithdrawalFormDialog from '../../components/forms/WithdrawalFormDialog';
+import { WithdrawalCharts } from '../../components/Charts/WithdrawalCharts';
+import WithdrawalFormDialog from '../../components/Forms/WithdrawalFormDialog';
 import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
 
 /**

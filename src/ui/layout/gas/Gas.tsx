@@ -1,11 +1,11 @@
 import { CalendarMonth } from '@mui/icons-material';
-import { Paper, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useLoaderData } from 'react-router-dom';
 import type { GasEvent } from '../../../type/PropsType';
-import Calendar from '../../components/calendar/Calendar';
-import GasStatus from '../../components/gasStatus/GasStatus';
+import Calendar from '../../components/Calendar/Calendar';
+import GasStatistics from '../../components/GasDetails/GasStatistics';
+import GasStatus from '../../components/GasDetails/GasStatus';
 import { SectionTitle, Tittle } from '../../core/SectionTitle';
-import CustomCardHeader from '../../core/CustomCardHeader';
 
 export default function Gas() {
   const data: GasEvent[] = useLoaderData();
@@ -18,9 +18,7 @@ export default function Gas() {
       <Stack direction='row' spacing={2}>
         <Calendar gasEvents={data} />
         <GasStatus gasEvents={data} />
-        <Paper sx={{ flexGrow: 1, borderRadius: 2 }}>
-          <CustomCardHeader displayText='Lorem ipsum dolor sit amet' />
-        </Paper>
+        <GasStatistics />
       </Stack>
     </>
   );
