@@ -37,7 +37,7 @@ export interface DimensionalChartProps<T, U> {
   dimension: U[];
 }
 
-export interface CalendarProps {
+export interface GasEventsDataProps {
   gasEvents: GasEvent[];
 }
 
@@ -45,7 +45,7 @@ type GasEventType = 'done' | 'previous' | 'current';
 export interface GasEvent {
   startDate: string;
   endDate: string | null;
-  totalDays: number | null;
+  totalDays: number;
   type: GasEventType;
 }
 
@@ -61,4 +61,10 @@ export interface CalendarDayProps extends PickerDayProps {
 export interface InfoRowProps {
   label: string;
   value: string;
+}
+
+export interface GasEventProps {
+  previous: GasEvent;
+  current: GasEvent;
+  forecast: string;
 }

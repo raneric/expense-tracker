@@ -2,11 +2,11 @@ import { Badge, Box, Paper, Typography } from '@mui/material';
 import { DateCalendar, LocalizationProvider, PickerDay } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { memo, useMemo } from 'react';
-import type { CalendarDayProps, CalendarProps } from '../../../type/PropsType';
+import type { CalendarDayProps, GasEventsDataProps } from '../../../type/PropsType';
 import { generateGasEventData } from '../../../utils/utilities';
 import Colors from '../../Theming/Colors';
 
-export default function Calendar({ gasEvents }: CalendarProps) {
+export default function Calendar({ gasEvents }: GasEventsDataProps) {
   const gasEventData = useMemo(() => generateGasEventData(gasEvents), [gasEvents]);
 
   return (

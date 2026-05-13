@@ -17,7 +17,7 @@ export function gasLoader(): GasEvent[] {
     {
       startDate: '2026-04-15',
       endDate: null,
-      totalDays: null,
+      totalDays: 0,
       type: 'current',
     },
   ];
