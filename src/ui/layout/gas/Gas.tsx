@@ -3,7 +3,6 @@ import { Stack } from '@mui/material';
 import { useLoaderData } from 'react-router-dom';
 import type { GasEvent } from '../../../type/PropsType';
 import Calendar from '../../components/Calendar/Calendar';
-import GasStatistics from '../../components/GasDetails/GasStatistics';
 import GasStatus from '../../components/GasDetails/GasStatus';
 import { SectionTitle, Tittle } from '../../core/SectionTitle';
 
@@ -18,7 +17,6 @@ export default function Gas() {
       <Stack direction='row' spacing={2}>
         <Calendar gasEvents={data} />
         <GasStatus gasEvents={data} />
-        <GasStatistics />
       </Stack>
     </>
   );
