@@ -66,7 +66,7 @@ export default function Gas() {
                   eventData.current?.startDate === undefined ? '' : eventData.current?.startDate
                 }
               />
-              <InfoRow label='❌ Expected to run:' value={eventData.forecast} />
+              <InfoRow label='❌ Run out forecast on' value={eventData.forecast} />
             </Stack>
           </CardContent>
         </Paper>
