@@ -9,6 +9,7 @@ import Login from '../ui/layout/login/Login';
 import { dashboardLoader } from './loaders/dashboardLoader';
 import { withdrawalLoader } from './loaders/withdrawalLoader';
 import { action as withdrawalAction } from './actions/withdrawalAction';
+import { action as gasStatusAction } from './actions/gasStatusAction';
 import Gas from '../ui/layout/gas/Gas';
 import { gasLoader } from './loaders/gasLoader';
 const router = createBrowserRouter([
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
         element: <Gas />,
         path: AppRoutes.GAS,
         loader: gasLoader,
+        action: gasStatusAction,
       },
     ],
   },

@@ -19,7 +19,7 @@ import { useState } from 'react';
 import type { Withdrawal } from '../../../type/AppType';
 import type { DialogFormProps } from '../../../type/PropsType';
 import { initialWithdrawal, reasonsList } from '../../../utils/Const';
-import { isNanOrNegative } from '../../../utils/utilities';
+import { isNanOrNegative } from '../../../utils/validationUtilities';
 
 /**
  * A form for adding or editing withdrawal information.

@@ -1,7 +1,8 @@
 import { AccountBox, CalendarMonth, SyncAlt } from '@mui/icons-material';
 import type { AppRoute, User, Withdrawal } from '../type/AppType';
 import DashboardCustomize from '@mui/icons-material/DashboardCustomize';
-import { removeDuplicateValues } from './utilities';
+import { removeDuplicateValues } from './validationUtilities';
+import type { GasEvent } from '../type/PropsType';
 
 export const AppRoutes = {
   DASHBOARD: '/dashboard',
@@ -249,3 +250,97 @@ export const rows: Withdrawal[] = [
 export const reasonsList: string[] = removeDuplicateValues<string>(
   rows.flatMap((row: Withdrawal) => row.reasons),
 );
+
+export const gasEventList: GasEvent[] = [
+  {
+    id: 'bK7xP2mQ9vL4tR8aYcNz',
+    startDate: '2024-10-03',
+    endDate: '2024-11-18',
+    totalDays: 46,
+    type: 'done',
+  },
+  {
+    id: 'Jd8Wq1XnT5uHk3LpZsVr',
+    startDate: '2024-11-18',
+    endDate: '2025-01-02',
+    totalDays: 45,
+    type: 'done',
+  },
+  {
+    id: 'Qm2Yt9BcV7pLs4XfNjKa',
+    startDate: '2025-01-02',
+    endDate: '2025-02-14',
+    totalDays: 43,
+    type: 'done',
+  },
+  {
+    id: 'Rk5Np8HdT1vYq3LmWxCs',
+    startDate: '2025-02-14',
+    endDate: '2025-03-31',
+    totalDays: 45,
+    type: 'done',
+  },
+  {
+    id: 'Vz7Xt2QmLp9Hc4NbKrDy',
+    startDate: '2025-03-31',
+    endDate: '2025-05-16',
+    totalDays: 46,
+    type: 'done',
+  },
+  {
+    id: 'Hs4Lm8QxT2vNk7PcYdWr',
+    startDate: '2025-05-16',
+    endDate: '2025-06-30',
+    totalDays: 45,
+    type: 'done',
+  },
+  {
+    id: 'Yn3Qp7KxVc2Lt8HdRmWs',
+    startDate: '2025-06-30',
+    endDate: '2025-08-13',
+    totalDays: 44,
+    type: 'done',
+  },
+  {
+    id: 'Mp8Xt4LsQv1Hn7KcYdRw',
+    startDate: '2025-08-13',
+    endDate: '2025-09-28',
+    totalDays: 46,
+    type: 'done',
+  },
+  {
+    id: 'Tk2Yv9QmLp5Nc7HxRdWs',
+    startDate: '2025-09-28',
+    endDate: '2025-11-12',
+    totalDays: 45,
+    type: 'done',
+  },
+  {
+    id: 'Qx7Lp3HtVn8Kc2YmRdWs',
+    startDate: '2025-11-12',
+    endDate: '2026-01-16',
+    totalDays: 65,
+    type: 'done',
+  },
+  {
+    id: 'Nc4Yt8QmLp1Hx7KvRdWs',
+    startDate: '2026-01-16',
+    endDate: '2026-03-01',
+    totalDays: 44,
+    type: 'done',
+  },
+  {
+    id: 'Lp9Qx2HtVc7Yn4KmRdWs',
+    startDate: '2026-03-01',
+    endDate: '2026-04-15',
+    totalDays: 46,
+    type: 'previous',
+  },
+  {
+    id: 'Ht3Qm8LpVc1Yn7KxRdWs',
+    startDate: '2026-04-15',
+    endDate: null,
+    totalDays: 0,
+    type: 'current',
+  },
+];

@@ -8,8 +8,8 @@ import {
 } from '@mui/x-charts';
 import { useState } from 'react';
 import type { ExpenseSparkLineProps } from '../../../type/PropsType';
-import { toLocalMgCurrency } from '../../../utils/utilities';
 import Colors from '../../Theming/Colors';
+import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
 
 export default function ExpenseSparkLine({
   dataLabel,

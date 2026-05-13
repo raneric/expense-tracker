@@ -4,13 +4,13 @@ import { Fab, Stack } from '@mui/material';
 import { useLoaderData, useSubmit } from 'react-router-dom';
 import type { Withdrawal } from '../../../type/AppType';
 import { initialWithdrawal } from '../../../utils/Const';
-import { toLocalMgCurrency } from '../../../utils/utilities';
 import ConfirmationDialog from '../../components/FeedbackDialog/ConfirmationDialog';
 import WithdrawTable from '../../components/Table/WithdrawTable';
 import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle';
 import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
 import { WithdrawalCharts } from '../../components/charts/WithdrawalCharts';
 import WithdrawalFormDialog from '../../components/forms/WithdrawalFormDialog';
+import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
 
 /**
  * The WithdrawalHistory component is responsible for displaying the user's withdrawal history. It includes a section title, two sparkline charts (one for current withdrawals and one for forecasted withdrawals), a table of withdrawal transactions, and a form dialog for adding or editing withdrawals. The component uses the useLoaderData hook to fetch withdrawal data and manages the state for the form dialog and selected withdrawal row.

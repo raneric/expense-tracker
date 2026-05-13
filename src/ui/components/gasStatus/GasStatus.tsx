@@ -1,92 +1,116 @@
-import { Box, CardContent, Chip, Paper, Stack } from '@mui/material';
+import { Box, CardContent, IconButton, Paper, Stack } from '@mui/material';
 import { Gauge } from '@mui/x-charts';
-import dayjs from 'dayjs';
-import { useMemo } from 'react';
-import type { GasEvent, GasEventsDataProps } from '../../../type/PropsType';
+
+import { useMemo, useState } from 'react';
+
+import type { GasStatusInfo } from '../../../type/AppType';
+import type { GasEventsDataProps } from '../../../type/PropsType';
+
+import { AssignmentTurnedIn } from '@mui/icons-material';
+import { generateGasStatusInfo } from '../../../utils/dataTransformUtilities';
+import { formatStringDate } from '../../../utils/formatterUtilities';
 import CustomCardHeader from '../../core/CustomCardHeader';
 import InfoRow from '../../core/InfoRow';
 import Colors from '../../Theming/Colors';
 import AppDimensions from '../../Theming/Dimensions';
-import { formatStringDate } from '../../../utils/utilities';
+import { useSubmit } from 'react-router-dom';
+import ConfirmationDialog from '../FeedbackDialog/ConfirmationDialog';
 
 export default function GasStatus({ gasEvents }: GasEventsDataProps) {
-  const eventData = useMemo<{
-    previous: GasEvent | null;
-    current: GasEvent | null;
-    forecast: string;
-  }>(() => {
-    let previous: GasEvent | null = null;
-    let current: GasEvent | null = null;
+  const submit = useSubmit();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const gasStatusInfo = useMemo<GasStatusInfo | null>(
+    () => generateGasStatusInfo(gasEvents),
+    [gasEvents],
+  );
 
-    for (const event of gasEvents) {
-      if (event.type === 'previous') {
-        previous = event;
-      }
-      if (event.type === 'current') {
-        current = event;
-      }
+  const hasData = gasStatusInfo !== null;
+
+  const handleConfirm = () => {
+    const formData = new FormData();
+    if (hasData) {
+      formData.set('current_id', gasStatusInfo.current.id);
+      formData.set('startDate', gasStatusInfo.current.startDate);
+      formData.set('previous_id', gasStatusInfo.previous.id);
+      submit(formData, { method: 'post', action: '/gas' });
+      setIsDialogOpen(false);
     }
-
-    const forecast = dayjs(current?.startDate)
-      .add(previous?.totalDays ?? 0, 'day')
-      .format('YYYY-MM-DD');
-
-    return {
-      current,
-      previous,
-      forecast,
-    };
-  }, [gasEvents]);
-
-  const inUseDays = dayjs().diff(dayjs(eventData.current?.startDate), 'days');
+  };
 
   return (
-    <Paper elevation={1} sx={{ borderRadius: 2, minWidth: '22em' }}>
-      <CustomCardHeader displayText='Current Gas Bottle Status' />
-      <CardContent>
-        <Stack
-          sx={{
-            alignItems: 'center',
-          }}
-          spacing={1}
-        >
-          <InfoRow
-            label='📆 In use since'
-            value={
-              eventData.current?.startDate === undefined
-                ? ''
-                : formatStringDate(eventData.current?.startDate)
-            }
-          />
-          <InfoRow label='❌ Run out forecast on' value={formatStringDate(eventData.forecast)} />
-          <Box
-            sx={{
-              width: '12rem',
-              height: '12rem',
-              backgroundColor: Colors.paperBackground,
-              borderRadius: AppDimensions.BorderRadius.medium,
-            }}
-          >
-            <Gauge
-              value={inUseDays}
-              startAngle={-110}
-              endAngle={110}
-              valueMax={eventData.previous?.totalDays}
+    <>
+      <ConfirmationDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onConfirm={handleConfirm}
+        onCancel={() => setIsDialogOpen(false)}
+        message='Are you sure to mark current gas bottle as empty?'
+      />
+      <Paper elevation={1} sx={{ borderRadius: 2, minWidth: '22em' }}>
+        <CustomCardHeader displayText='Current Gas Bottle Status' />
+        {hasData && (
+          <CardContent sx={{ position: 'relative' }}>
+            <Stack
               sx={{
-                ['& .MuiGauge-valueText']: {
-                  fontWeight: 'bold',
-                },
+                alignItems: 'center',
               }}
-              text={({ value, valueMax }) => `${value} / ${valueMax} Days`}
-            />
-          </Box>
-          <Chip
-            color='info'
-            variant='outlined'
-            label={`Previous gas lasted ${eventData.previous?.totalDays} days`}
-          />
-        </Stack>
-      </CardContent>
-    </Paper>
+              spacing={1}
+            >
+              <InfoRow
+                label='📆 In use since'
+                value={
+                  gasStatusInfo.current?.startDate === undefined
+                    ? ''
+                    : formatStringDate(gasStatusInfo.current?.startDate)
+                }
+              />
+              <InfoRow
+                label='❌ Run out forecast on'
+                value={formatStringDate(gasStatusInfo.forecast)}
+              />
+              <InfoRow
+                label='ℹ️ Previous gas'
+                value={`${gasStatusInfo.previous?.totalDays} days`}
+              />
+              <Box
+                sx={{
+                  width: '12rem',
+                  height: '12rem',
+                  backgroundColor: Colors.paperBackground,
+                  borderRadius: AppDimensions.BorderRadius.medium,
+                }}
+              >
+                <Gauge
+                  value={gasStatusInfo.inUseDays}
+                  valueMax={gasStatusInfo.previous?.totalDays}
+                  sx={{
+                    ['& .MuiGauge-valueText']: {
+                      fontWeight: 'bold',
+                    },
+                    [`& .MuiGauge-valueArc`]: {
+                      fill: gasStatusInfo.isOverForecast ? Colors.errorLight : 'primary.main',
+                    },
+                  }}
+                  text={gasStatusInfo.gaugeText}
+                />
+              </Box>
+              <IconButton
+                size='large'
+                onClick={() => setIsDialogOpen(true)}
+                sx={{
+                  boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',
+                  color: 'primary.main',
+                  position: 'absolute',
+                  bottom: '2%',
+                  right: '2%',
+                }}
+              >
+                <AssignmentTurnedIn fontSize='inherit' />
+              </IconButton>
+            </Stack>
+          </CardContent>
+        )}
+      </Paper>
+    </>
   );
 }

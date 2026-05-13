@@ -1,13 +1,13 @@
 import { LoginTwoTone } from '@mui/icons-material';
-import { Box, Button, CircularProgress, Paper, TextField } from '@mui/material';
+import { Box, Button, Paper, TextField } from '@mui/material';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import LogoImage from '../../../assets/logo.png';
+import { useUser } from '../../../context/auth/UserContext';
 import { AppRoutes } from '../../../utils/Const';
-import { validateInput } from '../../../utils/validationFunctions';
+import { validateInput } from '../../../utils/validationUtilities';
 import { Logo } from '../../core/Logo';
 import Colors from '../../Theming/Colors';
-import { useUser } from '../../../context/auth/UserContext';
 
 export default function Login() {
   const { login, state } = useUser();
@@ -107,7 +107,6 @@ export default function Login() {
             onChange={validateEmailPattern}
             fullWidth
           />
-
           <TextField
             id='password'
             name='password'
@@ -119,20 +118,21 @@ export default function Login() {
             onChange={validatePasswordPattern}
             fullWidth
           />
-
           <Button
             sx={{
               backgroundColor: Colors.tint900,
               color: Colors.tint200,
               fontWeight: 'bold',
             }}
+            loading={state.loading}
+            loadingPosition='start'
             type='submit'
             variant='contained'
             size='large'
             fullWidth
             endIcon={<LoginTwoTone />}
           >
-            {state.loading ? <CircularProgress aria-label='Loading…' /> : <span>LOGIN</span>}
+            LOGIN
           </Button>
         </Box>
       </Paper>

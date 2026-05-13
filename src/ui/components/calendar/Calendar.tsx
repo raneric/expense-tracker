@@ -3,9 +3,10 @@ import { DateCalendar, LocalizationProvider, PickerDay } from '@mui/x-date-picke
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { memo, useMemo } from 'react';
 import type { CalendarDayProps, GasEventsDataProps } from '../../../type/PropsType';
-import { formatStringDate, generateGasEventData } from '../../../utils/utilities';
 import Colors from '../../Theming/Colors';
 import CustomCardHeader from '../../core/CustomCardHeader';
+import { formatStringDate } from '../../../utils/formatterUtilities';
+import { generateGasEventData } from '../../../utils/dataTransformUtilities';
 
 export default function Calendar({ gasEvents }: GasEventsDataProps) {
   const gasEventData = useMemo(() => generateGasEventData(gasEvents), [gasEvents]);

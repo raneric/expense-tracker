@@ -1,4 +1,5 @@
 import type { AppRoutes } from '../utils/Const';
+import type { GasEvent } from './PropsType';
 
 type RoutePath = (typeof AppRoutes)[keyof typeof AppRoutes];
 
@@ -52,3 +53,12 @@ export interface UserContextType {
   login: () => Promise<void>;
   logout: () => void;
 }
+
+export type GasStatusInfo = {
+  previous: GasEvent;
+  current: GasEvent;
+  forecast: string;
+  inUseDays: number;
+  isOverForecast: boolean;
+  gaugeText: string;
+};

@@ -43,6 +43,7 @@ export interface GasEventsDataProps {
 
 type GasEventType = 'done' | 'previous' | 'current';
 export interface GasEvent {
+  id: string;
   startDate: string;
   endDate: string | null;
   totalDays: number;

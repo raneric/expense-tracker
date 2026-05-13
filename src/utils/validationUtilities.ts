@@ -17,3 +17,10 @@ export function validateInput(value: string, config: ValidatorConfig) {
   setError('');
   setValid(true);
 }
+export function removeDuplicateValues<T>(values: T[]): T[] {
+  return Array.from(new Set(values));
+}
+
+export function isNanOrNegative(value: string): boolean {
+  return isNaN(Number(value)) || Number(value) < 0;
+}

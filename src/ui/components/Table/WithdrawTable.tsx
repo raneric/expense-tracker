@@ -21,10 +21,10 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import type { Withdrawal } from '../../../type/AppType';
-import { rows } from '../../../utils/Const';
-import { toLocalMgCurrency } from '../../../utils/utilities';
-import Colors from '../../Theming/Colors';
 import type { WithdrawTableProps } from '../../../type/PropsType';
+import { rows } from '../../../utils/Const';
+import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
+import Colors from '../../Theming/Colors';
 import AppTypography from '../../Theming/Typography';
 
 /**
