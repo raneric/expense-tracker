@@ -1,7 +1,7 @@
-import type { UserAction, UserState } from './UserContext.tsx';
+import type { UserAction, UserState } from '../../type/AppType';
 
 // Reducer
-export const userReducer = (state: UserState, action: UserAction): UserState => {
+export const authReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
     case 'LOGIN_START':
       return { ...state, loading: true, error: null };

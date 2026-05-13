@@ -1,11 +1,13 @@
-import { Box, CardContent, CardHeader, Chip, Paper, Stack } from '@mui/material';
+import { Box, CardContent, Chip, Paper, Stack } from '@mui/material';
 import { Gauge } from '@mui/x-charts';
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import type { GasEvent, GasEventsDataProps } from '../../../type/PropsType';
+import CustomCardHeader from '../../core/CustomCardHeader';
 import InfoRow from '../../core/InfoRow';
 import Colors from '../../Theming/Colors';
 import AppDimensions from '../../Theming/Dimensions';
+import { formatStringDate } from '../../../utils/utilities';
 
 export default function GasStatus({ gasEvents }: GasEventsDataProps) {
   const eventData = useMemo<{
@@ -39,17 +41,8 @@ export default function GasStatus({ gasEvents }: GasEventsDataProps) {
   const inUseDays = dayjs().diff(dayjs(eventData.current?.startDate), 'days');
 
   return (
-    <Paper elevation={1} sx={{ borderRadius: 3, minWidth: '21em' }}>
-      <CardHeader
-        sx={{
-          textAlign: 'center',
-          backgroundColor: 'primary.dark',
-          color: Colors.tint50,
-          py: 1,
-          borderRadius: '0.6em 0.6em 0 0',
-        }}
-        title='Current Gas Bottle Status'
-      />
+    <Paper elevation={1} sx={{ borderRadius: 2, minWidth: '22em' }}>
+      <CustomCardHeader displayText='Current Gas Bottle Status' />
       <CardContent>
         <Stack
           sx={{
@@ -59,9 +52,13 @@ export default function GasStatus({ gasEvents }: GasEventsDataProps) {
         >
           <InfoRow
             label='📆 In use since'
-            value={eventData.current?.startDate === undefined ? '' : eventData.current?.startDate}
+            value={
+              eventData.current?.startDate === undefined
+                ? ''
+                : formatStringDate(eventData.current?.startDate)
+            }
           />
-          <InfoRow label='❌ Run out forecast on' value={eventData.forecast} />
+          <InfoRow label='❌ Run out forecast on' value={formatStringDate(eventData.forecast)} />
           <Box
             sx={{
               width: '12rem',

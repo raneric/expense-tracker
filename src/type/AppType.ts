@@ -33,3 +33,22 @@ export type ValidatorConfig = {
 };
 
 export type PrimitiveType = string | boolean | Date | number;
+
+export interface UserState {
+  user: User | null;
+  loading: boolean;
+  error: string | null;
+}
+
+export type UserAction =
+  | { type: 'LOGIN_START' }
+  | { type: 'LOGIN_SUCCESS'; payload: User }
+  | { type: 'LOGIN_FAILURE'; payload: string }
+  | { type: 'LOGOUT' };
+
+export interface UserContextType {
+  state: UserState;
+  dispatch: React.Dispatch<UserAction>;
+  login: () => Promise<void>;
+  logout: () => void;
+}

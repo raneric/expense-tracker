@@ -3,11 +3,11 @@ import { Box, Button, CircularProgress, Paper, TextField } from '@mui/material';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import LogoImage from '../../../assets/logo.png';
-import { useUser } from '../../../context/UserContext';
 import { AppRoutes } from '../../../utils/Const';
 import { validateInput } from '../../../utils/validationFunctions';
 import { Logo } from '../../core/Logo';
 import Colors from '../../Theming/Colors';
+import { useUser } from '../../../context/auth/UserContext';
 
 export default function Login() {
   const { login, state } = useUser();

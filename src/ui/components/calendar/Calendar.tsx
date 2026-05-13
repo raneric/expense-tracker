@@ -1,10 +1,11 @@
-import { Badge, Box, Paper, Typography } from '@mui/material';
+import { Badge, Paper } from '@mui/material';
 import { DateCalendar, LocalizationProvider, PickerDay } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { memo, useMemo } from 'react';
 import type { CalendarDayProps, GasEventsDataProps } from '../../../type/PropsType';
-import { generateGasEventData } from '../../../utils/utilities';
+import { formatStringDate, generateGasEventData } from '../../../utils/utilities';
 import Colors from '../../Theming/Colors';
+import CustomCardHeader from '../../core/CustomCardHeader';
 
 export default function Calendar({ gasEvents }: GasEventsDataProps) {
   const gasEventData = useMemo(() => generateGasEventData(gasEvents), [gasEvents]);
@@ -18,19 +19,9 @@ export default function Calendar({ gasEvents }: GasEventsDataProps) {
           borderRadius: 3,
         }}
       >
-        <Box
-          sx={{
-            textAlign: 'center',
-            backgroundColor: 'primary.dark',
-            color: Colors.tint50,
-            py: 1,
-            borderRadius: '0.6em 0.6em 0 0',
-          }}
-        >
-          <Typography variant='h6'>
-            Forecast date: {gasEventData.forecastedDate ?? 'N/A'}
-          </Typography>
-        </Box>
+        <CustomCardHeader
+          displayText={`Forecast date: ${formatStringDate(gasEventData.forecastedDate!) ?? 'N/A'}`}
+        />
         <DateCalendar
           slots={{ day: DayCell }}
           showDaysOutsideCurrentMonth

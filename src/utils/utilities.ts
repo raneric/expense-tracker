@@ -55,3 +55,7 @@ export function generateGasEventData(gasEvents: GasEvent[]): GasEventData {
     forecastedDate,
   };
 }
+
+export function formatStringDate(date: string): string {
+  return new Date(date).toDateString();
+}

@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
 import { AppRoutes } from '../../utils/Const';
 import AppDrawer from '../components/Drawer/AppDrawer';
 import CustomAppBar from '../components/AppBar/CustomAppBar';
+import { useUser } from '../../context/auth/UserContext';
 
 export default function Main() {
   const { state } = useUser();
