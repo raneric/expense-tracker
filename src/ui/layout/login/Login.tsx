@@ -1,22 +1,23 @@
-import { LoginTwoTone } from '@mui/icons-material';
-import { Box, Button, Paper, TextField } from '@mui/material';
-import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import LogoImage from '../../../assets/logo.png';
-import { useUser } from '../../../context/auth/UserContext';
-import { AppRoutes } from '../../../utils/Const';
-import { validateInput } from '../../../utils/validationUtilities';
-import { Logo } from '../../core/Logo';
-import Colors from '../../Theming/Colors';
+import { LoginTwoTone } from "@mui/icons-material";
+import { Box, Button, Paper, TextField } from "@mui/material";
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import LogoImage from "../../../assets/logo.png";
+import { useUserContext } from "../../../contexts/auth/UserContext";
+import type { LoginCredentials } from "../../../type/AppType";
+import { AppRoutes } from "../../../utils/Const";
+import { validateInput } from "../../../utils/validationUtilities";
+import { Logo } from "../../core/Logo";
+import Colors from "../../Theming/Colors";
 
 export default function Login() {
-  const { login, state } = useUser();
+  const { login, state } = useUserContext();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [isValidEmail, setIsValidEmail] = useState(true);
-  const [emailErrorMessage, setEmailErrorMessage] = useState('');
-
-  const [isValidPassword, setIsValidPassword] = useState(true);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
 
   // Redirect to dashboard if user is already logged in
   if (state.user !== null) {
@@ -27,8 +28,9 @@ export default function Login() {
    * Validates the email input against a regex pattern and updates the error message and validity state accordingly.
    * @param e
    */
-  const validateEmailPattern = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const emailRegex: RegExp =
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const email: string = e.target.value;
 
     validateInput(email, {
@@ -37,6 +39,7 @@ export default function Login() {
       invalidMessage: "Email doesn't match pattern abcd@abd.com",
       setError: setEmailErrorMessage,
       setValid: setIsValidEmail,
+      setData: setEmail,
     });
   };
 
@@ -44,43 +47,35 @@ export default function Login() {
    * Validates the password input against a regex pattern and updates the error message and validity state accordingly.
    * @param e
    */
-  const validatePasswordPattern = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const passwordRegex: RegExp =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const password: string = e.target.value;
-
-    validateInput(password, {
-      regex: passwordRegex,
-      emptyMessage: "Password can't be empty",
-      invalidMessage: 'Password too weak',
-      setError: setPasswordErrorMessage,
-      setValid: setIsValidPassword,
-    });
+    setPassword(password);
   };
 
   /**
    * Handles the form submission by calling the login function from the user context.
    * @param e
    */
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await login();
+  const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const userAuth: LoginCredentials = { email, password };
+    await login(userAuth);
   };
 
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         p: 2,
       }}
     >
       <Paper
         elevation={6}
         sx={{
-          width: '100%',
+          width: "100%",
           maxWidth: 400,
           p: 4,
           borderRadius: 3,
@@ -89,46 +84,44 @@ export default function Login() {
         <Logo src={LogoImage} />
         <br />
         <Box
-          component='form'
-          method='post'
+          component="form"
+          method="post"
           noValidate
-          autoComplete='off'
+          autoComplete="off"
           onSubmit={handleSubmit}
-          sx={{ display: 'grid', gap: 4 }}
+          sx={{ display: "grid", gap: 4 }}
         >
           <TextField
-            id='email'
-            name='email'
+            id="email"
+            name="email"
             error={!isValidEmail}
             helperText={emailErrorMessage}
-            type='email'
-            label='Email'
-            variant='outlined'
-            onChange={validateEmailPattern}
+            type="email"
+            label="Email"
+            variant="outlined"
+            onChange={handleEmailChange}
             fullWidth
           />
           <TextField
-            id='password'
-            name='password'
-            type='password'
-            label='Password'
-            variant='outlined'
-            error={!isValidPassword}
-            helperText={passwordErrorMessage}
-            onChange={validatePasswordPattern}
+            id="password"
+            name="password"
+            type="password"
+            label="Password"
+            variant="outlined"
+            onChange={handlePasswordChange}
             fullWidth
           />
           <Button
             sx={{
               backgroundColor: Colors.tint900,
               color: Colors.tint200,
-              fontWeight: 'bold',
+              fontWeight: "bold",
             }}
             loading={state.loading}
-            loadingPosition='start'
-            type='submit'
-            variant='contained'
-            size='large'
+            loadingPosition="start"
+            type="submit"
+            variant="contained"
+            size="large"
             fullWidth
             endIcon={<LoginTwoTone />}
           >

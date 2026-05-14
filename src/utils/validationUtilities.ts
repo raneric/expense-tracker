@@ -1,8 +1,9 @@
-import type { ValidatorConfig } from '../type/AppType';
+import type { ValidatorConfig } from "../type/AppType";
 
-export function validateInput(value: string, config: ValidatorConfig) {
-  const { regex, emptyMessage, invalidMessage, setError, setValid } = config;
-  if (value === '') {
+export function validateInput(value: string, config: ValidatorConfig<string>) {
+  const { regex, emptyMessage, invalidMessage, setError, setValid, setData } =
+    config;
+  if (value === "") {
     setError(emptyMessage);
     setValid(false);
     return;
@@ -14,8 +15,9 @@ export function validateInput(value: string, config: ValidatorConfig) {
     return;
   }
 
-  setError('');
+  setError("");
   setValid(true);
+  setData(value);
 }
 export function removeDuplicateValues<T>(values: T[]): T[] {
   return Array.from(new Set(values));
