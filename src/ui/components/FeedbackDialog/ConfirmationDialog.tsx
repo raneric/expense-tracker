@@ -9,26 +9,24 @@ export default function ConfirmationDialog({
   onCancel,
 }: FeedbackDialogProps) {
   return (
-    <>
-      <Dialog
-        open={isOpen}
-        onClose={onClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-        role='alertdialog'
-      >
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>{message}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button variant='outlined' color='primary' onClick={onCancel}>
-            Cancel
-          </Button>
-          <Button variant='contained' color='error' onClick={onConfirm}>
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      aria-labelledby='alert-dialog-title'
+      aria-describedby='alert-dialog-description'
+      role='alertdialog'
+    >
+      <DialogContent>
+        <DialogContentText id='alert-dialog-description'>{message}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button variant='outlined' color='primary' onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button variant='contained' color='error' onClick={onConfirm}>
+          Confirm
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }

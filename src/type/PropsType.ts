@@ -21,6 +21,11 @@ export interface DialogProps {
   onClose: () => void;
 }
 
+export interface FilterDialogProps extends DialogProps {
+  onStartDateChange: () => void;
+  onEndDateChange: () => void;
+}
+
 export interface FeedbackDialogProps extends DialogProps {
   message: string;
   onConfirm: () => void;

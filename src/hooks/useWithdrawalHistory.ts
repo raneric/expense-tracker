@@ -4,6 +4,7 @@ import type { Withdrawal } from '../type/AppType';
 type DialogState =
   | { type: 'closed' }
   | { type: 'create' }
+  | { type: 'filter' }
   | { type: 'edit'; withdrawal: Withdrawal }
   | { type: 'delete'; withdrawal: Withdrawal };
 
@@ -38,6 +39,10 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
     setDialog({ type: 'delete', withdrawal });
   };
 
+  const openFilterDialog = () => {
+    setDialog({ type: 'filter' });
+  };
+
   const closeDialog = () => {
     setDialog({ type: 'closed' });
   };
@@ -49,5 +54,6 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
     openEditDialog,
     openDeleteDialog,
     closeDialog,
+    openFilterDialog,
   };
 }

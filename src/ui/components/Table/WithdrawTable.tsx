@@ -1,10 +1,10 @@
 import {
   CalendarMonth,
   DeleteForever,
+  EditNote,
   ExploreTwoTone,
   InfoTwoTone,
   PaidTwoTone,
-  Settings,
 } from '@mui/icons-material';
 import EditIcon from '@mui/icons-material/Edit';
 import {
@@ -94,7 +94,7 @@ export default function WithdrawTable({
               <TableCell sx={headerCellStyle}>
                 <Box sx={{ ...headerCellContentStyle, justifyContent: 'end' }}>
                   <span>Actions</span>
-                  <Settings />
+                  <EditNote />
                 </Box>
               </TableCell>
             </TableRow>

@@ -39,28 +39,26 @@ export default function AppDrawer() {
   const activeRoute = location.pathname;
 
   return (
-    <>
-      <Drawer variant='permanent' sx={drawerStyle}>
-        <Logo src={LogoImage} />
+    <Drawer variant='permanent' sx={drawerStyle}>
+      <Logo src={LogoImage} />
 
-        <Box sx={{ p: 1 }}>
-          <List>
-            {RouteList.filter((route) => route.path !== AppRoutes.LOGIN).map((route) => (
-              <ListItem disablePadding key={route.path}>
-                <ListItemButton
-                  selected={activeRoute === route.path}
-                  onClick={() => navigate(route.path)}
-                  sx={activeItemStyle}
-                >
-                  <ListItemIcon>{route.icon}</ListItemIcon>
-                  <ListItemText primary={route.displayName} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider sx={{ my: 1 }} />
-        </Box>
-      </Drawer>
-    </>
+      <Box sx={{ p: 1 }}>
+        <List>
+          {RouteList.filter((route) => route.path !== AppRoutes.LOGIN).map((route) => (
+            <ListItem disablePadding key={route.path}>
+              <ListItemButton
+                selected={activeRoute === route.path}
+                onClick={() => navigate(route.path)}
+                sx={activeItemStyle}
+              >
+                <ListItemIcon>{route.icon}</ListItemIcon>
+                <ListItemText primary={route.displayName} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider sx={{ my: 1 }} />
+      </Box>
+    </Drawer>
   );
 }
