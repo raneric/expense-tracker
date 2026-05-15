@@ -55,7 +55,6 @@ export interface RequestResult<T> {
   success: boolean;
   data?: T;
   errorMessage?: string;
-  errorCode?: string;
 }
 
 export type UserAction =

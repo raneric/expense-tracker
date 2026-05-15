@@ -1,9 +1,9 @@
-import type { ValidatorConfig } from "../type/AppType";
+import { AuthError } from '../services/Auth/AuthError';
+import type { LoginCredentials, ValidatorConfig } from '../type/AppType';
 
 export function validateInput(value: string, config: ValidatorConfig<string>) {
-  const { regex, emptyMessage, invalidMessage, setError, setValid, setData } =
-    config;
-  if (value === "") {
+  const { regex, emptyMessage, invalidMessage, setError, setValid, setData } = config;
+  if (value === '') {
     setError(emptyMessage);
     setValid(false);
     return;
@@ -15,7 +15,7 @@ export function validateInput(value: string, config: ValidatorConfig<string>) {
     return;
   }
 
-  setError("");
+  setError('');
   setValid(true);
   setData(value);
 }
@@ -25,4 +25,14 @@ export function removeDuplicateValues<T>(values: T[]): T[] {
 
 export function isNanOrNegative(value: string): boolean {
   return isNaN(Number(value)) || Number(value) < 0;
+}
+
+export function validateCredentials({ email, password }: LoginCredentials): void {
+  if (!email) {
+    throw new AuthError('Email is required');
+  }
+
+  if (!password) {
+    throw new AuthError('Password is required');
+  }
 }

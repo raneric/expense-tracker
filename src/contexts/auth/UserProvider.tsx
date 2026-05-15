@@ -1,5 +1,5 @@
 import type { FirebaseError } from 'firebase/app';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 import { AuthService } from '../../services/Auth/AuthService';
 import type { AuthState, LoginCredentials, User } from '../../type/AppType';
 import type { BasePropsType } from '../../type/PropsType';
@@ -12,6 +12,8 @@ import {
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { authReducer } from './authReducer';
 import { UserContext } from './UserContext';
+import type { AuthError } from '../../services/Auth/AuthError';
+import MockAuthProvider from '../../services/Auth/MockAuthProvider';
 
 const initialState: AuthState = {
   user: null,
@@ -22,7 +24,7 @@ const initialState: AuthState = {
 export const UserProvider = ({ children }: BasePropsType) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const { show } = useSnackbarContext();
-  const authService = AuthService.getInstance();
+  const authService = useMemo(() => new AuthService(new MockAuthProvider()), []);
 
   useEffect(() => {
     const storedUser = getStoredUserEmail();
@@ -35,19 +37,17 @@ export const UserProvider = ({ children }: BasePropsType) => {
     }
   }, []);
 
-  const login = async (user: LoginCredentials) => {
+  const login = async (credentials: LoginCredentials) => {
     dispatch({ type: 'LOGIN_START' });
 
-    const signInResult = await authService.signIn(user);
-
-    if (signInResult.success && signInResult.data) {
-      const user = signInResult.data;
+    try {
+      const user = await authService.signIn(credentials);
       storeUserEmail(user.email);
       dispatch({ type: 'LOGIN_SUCCESS', payload: user });
       show('Successfully logged in', 'success');
-    } else if (!signInResult.success && signInResult.errorMessage) {
-      dispatch({ type: 'LOGIN_FAILURE', payload: signInResult.errorMessage });
-      show(signInResult.errorMessage, 'error');
+    } catch (error: unknown) {
+      dispatch({ type: 'LOGIN_FAILURE', payload: (error as AuthError).message });
+      show((error as AuthError).message, 'error');
     }
   };
 

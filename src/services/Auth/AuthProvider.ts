@@ -1,6 +1,6 @@
-import type { LoginCredentials, RequestResult, User } from '../../type/AppType';
+import type { LoginCredentials, User } from '../../type/AppType';
 
 export default interface AuthProvider {
-  signIn: (credentials: LoginCredentials) => Promise<RequestResult<User>>;
+  signIn: (credentials: LoginCredentials) => Promise<User>;
   logout: () => Promise<void>;
 }
