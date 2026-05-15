@@ -1,17 +1,17 @@
-import { useEffect, useReducer } from "react";
-import { signInWithFirebase, signOutFromFirebase } from "../../services/auth";
-import type { User, LoginCredentials, AuthState } from "../../type/AppType";
-import type { BasePropsType } from "../../type/PropsType";
-import { users } from "../../utils/Const";
-import { authReducer } from "./authReducer";
-import { UserContext } from "./UserContext";
-import { useSnackbarContext } from "../snackbar/SnackbarContext";
-import type { FirebaseError } from "firebase/app";
+import type { FirebaseError } from 'firebase/app';
+import { useEffect, useReducer } from 'react';
+import { AuthService } from '../../services/Auth/AuthService';
+import type { AuthState, LoginCredentials, User } from '../../type/AppType';
+import type { BasePropsType } from '../../type/PropsType';
+import { users } from '../../utils/Const';
 import {
   clearStoredUser,
   getStoredUserEmail,
   storeUserEmail,
-} from "../../utils/localStorageUtilities";
+} from '../../utils/localStorageUtilities';
+import { useSnackbarContext } from '../snackbar/SnackbarContext';
+import { authReducer } from './authReducer';
+import { UserContext } from './UserContext';
 
 const initialState: AuthState = {
   user: null,
@@ -22,41 +22,42 @@ const initialState: AuthState = {
 export const UserProvider = ({ children }: BasePropsType) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const { show } = useSnackbarContext();
+  const authService = AuthService.getInstance();
 
   useEffect(() => {
     const storedUser = getStoredUserEmail();
     if (storedUser) {
       const user: User = users[0];
       dispatch({
-        type: "LOGIN_SUCCESS",
+        type: 'LOGIN_SUCCESS',
         payload: user,
       });
     }
   }, []);
 
   const login = async (user: LoginCredentials) => {
-    dispatch({ type: "LOGIN_START" });
+    dispatch({ type: 'LOGIN_START' });
 
-    const signInResult = await signInWithFirebase(user);
+    const signInResult = await authService.signIn(user);
 
     if (signInResult.success && signInResult.data) {
       const user = signInResult.data;
       storeUserEmail(user.email);
-      dispatch({ type: "LOGIN_SUCCESS", payload: user });
-      show("Successfuly loged in", "success");
+      dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+      show('Successfully logged in', 'success');
     } else if (!signInResult.success && signInResult.errorMessage) {
-      dispatch({ type: "LOGIN_FAILURE", payload: signInResult.errorMessage });
-      show(signInResult.errorMessage, "error");
+      dispatch({ type: 'LOGIN_FAILURE', payload: signInResult.errorMessage });
+      show(signInResult.errorMessage, 'error');
     }
   };
 
   const logout = async () => {
     try {
-      await signOutFromFirebase();
-      dispatch({ type: "LOGOUT" });
+      await authService.logout();
+      dispatch({ type: 'LOGOUT' });
       clearStoredUser();
     } catch (error) {
-      show((error as FirebaseError).message, "error");
+      show((error as FirebaseError).message, 'error');
     }
   };
 

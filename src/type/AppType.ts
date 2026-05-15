@@ -1,6 +1,6 @@
-import type { AlertColor } from "@mui/material";
-import type { AppRoutes } from "../utils/Const";
-import type { GasEvent } from "./PropsType";
+import type { AlertColor } from '@mui/material';
+import type { AppRoutes } from '../utils/Const';
+import type { GasEvent } from './PropsType';
 
 type RoutePath = (typeof AppRoutes)[keyof typeof AppRoutes];
 
@@ -59,10 +59,10 @@ export interface RequestResult<T> {
 }
 
 export type UserAction =
-  | { type: "LOGIN_START" }
-  | { type: "LOGIN_SUCCESS"; payload: User }
-  | { type: "LOGIN_FAILURE"; payload: string }
-  | { type: "LOGOUT" };
+  | { type: 'LOGIN_START' }
+  | { type: 'LOGIN_SUCCESS'; payload: User }
+  | { type: 'LOGIN_FAILURE'; payload: string }
+  | { type: 'LOGOUT' };
 
 export interface UserContextType {
   state: AuthState;
@@ -89,6 +89,4 @@ export interface SnackbarContextType {
   hide: () => void;
 }
 
-export type SnackbarAction =
-  | { type: "OPEN"; payload: SnackbarState }
-  | { type: "CLOSED" };
+export type SnackbarAction = { type: 'OPEN'; payload: SnackbarState } | { type: 'CLOSED' };
