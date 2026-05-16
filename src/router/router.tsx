@@ -32,6 +32,7 @@ const router = createBrowserRouter([
         path: AppRoutes.WITHDRAWS,
         loader: withdrawalLoader,
         action: withdrawalAction,
+        hydrateFallbackElement: <Error />,
       },
       {
         element: <Profile />,

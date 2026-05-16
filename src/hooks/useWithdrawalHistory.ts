@@ -1,50 +1,56 @@
-import { useState } from 'react';
-import type { Withdrawal } from '../type/AppType';
+import { useState } from "react";
+import type { Withdrawal } from "../type/AppType";
 
 type DialogState =
-  | { type: 'closed' }
-  | { type: 'create' }
-  | { type: 'filter' }
-  | { type: 'edit'; withdrawal: Withdrawal }
-  | { type: 'delete'; withdrawal: Withdrawal };
+  | { type: "closed" }
+  | { type: "create" }
+  | { type: "filter" }
+  | { type: "edit"; withdrawal: Withdrawal }
+  | { type: "delete"; withdrawal: Withdrawal };
 
 export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
   const [dialog, setDialog] = useState<DialogState>({
-    type: 'closed',
+    type: "closed",
   });
 
-  const currentWithdrawals = withdrawals.filter((withdraw) => !withdraw.isForecast);
+  const currentWithdrawals = withdrawals.filter(
+    (withdraw) => !withdraw.isForecast
+  );
 
   const charts = {
     current: {
-      dataset: currentWithdrawals.map((withdraw) => withdraw.amount),
-      dimension: currentWithdrawals.map((withdraw) => withdraw.date),
+      dataset: currentWithdrawals
+        .toReversed()
+        .map((withdraw) => withdraw.amount),
+      dimension: currentWithdrawals
+        .toReversed()
+        .map((withdraw) => withdraw.date),
     },
 
     forecast: {
-      dataset: withdrawals.map((withdraw) => withdraw.amount),
-      dimension: withdrawals.map((withdraw) => withdraw.date),
+      dataset: withdrawals.toReversed().map((withdraw) => withdraw.amount),
+      dimension: withdrawals.toReversed().map((withdraw) => withdraw.date),
     },
   };
 
   const openCreateDialog = () => {
-    setDialog({ type: 'create' });
+    setDialog({ type: "create" });
   };
 
   const openEditDialog = (withdrawal: Withdrawal) => {
-    setDialog({ type: 'edit', withdrawal });
+    setDialog({ type: "edit", withdrawal });
   };
 
   const openDeleteDialog = (withdrawal: Withdrawal) => {
-    setDialog({ type: 'delete', withdrawal });
+    setDialog({ type: "delete", withdrawal });
   };
 
   const openFilterDialog = () => {
-    setDialog({ type: 'filter' });
+    setDialog({ type: "filter" });
   };
 
   const closeDialog = () => {
-    setDialog({ type: 'closed' });
+    setDialog({ type: "closed" });
   };
 
   return {

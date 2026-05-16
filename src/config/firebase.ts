@@ -1,7 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, type FirebaseApp } from "firebase/app";
 import { Firestore, getFirestore } from "firebase/firestore";
-import { getAuth, type Auth } from "firebase/auth";
+import {
+  getAuth,
+  browserLocalPersistence,
+  setPersistence,
+  type Auth,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -23,6 +28,7 @@ class FirebaseService {
   private constructor() {
     this.app = initializeApp(firebaseConfig);
     this.auth = getAuth(this.app);
+    setPersistence(this.auth, browserLocalPersistence);
     this.db = getFirestore(this.app);
   }
 

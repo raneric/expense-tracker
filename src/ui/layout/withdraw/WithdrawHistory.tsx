@@ -21,13 +21,15 @@ import {
   TittleHelperInfo,
 } from "../../core/SectionTitle";
 import FilterDialog from "../../components/Dialog/FilterDialog";
+import { useUserContext } from "../../../contexts/auth/UserContext";
 
 /**
  * The WithdrawalHistory component is responsible for displaying the user's withdrawal history. It includes a section title, two sparkline charts (one for current withdrawals and one for forecasted withdrawals), a table of withdrawal transactions, and a form dialog for adding or editing withdrawals. The component uses the useLoaderData hook to fetch withdrawal data and manages the state for the form dialog and selected withdrawal row.
  * @returns A React component that renders the withdrawal history section of the application.
  */
 export default function WithdrawalHistory() {
-  const withdrawals = useLoaderData();
+  const withdrawals: Withdrawal[] = useLoaderData();
+  const { state } = useUserContext();
   const submit = useSubmit();
   const {
     dialog,
@@ -49,8 +51,10 @@ export default function WithdrawalHistory() {
     for (const [key, value] of Object.entries(withdrawal)) {
       formData.append(key, String(value));
     }
-
-    submit(formData, { method: "delete", action: "/withdrawals" });
+    if (state.user) {
+      formData.append("user", JSON.stringify(state.user));
+    }
+    submit(formData, { method: "post", action: "/withdrawals" });
     closeDialog();
   };
 
