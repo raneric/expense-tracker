@@ -1,4 +1,4 @@
-import type { UserAction, AuthState } from "../../type/AppType";
+import type { AuthState, UserAction } from "../../type/StateContextType";
 
 // Reducer
 export const authReducer = (

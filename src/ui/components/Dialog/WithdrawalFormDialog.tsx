@@ -1,4 +1,4 @@
-import { HistoryToggleOff } from '@mui/icons-material';
+import { HistoryToggleOff } from "@mui/icons-material";
 
 import {
   Autocomplete,
@@ -10,16 +10,16 @@ import {
   Fade,
   InputAdornment,
   TextField,
-} from '@mui/material';
+} from "@mui/material";
 
-import Colors from '../../Theming/Colors';
+import Colors from "../../Theming/Colors";
 
-import { useState } from 'react';
-import type { Withdrawal } from '../../../type/AppType';
-import type { DialogFormProps } from '../../../type/PropsType';
-import { initialWithdrawal, reasonsList } from '../../../utils/Const';
-import { isNanOrNegative } from '../../../utils/validationUtilities';
-import DialogHeader from './DialogHeader';
+import { useState } from "react";
+import type { Withdrawal } from "../../../type/AppType";
+import type { DialogFormProps } from "../../../type/PropsType";
+import { initialWithdrawal, reasonsList } from "../../../utils/Const";
+import { isNanOrNegative } from "../../../utils/validationUtilities";
+import DialogHeader from "./DialogHeader";
 
 /**
  * A form for adding or editing withdrawal information.
@@ -32,7 +32,9 @@ export default function WithdrawalFormDialog({
   onClose,
   onSubmit,
 }: DialogFormProps<Withdrawal>) {
-  const [formData, setFormData] = useState<Withdrawal>(initialData ?? initialWithdrawal);
+  const [formData, setFormData] = useState<Withdrawal>(
+    initialData ?? initialWithdrawal
+  );
   const [amountError, setAmountError] = useState(false);
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -41,8 +43,11 @@ export default function WithdrawalFormDialog({
     onClose();
   };
 
-  const handleChange = <K extends keyof Withdrawal>(key: K, value: Withdrawal[K]) => {
-    if (key === 'date') {
+  const handleChange = <K extends keyof Withdrawal>(
+    key: K,
+    value: Withdrawal[K]
+  ) => {
+    if (key === "date") {
       const isForecast = (value as Date) > new Date();
       setFormData((prev) => ({
         ...prev,
@@ -61,39 +66,49 @@ export default function WithdrawalFormDialog({
       <DialogHeader>
         <span>Withdrawal info</span>
         <Fade in={formData.isForecast}>
-          <Chip color='secondary' icon={<HistoryToggleOff />} label='Forecast' />
+          <Chip
+            color="secondary"
+            icon={<HistoryToggleOff />}
+            label="Forecast"
+          />
         </Fade>
       </DialogHeader>
       <DialogContent>
-        <Box component='form' method='post' onSubmit={handleSubmit}>
+        <Box component="form" method="post" onSubmit={handleSubmit}>
           <Autocomplete
             multiple
-            id='reasons-autocomplete'
+            freeSolo
+            id="reasons-autocomplete"
             options={reasonsList}
             value={formData.reasons}
-            onChange={(_, newValue) => handleChange('reasons', newValue)}
+            onChange={(_, newValue) => handleChange("reasons", newValue)}
             renderInput={(params) => (
-              <TextField margin='normal' {...params} label='Reasons' placeholder='Select reasons' />
+              <TextField
+                margin="normal"
+                {...params}
+                label="Reasons"
+                placeholder="Select reasons"
+              />
             )}
           />
           <TextField
-            label='Date'
-            type='date'
-            value={formData.date.toISOString().split('T')[0]}
-            onChange={(e) => handleChange('date', new Date(e.target.value))}
+            label="Date"
+            type="date"
+            value={formData.date.toISOString().split("T")[0]}
+            onChange={(e) => handleChange("date", new Date(e.target.value))}
             fullWidth
-            margin='normal'
+            margin="normal"
           />
           <TextField
-            label='Location'
+            label="Location"
             value={formData.location}
-            onChange={(e) => handleChange('location', e.target.value)}
+            onChange={(e) => handleChange("location", e.target.value)}
             fullWidth
-            margin='normal'
+            margin="normal"
           />
           <TextField
-            label='Amount'
-            type='text'
+            label="Amount"
+            type="text"
             value={formData.amount}
             onChange={(e) => {
               if (isNanOrNegative(e.target.value)) {
@@ -101,25 +116,27 @@ export default function WithdrawalFormDialog({
                 return;
               }
               setAmountError(false);
-              handleChange('amount', Number(e.target.value));
+              handleChange("amount", Number(e.target.value));
             }}
             fullWidth
-            margin='normal'
+            margin="normal"
             error={amountError}
-            helperText={amountError ? 'Please enter a valid number' : ''}
+            helperText={amountError ? "Please enter a valid number" : ""}
             slotProps={{
               input: {
-                endAdornment: <InputAdornment position='end'>Ar</InputAdornment>,
+                endAdornment: (
+                  <InputAdornment position="end">Ar</InputAdornment>
+                ),
               },
             }}
           />
           <Button
-            variant='contained'
-            type='submit'
+            variant="contained"
+            type="submit"
             sx={{
               backgroundColor: Colors.tint900,
               color: Colors.tint200,
-              fontWeight: 'bold',
+              fontWeight: "bold",
             }}
             fullWidth
           >

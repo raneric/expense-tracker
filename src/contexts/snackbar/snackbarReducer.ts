@@ -1,4 +1,7 @@
-import type { SnackbarAction, SnackbarState } from "../../type/AppType";
+import type {
+  SnackbarAction,
+  SnackbarState,
+} from "../../type/StateContextType";
 
 export const snackbarReducer = (
   state: SnackbarState,

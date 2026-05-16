@@ -1,17 +1,26 @@
-import { AccountBalanceWallet, FilterList } from '@mui/icons-material';
-import AddIcon from '@mui/icons-material/Add';
-import { SpeedDial, SpeedDialAction, SpeedDialIcon, Stack } from '@mui/material';
-import { useLoaderData, useSubmit } from 'react-router-dom';
-import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
-import type { Withdrawal } from '../../../type/AppType';
-import { initialWithdrawal } from '../../../utils/Const';
-import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
-import { WithdrawalCharts } from '../../components/Charts/WithdrawalCharts';
-import WithdrawalFormDialog from '../../components/Dialog/WithdrawalFormDialog';
-import ConfirmationDialog from '../../components/FeedbackDialog/ConfirmationDialog';
-import WithdrawTable from '../../components/Table/WithdrawTable';
-import { SectionTitle, Tittle, TittleHelperInfo } from '../../core/SectionTitle';
-import FilterDialog from '../../components/Dialog/FilterDialog';
+import { AccountBalanceWallet, FilterList } from "@mui/icons-material";
+import AddIcon from "@mui/icons-material/Add";
+import {
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
+  Stack,
+} from "@mui/material";
+import { useLoaderData, useSubmit } from "react-router-dom";
+import { useWithdrawalHistory } from "../../../hooks/useWithdrawalHistory";
+import type { Withdrawal } from "../../../type/AppType";
+import { initialWithdrawal } from "../../../utils/Const";
+import { toLocalMgCurrency } from "../../../utils/formatterUtilities";
+import { WithdrawalCharts } from "../../components/Charts/WithdrawalCharts";
+import WithdrawalFormDialog from "../../components/Dialog/WithdrawalFormDialog";
+import ConfirmationDialog from "../../components/FeedbackDialog/ConfirmationDialog";
+import WithdrawTable from "../../components/Table/WithdrawTable";
+import {
+  SectionTitle,
+  Tittle,
+  TittleHelperInfo,
+} from "../../core/SectionTitle";
+import FilterDialog from "../../components/Dialog/FilterDialog";
 
 /**
  * The WithdrawalHistory component is responsible for displaying the user's withdrawal history. It includes a section title, two sparkline charts (one for current withdrawals and one for forecasted withdrawals), a table of withdrawal transactions, and a form dialog for adding or editing withdrawals. The component uses the useLoaderData hook to fetch withdrawal data and manages the state for the form dialog and selected withdrawal row.
@@ -30,8 +39,9 @@ export default function WithdrawalHistory() {
     openFilterDialog,
   } = useWithdrawalHistory(withdrawals);
 
-  const isFormDialogOpen = dialog.type === 'create' || dialog.type === 'edit';
-  const formInitialData = dialog.type === 'edit' ? dialog.withdrawal : initialWithdrawal;
+  const isFormDialogOpen = dialog.type === "create" || dialog.type === "edit";
+  const formInitialData =
+    dialog.type === "edit" ? dialog.withdrawal : initialWithdrawal;
 
   const handleUpdateSubmit = (withdrawal: Withdrawal) => {
     const formData = new FormData();
@@ -40,20 +50,23 @@ export default function WithdrawalHistory() {
       formData.append(key, String(value));
     }
 
-    submit(formData, { method: 'delete', action: '/withdrawals' });
+    submit(formData, { method: "delete", action: "/withdrawals" });
     closeDialog();
   };
 
   const speedDialAction = [
-    { icon: <AddIcon />, name: 'Add', action: openCreateDialog },
-    { icon: <FilterList />, name: 'Filter', action: openFilterDialog },
+    { icon: <AddIcon />, name: "Add", action: openCreateDialog },
+    { icon: <FilterList />, name: "Filter", action: openFilterDialog },
   ];
 
   return (
     <Stack spacing={2}>
       <SectionTitle>
-        <Tittle displayText='Withdrawal Activity' icon={<AccountBalanceWallet />} />
-        <TittleHelperInfo displayText='Track your recent transactions' />
+        <Tittle
+          displayText="Withdrawal Activity"
+          icon={<AccountBalanceWallet />}
+        />
+        <TittleHelperInfo displayText="Track your recent transactions" />
       </SectionTitle>
 
       <WithdrawalCharts current={charts.current} forecast={charts.forecast} />
@@ -65,7 +78,7 @@ export default function WithdrawalHistory() {
       />
 
       <WithdrawalFormDialog
-        key={dialog.type === 'edit' ? `edit-${dialog.withdrawal.id}` : 'create'}
+        key={dialog.type === "edit" ? `edit-${dialog.withdrawal.id}` : "create"}
         isOpen={isFormDialogOpen}
         initialData={formInitialData}
         onClose={closeDialog}
@@ -73,37 +86,37 @@ export default function WithdrawalHistory() {
       />
 
       <FilterDialog
-        isOpen={dialog.type === 'filter'}
+        isOpen={dialog.type === "filter"}
         onClose={closeDialog}
         onStartDateChange={() => {}}
         onEndDateChange={() => {}}
       />
 
       <ConfirmationDialog
-        isOpen={dialog.type === 'delete'}
+        isOpen={dialog.type === "delete"}
         onClose={closeDialog}
         onCancel={closeDialog}
         onConfirm={() => {
-          if (dialog.type === 'delete') {
+          if (dialog.type === "delete") {
             handleUpdateSubmit(dialog.withdrawal);
           }
         }}
         message={
-          dialog.type === 'delete'
+          dialog.type === "delete"
             ? `Delete withdrawal of ${toLocalMgCurrency(
-                dialog.withdrawal.amount,
+                dialog.withdrawal.amount
               )} on ${dialog.withdrawal.date.toDateString()}?`
-            : ''
+            : ""
         }
       />
 
       <SpeedDial
         sx={{
-          position: 'fixed',
+          position: "fixed",
           bottom: 24,
           right: 24,
         }}
-        ariaLabel='SpeedDial tooltip example'
+        ariaLabel="SpeedDial tooltip example"
         icon={<SpeedDialIcon />}
       >
         {speedDialAction.map((dialAction) => (
