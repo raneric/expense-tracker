@@ -10,12 +10,15 @@ type Props = {
 
 export function WithdrawalCharts({ current, forecast }: Props) {
   return (
-    <Stack direction='row' spacing={2}>
+    <Stack
+      direction="row"
+      spacing={2}
+    >
       <ChartCard>
         <ExpenseSparkLine
           dimension={current.dimension}
           dataset={current.dataset}
-          dataLabel='Withdrawal of today'
+          dataLabel="Withdrawal of today"
         />
       </ChartCard>
 
@@ -23,7 +26,7 @@ export function WithdrawalCharts({ current, forecast }: Props) {
         <ExpenseSparkLine
           dimension={forecast.dimension}
           dataset={forecast.dataset}
-          dataLabel='Forecast'
+          dataLabel="Forecast"
         />
       </ChartCard>
     </Stack>

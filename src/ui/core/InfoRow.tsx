@@ -17,8 +17,11 @@ export default function InfoRow(props: InfoRowProps) {
         gap: 1,
       }}
     >
-      <Typography variant='body2'>{label}</Typography>
-      <Typography variant='body2' sx={{ ml: 'auto', fontWeight: 'bold' }}>
+      <Typography variant="body2">{label}</Typography>
+      <Typography
+        variant="body2"
+        sx={{ ml: 'auto', fontWeight: 'bold' }}
+      >
         {value}
       </Typography>
     </Box>

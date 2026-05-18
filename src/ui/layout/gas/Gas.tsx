@@ -12,9 +12,15 @@ export default function Gas() {
   return (
     <>
       <SectionTitle>
-        <Tittle icon={<CalendarMonth />} displayText='Gas schedule' />
+        <Tittle
+          icon={<CalendarMonth />}
+          displayText="Gas schedule"
+        />
       </SectionTitle>
-      <Stack direction='row' spacing={2}>
+      <Stack
+        direction="row"
+        spacing={2}
+      >
         <Calendar gasEvents={data} />
         <GasStatus gasEvents={data} />
       </Stack>

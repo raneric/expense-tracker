@@ -1,4 +1,4 @@
-import { HistoryToggleOff } from "@mui/icons-material";
+import { HistoryToggleOff } from '@mui/icons-material';
 
 import {
   Autocomplete,
@@ -10,16 +10,16 @@ import {
   Fade,
   InputAdornment,
   TextField,
-} from "@mui/material";
+} from '@mui/material';
 
-import Colors from "../../Theming/Colors";
+import Colors from '../../Theming/Colors';
 
-import { useState } from "react";
-import type { Withdrawal } from "../../../type/AppType";
-import type { DialogFormProps } from "../../../type/PropsType";
-import { initialWithdrawal, reasonsList } from "../../../utils/Const";
-import { isNanOrNegative } from "../../../utils/validationUtilities";
-import DialogHeader from "./DialogHeader";
+import { useState } from 'react';
+import type { Withdrawal } from '../../../type/AppType';
+import type { DialogFormProps } from '../../../type/PropsType';
+import { initialWithdrawal, reasonsList } from '../../../utils/Const';
+import { isNanOrNegative } from '../../../utils/validationUtilities';
+import DialogHeader from './DialogHeader';
 
 /**
  * A form for adding or editing withdrawal information.
@@ -47,7 +47,7 @@ export default function WithdrawalFormDialog({
     key: K,
     value: Withdrawal[K]
   ) => {
-    if (key === "date") {
+    if (key === 'date') {
       const isForecast = (value as Date) > new Date();
       setFormData((prev) => ({
         ...prev,
@@ -62,7 +62,10 @@ export default function WithdrawalFormDialog({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+    >
       <DialogHeader>
         <span>Withdrawal info</span>
         <Fade in={formData.isForecast}>
@@ -74,14 +77,18 @@ export default function WithdrawalFormDialog({
         </Fade>
       </DialogHeader>
       <DialogContent>
-        <Box component="form" method="post" onSubmit={handleSubmit}>
+        <Box
+          component="form"
+          method="post"
+          onSubmit={handleSubmit}
+        >
           <Autocomplete
             multiple
             freeSolo
             id="reasons-autocomplete"
             options={reasonsList}
             value={formData.reasons}
-            onChange={(_, newValue) => handleChange("reasons", newValue)}
+            onChange={(_, newValue) => handleChange('reasons', newValue)}
             renderInput={(params) => (
               <TextField
                 margin="normal"
@@ -94,15 +101,15 @@ export default function WithdrawalFormDialog({
           <TextField
             label="Date"
             type="date"
-            value={formData.date.toISOString().split("T")[0]}
-            onChange={(e) => handleChange("date", new Date(e.target.value))}
+            value={formData.date.toISOString().split('T')[0]}
+            onChange={(e) => handleChange('date', new Date(e.target.value))}
             fullWidth
             margin="normal"
           />
           <TextField
             label="Location"
             value={formData.location}
-            onChange={(e) => handleChange("location", e.target.value)}
+            onChange={(e) => handleChange('location', e.target.value)}
             fullWidth
             margin="normal"
           />
@@ -116,12 +123,12 @@ export default function WithdrawalFormDialog({
                 return;
               }
               setAmountError(false);
-              handleChange("amount", Number(e.target.value));
+              handleChange('amount', Number(e.target.value));
             }}
             fullWidth
             margin="normal"
             error={amountError}
-            helperText={amountError ? "Please enter a valid number" : ""}
+            helperText={amountError ? 'Please enter a valid number' : ''}
             slotProps={{
               input: {
                 endAdornment: (
@@ -136,7 +143,7 @@ export default function WithdrawalFormDialog({
             sx={{
               backgroundColor: Colors.tint900,
               color: Colors.tint200,
-              fontWeight: "bold",
+              fontWeight: 'bold',
             }}
             fullWidth
           >

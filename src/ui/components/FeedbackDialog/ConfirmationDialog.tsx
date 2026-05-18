@@ -1,4 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+} from '@mui/material';
 import type { FeedbackDialogProps } from '../../../type/PropsType';
 
 export default function ConfirmationDialog({
@@ -12,18 +18,28 @@ export default function ConfirmationDialog({
     <Dialog
       open={isOpen}
       onClose={onClose}
-      aria-labelledby='alert-dialog-title'
-      aria-describedby='alert-dialog-description'
-      role='alertdialog'
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      role="alertdialog"
     >
       <DialogContent>
-        <DialogContentText id='alert-dialog-description'>{message}</DialogContentText>
+        <DialogContentText id="alert-dialog-description">
+          {message}
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant='outlined' color='primary' onClick={onCancel}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={onCancel}
+        >
           Cancel
         </Button>
-        <Button variant='contained' color='error' onClick={onConfirm}>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={onConfirm}
+        >
           Confirm
         </Button>
       </DialogActions>

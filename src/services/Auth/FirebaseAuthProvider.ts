@@ -13,7 +13,7 @@ export default class FirebaseAuthProvider implements AuthProvider {
     const signInResult = await signInWithEmailAndPassword(
       firebaseAuth,
       credentials.email,
-      credentials.password,
+      credentials.password
     );
     return mapFirebaseUser(signInResult.user);
   }

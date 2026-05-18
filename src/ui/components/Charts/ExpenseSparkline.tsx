@@ -18,7 +18,9 @@ export default function ExpenseSparkLine({
 }: ExpenseSparkLineProps<Date>) {
   const [weekIndex, setWeekIndex] = useState<null | number>(null);
 
-  const total: number = dataset.reduce((acc: number, value: number) => acc + value);
+  const total: number = dataset.reduce(
+    (acc: number, value: number) => acc + value
+  );
   const settings: SparkLineChartProps = {
     data: dataset,
     baseline: 'min',
@@ -48,8 +50,8 @@ export default function ExpenseSparkLine({
 
   return (
     <Box
-      role='button'
-      aria-label='Showing withdrawals amount'
+      role="button"
+      aria-label="Showing withdrawals amount"
       tabIndex={0}
       sx={{
         width: '100%',
@@ -60,7 +62,10 @@ export default function ExpenseSparkLine({
         maxWidth: '21em',
       }}
     >
-      <Stack direction='column' sx={{ width: 300 }}>
+      <Stack
+        direction="column"
+        sx={{ width: 300 }}
+      >
         <Typography
           sx={{
             color: 'rgb(117, 117, 117)',
@@ -72,7 +77,7 @@ export default function ExpenseSparkLine({
           {weekIndex === null ? dataLabel : dimension[weekIndex].toDateString()}
         </Typography>
         <Stack
-          direction='row'
+          direction="row"
           sx={{
             justifyContent: 'space-between',
             alignItems: 'flex-end',
@@ -80,8 +85,12 @@ export default function ExpenseSparkLine({
             borderColor: Colors.A700,
           }}
         >
-          <Typography sx={{ fontSize: '1.25rem', fontWeight: 500, minWidth: 150 }}>
-            {weekIndex !== null ? toLocalMgCurrency(dataset[weekIndex]) : toLocalMgCurrency(total)}
+          <Typography
+            sx={{ fontSize: '1.25rem', fontWeight: 500, minWidth: 150 }}
+          >
+            {weekIndex !== null
+              ? toLocalMgCurrency(dataset[weekIndex])
+              : toLocalMgCurrency(total)}
           </Typography>
 
           <SparkLineChart
@@ -93,7 +102,11 @@ export default function ExpenseSparkLine({
             onHighlightedAxisChange={(axisItems) => {
               setWeekIndex(axisItems[0]?.dataIndex ?? null);
             }}
-            highlightedAxis={weekIndex === null ? [] : [{ axisId: 'days', dataIndex: weekIndex }]}
+            highlightedAxis={
+              weekIndex === null
+                ? []
+                : [{ axisId: 'days', dataIndex: weekIndex }]
+            }
             {...settings}
           />
         </Stack>

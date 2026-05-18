@@ -13,7 +13,9 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
     type: 'closed',
   });
 
-  const currentWithdrawals = withdrawals.filter((withdraw) => !withdraw.isForecast);
+  const currentWithdrawals = withdrawals.filter(
+    (withdraw) => !withdraw.isForecast
+  );
 
   const charts = {
     current: {
@@ -28,7 +30,9 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
   };
 
   const openCreateDialog = () => {
-    setDialog({ type: 'create' });
+    setDialog({
+      type: 'create',
+    });
   };
 
   const openEditDialog = (withdrawal: Withdrawal) => {

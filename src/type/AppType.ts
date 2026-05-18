@@ -1,5 +1,5 @@
-import type { AppRoutes } from "../utils/Const";
-import type { GasEvent } from "./PropsType";
+import type { AppRoutes } from '../utils/Const';
+import type { GasEvent } from './PropsType';
 
 type RoutePath = (typeof AppRoutes)[keyof typeof AppRoutes];
 

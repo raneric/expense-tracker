@@ -1,9 +1,9 @@
 import { useReducer } from 'react';
-import type { SnackbarState } from '../../type/AppType';
 import type { BasePropsType } from '../../type/PropsType';
 import { SnackbarContext } from './SnackbarContext';
 import { snackbarReducer } from './snackbarReducer';
 import type { AlertColor } from '@mui/material';
+import type { SnackbarState } from '../../type/StateContextType';
 
 const initialState: SnackbarState = {
   isDisplayed: false,
@@ -30,6 +30,8 @@ export const SnackbarProvider = ({ children }: BasePropsType) => {
   };
 
   return (
-    <SnackbarContext.Provider value={{ state, show, hide }}>{children}</SnackbarContext.Provider>
+    <SnackbarContext.Provider value={{ state, show, hide }}>
+      {children}
+    </SnackbarContext.Provider>
   );
 };

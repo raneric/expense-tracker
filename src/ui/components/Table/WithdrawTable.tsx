@@ -47,7 +47,9 @@ export default function WithdrawTable({
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -58,7 +60,11 @@ export default function WithdrawTable({
     fontSize: AppTypography.FontSize.tableHeader,
     backgroundColor: Colors.tint900,
   };
-  const headerCellContentStyle = { display: 'flex', alignItems: 'center', gap: '0.5rem' };
+  const headerCellContentStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+  };
   const forecastedStyle = { color: 'warning.main', fontWeight: 'bold' };
 
   return (
@@ -103,7 +109,10 @@ export default function WithdrawTable({
             {withdrawals
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((withdrawal: Withdrawal) => (
-                <TableRow key={withdrawal.id} hover>
+                <TableRow
+                  key={withdrawal.id}
+                  hover
+                >
                   <TableCell sx={withdrawal.isForecast ? forecastedStyle : {}}>
                     {withdrawal.reasons.join(', ')}
                   </TableCell>
@@ -113,13 +122,20 @@ export default function WithdrawTable({
                   <TableCell sx={withdrawal.isForecast ? forecastedStyle : {}}>
                     {withdrawal.location}
                   </TableCell>
-                  <TableCell sx={withdrawal.isForecast ? forecastedStyle : {}} align='right'>
+                  <TableCell
+                    sx={withdrawal.isForecast ? forecastedStyle : {}}
+                    align="right"
+                  >
                     {toLocalMgCurrency(withdrawal.amount)}
                   </TableCell>
                   <TableCell
-                    size='small'
-                    sx={withdrawal.isForecast ? { ...forecastedStyle, width: 200 } : {}}
-                    align='right'
+                    size="small"
+                    sx={
+                      withdrawal.isForecast
+                        ? { ...forecastedStyle, width: 200 }
+                        : {}
+                    }
+                    align="right"
                   >
                     <IconButton onClick={() => onRowEditClick(withdrawal)}>
                       <EditIcon />
@@ -134,7 +150,7 @@ export default function WithdrawTable({
         </Table>
       </TableContainer>
       <TablePagination
-        component='div'
+        component="div"
         count={rows.length}
         page={page}
         onPageChange={handleChangePage}

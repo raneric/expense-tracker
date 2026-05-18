@@ -66,9 +66,18 @@ export const initialWithdrawal = {
 };
 
 export const users: User[] = [
-  { id: 'u1', email: 'alice.johnson@example.com' },
-  { id: 'u2', email: 'brian.smith@example.com' },
-  { id: 'u3', email: 'carla.davis@example.com' },
+  {
+    id: 'u1',
+    email: 'alice.johnson@example.com',
+  },
+  {
+    id: 'u2',
+    email: 'brian.smith@example.com',
+  },
+  {
+    id: 'u3',
+    email: 'carla.davis@example.com',
+  },
 ];
 
 export const rows: Withdrawal[] = [
@@ -255,7 +264,7 @@ export const rows: Withdrawal[] = [
 ];
 
 export const reasonsList: string[] = removeDuplicateValues<string>(
-  rows.flatMap((row: Withdrawal) => row.reasons),
+  rows.flatMap((row: Withdrawal) => row.reasons)
 );
 
 export const gasEventList: GasEvent[] = [

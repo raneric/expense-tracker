@@ -9,26 +9,29 @@ export default function FilterDialog({
   onEndDateChange,
 }: FilterDialogProps) {
   return (
-    <Dialog open={isOpen} onClose={onClose}>
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+    >
       <DialogHeader>
         <span> Select date range</span>
       </DialogHeader>
       <DialogContent sx={{ maxWidth: '20em' }}>
         <TextField
-          label='Start Date'
-          type='date'
+          label="Start Date"
+          type="date"
           value={new Date().toISOString().split('T')[0]}
           onChange={onStartDateChange}
           fullWidth
-          margin='normal'
+          margin="normal"
         />
         <TextField
-          label='End Date'
-          type='date'
+          label="End Date"
+          type="date"
           value={new Date().toISOString().split('T')[0]}
           onChange={onEndDateChange}
           fullWidth
-          margin='normal'
+          margin="normal"
         />
       </DialogContent>
     </Dialog>
