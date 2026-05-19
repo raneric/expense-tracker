@@ -32,6 +32,11 @@ export const withdrawalReducer = (
         ...state,
         isLoading: false,
       };
+    case 'RESET_FILTER':
+      return {
+        ...state,
+        filter: null,
+      };
     default:
       return state;
   }

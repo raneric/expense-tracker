@@ -14,8 +14,10 @@ import { withdrawalReducer } from './withdrawalReducer';
 const initialState: DataRetrievalState<Withdrawal, DateFilter> = {
   data: [],
   isLoading: false,
+  filter: null,
 };
 
+// TODO: Refactoring filer constraint by using filter builder
 export const WithdrawalProvider = ({ children }: BasePropsType) => {
   const [state, dispatch] = useReducer(withdrawalReducer, initialState);
 
@@ -69,7 +71,7 @@ export const WithdrawalProvider = ({ children }: BasePropsType) => {
     async (filter: DateFilter) => {
       try {
         dispatch({ type: 'LOADING' });
-        const constraints: QueryConstraint[] = [orderBy('date', 'desc')];
+        const constraints: QueryConstraint[] = [orderBy('date', 'desc')]; // TO REFACTOR AND TO REMOVE
 
         if (filter.startDate) {
           constraints.push(where('date', '>=', filter.startDate));
@@ -88,10 +90,11 @@ export const WithdrawalProvider = ({ children }: BasePropsType) => {
     [handleError, load]
   );
 
-  /**
-   *  Handle empty array when no data is loaded, mainly for sparkline chart, handle default displayed date on FilterDialog, state is not preserved
-   *
-   * */
+  const resetFilter = useCallback(() => {
+    dispatch({ type: 'RESET_FILTER' });
+    const constraints: QueryConstraint[] = [orderBy('date', 'desc')]; // TO REFACTOR AND TO REMOVE
+    void load(constraints);
+  }, [load]);
 
   /**
    * Initial load
@@ -105,8 +108,9 @@ export const WithdrawalProvider = ({ children }: BasePropsType) => {
       state,
       load,
       filterBy,
+      resetFilter,
     }),
-    [state, load, filterBy]
+    [state, load, filterBy, resetFilter]
   );
 
   return (

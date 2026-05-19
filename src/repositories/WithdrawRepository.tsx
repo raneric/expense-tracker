@@ -21,6 +21,9 @@ export default class WithdrawRepository implements BaseRepository<
     this.dataProvider = new FirestoreDataProvider<Withdrawal, string>(
       WithdrawRepository.docsCollectionRef
     );
+    /* this.dataProvider = new MockDataProvider(
+      WithdrawRepository.docsCollectionRef
+    );*/
   }
 
   async getAll(constraints?: QueryConstraint[]): Promise<Withdrawal[]> {

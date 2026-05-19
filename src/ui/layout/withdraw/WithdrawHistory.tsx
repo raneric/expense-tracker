@@ -18,6 +18,7 @@ import { WithdrawalCharts } from '../../components/Charts/WithdrawalCharts';
 import FilterDialog from '../../components/Dialog/FilterDialog';
 import WithdrawalFormDialog from '../../components/Dialog/WithdrawalFormDialog';
 import ConfirmationDialog from '../../components/FeedbackDialog/ConfirmationDialog';
+import SkeletonTableBody from '../../components/Table/SkeletonTableBody';
 import WithdrawTable from '../../components/Table/WithdrawTable';
 import WithdrawTableBody from '../../components/Table/WithdrawTableBody';
 import WithdrawTableHeader from '../../components/Table/WithdrawTableHeader';
@@ -120,11 +121,18 @@ export default function WithdrawalHistory() {
         onRowPerPageChange={handleRowPerPageChange}
       >
         <WithdrawTableHeader />
-        <WithdrawTableBody
-          withdrawals={currentPage}
-          onRowDeleteClick={openDeleteDialog}
-          onRowEditClick={openEditDialog}
-        />
+        {withdrawalState.isLoading ? (
+          <SkeletonTableBody
+            rowPerPage={rowsPerPage}
+            columnNumber={5}
+          />
+        ) : (
+          <WithdrawTableBody
+            withdrawals={currentPage}
+            onRowDeleteClick={openDeleteDialog}
+            onRowEditClick={openEditDialog}
+          />
+        )}
       </WithdrawTable>
 
       <WithdrawalFormDialog

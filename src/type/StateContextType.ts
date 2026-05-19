@@ -55,18 +55,20 @@ export type DialogAction = { type: 'OPEN' } | { type: 'CLOSED' };
 export interface DataRetrievalState<T, U> {
   isLoading: boolean;
   data: T[];
-  filter?: U;
+  filter: U | null;
 }
 
 export interface DataRetrievalContextType<T, U> {
   state: DataRetrievalState<T, U>;
   load: () => Promise<void>;
   filterBy: (filter: U) => Promise<void>;
+  resetFilter: () => void;
 }
 
 export type DataRetrievalAction<T, U> =
   | { type: 'LOADING' }
   | { type: 'FILTER'; payload: U }
+  | { type: 'RESET_FILTER' }
   | { type: 'LOADED'; payload: T[] }
   | { type: 'ERROR' };
 
