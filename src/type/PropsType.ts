@@ -1,5 +1,5 @@
 import { type PickerDayProps } from '@mui/x-date-pickers';
-import type { Withdrawal } from './AppType';
+import type { TablePaginationState, Withdrawal } from './AppType';
 export interface BasePropsType {
   children?: React.ReactNode;
 }
@@ -10,10 +10,22 @@ export interface ExpenseSparkLineProps<T> {
   dimension: T[];
 }
 
-export interface WithdrawTableProps {
-  withdrawals: Withdrawal[];
+export interface WithdrawRowEventProps {
   onRowEditClick: (withdrawal: Withdrawal) => void;
   onRowDeleteClick: (withdrawal: Withdrawal) => void;
+}
+export interface WithdrawTableProps extends BasePropsType {
+  tablePaginationState: TablePaginationState;
+  onPageChange: (_event: unknown, newPage: number) => void;
+  onRowPerPageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export interface WithdrawTableBodyProps extends WithdrawRowEventProps {
+  withdrawals: Withdrawal[];
+}
+
+export interface WithdrawTableRowProps extends WithdrawRowEventProps {
+  withdrawal: Withdrawal;
 }
 
 export interface DialogProps {

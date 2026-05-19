@@ -45,7 +45,9 @@ export function generateGasEventData(gasEvents: GasEvent[]): GasEventData {
   };
 }
 
-export function generateGasStatusInfo(gasEvents: GasEvent[]): GasStatusInfo | null {
+export function generateGasStatusInfo(
+  gasEvents: GasEvent[]
+): GasStatusInfo | null {
   let previous: GasEvent | null = null;
   let current: GasEvent | null = null;
 
@@ -60,7 +62,8 @@ export function generateGasStatusInfo(gasEvents: GasEvent[]): GasStatusInfo | nu
 
   if (previous && current) {
     const inUseUpToNow = dayjs().diff(dayjs(current?.startDate), 'days');
-    const isOverForecast = previous?.totalDays !== undefined && inUseUpToNow > previous?.totalDays;
+    const isOverForecast =
+      previous?.totalDays !== undefined && inUseUpToNow > previous?.totalDays;
 
     const inUseDays =
       previous?.totalDays && inUseUpToNow > previous?.totalDays

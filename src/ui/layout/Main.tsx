@@ -1,21 +1,39 @@
-import { Box } from "@mui/material";
-import { Navigate, Outlet } from "react-router-dom";
-import { useUserContext } from "../../contexts/auth/UserContext";
-import { AppRoutes } from "../../utils/Const";
-import CustomAppBar from "../components/AppBar/CustomAppBar";
-import AppDrawer from "../components/Drawer/AppDrawer";
+import { Box } from '@mui/material';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useUserContext } from '../../contexts/auth/UserContext';
+import { AppRoutes } from '../../utils/Const';
+import CustomAppBar from '../components/AppBar/CustomAppBar';
+import AppDrawer from '../components/Drawer/AppDrawer';
+import { WithdrawalProvider } from '../../contexts/dataRetrieval/WithdrawalProvider';
 
 export default function Main() {
   const { state } = useUserContext();
 
   if (state.user === null) {
-    return <Navigate to={AppRoutes.LOGIN} replace />;
+    return (
+      <Navigate
+        to={AppRoutes.LOGIN}
+        replace
+      />
+    );
   }
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+      }}
+    >
       <CustomAppBar />
-      <Box sx={{ display: "flex", flexGrow: 1, mt: 8 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexGrow: 1,
+          mt: 8,
+        }}
+      >
         <AppDrawer />
         <Box
           component="main"
@@ -25,10 +43,12 @@ export default function Main() {
             pr: 2,
             pb: 1,
             pl: 2,
-            overflow: "auto",
+            overflow: 'auto',
           }}
         >
-          <Outlet />
+          <WithdrawalProvider>
+            <Outlet />
+          </WithdrawalProvider>
         </Box>
       </Box>
     </Box>

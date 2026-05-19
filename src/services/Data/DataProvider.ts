@@ -1,4 +1,4 @@
-import type { DocumentData, QueryConstraint } from "firebase/firestore";
+import type { DocumentData, QueryConstraint } from 'firebase/firestore';
 
 export default interface DataProvider<T, U> {
   getAll: (

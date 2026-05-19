@@ -1,4 +1,11 @@
-import { Box, CardContent, Divider, IconButton, Paper, Stack } from '@mui/material';
+import {
+  Box,
+  CardContent,
+  Divider,
+  IconButton,
+  Paper,
+  Stack,
+} from '@mui/material';
 import { Gauge } from '@mui/x-charts';
 
 import { useMemo, useState } from 'react';
@@ -21,7 +28,7 @@ export default function GasStatus({ gasEvents }: GasEventsDataProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const gasStatusInfo = useMemo<GasStatusInfo | null>(
     () => generateGasStatusInfo(gasEvents),
-    [gasEvents],
+    [gasEvents]
   );
 
   const hasData = gasStatusInfo !== null;
@@ -44,13 +51,19 @@ export default function GasStatus({ gasEvents }: GasEventsDataProps) {
         onClose={() => setIsDialogOpen(false)}
         onConfirm={handleConfirm}
         onCancel={() => setIsDialogOpen(false)}
-        message='Are you sure to mark current gas bottle as empty?'
+        message="Are you sure to mark current gas bottle as empty?"
       />
-      <Paper elevation={1} sx={{ borderRadius: 2, minWidth: '40em' }}>
-        <CustomCardHeader displayText='Current Gas Bottle Status' />
+      <Paper
+        elevation={1}
+        sx={{ borderRadius: 2, minWidth: '40em' }}
+      >
+        <CustomCardHeader displayText="Current Gas Bottle Status" />
         {hasData && (
           <CardContent sx={{ position: 'relative' }}>
-            <Stack direction={'row'} spacing={1}>
+            <Stack
+              direction={'row'}
+              spacing={1}
+            >
               <Stack
                 sx={{
                   alignItems: 'center',
@@ -59,7 +72,7 @@ export default function GasStatus({ gasEvents }: GasEventsDataProps) {
                 spacing={1}
               >
                 <InfoRow
-                  label='📆 In use since'
+                  label="📆 In use since"
                   value={
                     gasStatusInfo.current?.startDate === undefined
                       ? ''
@@ -67,11 +80,11 @@ export default function GasStatus({ gasEvents }: GasEventsDataProps) {
                   }
                 />
                 <InfoRow
-                  label='❌ Run out forecast on'
+                  label="❌ Run out forecast on"
                   value={formatStringDate(gasStatusInfo.forecast)}
                 />
                 <InfoRow
-                  label='ℹ️ Previous gas'
+                  label="ℹ️ Previous gas"
                   value={`${gasStatusInfo.previous?.totalDays} days`}
                 />
                 <Box
@@ -90,14 +103,16 @@ export default function GasStatus({ gasEvents }: GasEventsDataProps) {
                         fontWeight: 'bold',
                       },
                       [`& .MuiGauge-valueArc`]: {
-                        fill: gasStatusInfo.isOverForecast ? Colors.errorLight : 'primary.main',
+                        fill: gasStatusInfo.isOverForecast
+                          ? Colors.errorLight
+                          : 'primary.main',
                       },
                     }}
                     text={gasStatusInfo.gaugeText}
                   />
                 </Box>
                 <IconButton
-                  size='large'
+                  size="large"
                   onClick={() => setIsDialogOpen(true)}
                   sx={{
                     boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 12px',
@@ -107,11 +122,21 @@ export default function GasStatus({ gasEvents }: GasEventsDataProps) {
                     right: '2%',
                   }}
                 >
-                  <AssignmentTurnedIn fontSize='inherit' />
+                  <AssignmentTurnedIn fontSize="inherit" />
                 </IconButton>
               </Stack>
-              <Divider variant='middle' flexItem orientation='vertical' />
-              <Box sx={{ backgroundColor: Colors.tint50, flexGrow: 1, height: '16em' }}></Box>
+              <Divider
+                variant="middle"
+                flexItem
+                orientation="vertical"
+              />
+              <Box
+                sx={{
+                  backgroundColor: Colors.tint50,
+                  flexGrow: 1,
+                  height: '16em',
+                }}
+              ></Box>
             </Stack>
           </CardContent>
         )}

@@ -1,7 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import Colors from '../Theming/Colors';
 
-export default function CustomCardHeader({ displayText }: { displayText: string }) {
+export default function CustomCardHeader({
+  displayText,
+}: {
+  displayText: string;
+}) {
   return (
     <Box
       sx={{
@@ -12,7 +16,7 @@ export default function CustomCardHeader({ displayText }: { displayText: string 
         borderRadius: '0.6em 0.6em 0 0',
       }}
     >
-      <Typography variant='h6'>{displayText}</Typography>
+      <Typography variant="h6">{displayText}</Typography>
     </Box>
   );
 }

@@ -1,26 +1,25 @@
-import { createBrowserRouter } from "react-router-dom";
-import Dashboard from "../ui/layout/dashboard/Dashboard";
-import Error from "../ui/components/error/Error";
-import Main from "../ui/layout/Main";
-import WithdrawalHistory from "../ui/layout/withdraw/WithdrawHistory";
-import { AppRoutes } from "../utils/Const";
-import Profile from "../ui/layout/profile/Profile";
-import Login from "../ui/layout/login/Login";
-import { dashboardLoader } from "./loaders/dashboardLoader";
-import { withdrawalLoader } from "./loaders/withdrawalLoader";
-import { action as withdrawalAction } from "./actions/withdrawalAction";
-import { action as gasStatusAction } from "./actions/gasStatusAction";
-import Gas from "../ui/layout/gas/Gas";
-import { gasLoader } from "./loaders/gasLoader";
+import { createBrowserRouter } from 'react-router-dom';
+import Error from '../ui/components/error/Error';
+import Dashboard from '../ui/layout/dashboard/Dashboard';
+import Gas from '../ui/layout/gas/Gas';
+import Login from '../ui/layout/login/Login';
+import Main from '../ui/layout/Main';
+import Profile from '../ui/layout/profile/Profile';
+import WithdrawalHistory from '../ui/layout/withdraw/WithdrawHistory';
+import { AppRoutes } from '../utils/Const';
+import { action as gasStatusAction } from './actions/gasStatusAction';
+import { action as withdrawalAction } from './actions/withdrawalAction';
+import { dashboardLoader } from './loaders/dashboardLoader';
+import { gasLoader } from './loaders/gasLoader';
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Main />,
     errorElement: <Error />,
     children: [
       {
         element: <Dashboard />,
-        path: "/",
+        path: '/',
       },
       {
         element: <Dashboard />,
@@ -30,7 +29,6 @@ const router = createBrowserRouter([
       {
         element: <WithdrawalHistory />,
         path: AppRoutes.WITHDRAWS,
-        loader: withdrawalLoader,
         action: withdrawalAction,
         hydrateFallbackElement: <Error />,
       },

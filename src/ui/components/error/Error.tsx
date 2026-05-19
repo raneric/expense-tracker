@@ -1,4 +1,4 @@
-import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
 
 export default function Error() {
   const error = useRouteError();
@@ -12,7 +12,7 @@ export default function Error() {
       return (error as Error).message;
     }
 
-    return "Unexpected error occurred";
+    return 'Unexpected error occurred';
   })();
 
   return (

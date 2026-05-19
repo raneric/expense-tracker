@@ -10,3 +10,11 @@ export function toLocalMgCurrency(amount: number) {
 export function formatStringDate(date: string): string {
   return new Date(date).toDateString();
 }
+
+export function formatDateInput(value?: string | Date): string {
+  if (!value) return '';
+
+  const date = value instanceof Date ? value : new Date(value);
+
+  return date.toISOString().split('T')[0];
+}

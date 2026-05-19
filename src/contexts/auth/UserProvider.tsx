@@ -1,18 +1,18 @@
-import type { FirebaseError } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useMemo, useReducer } from "react";
-import type { AuthError } from "../../services/Auth/AuthError";
-import AuthServiceFactory from "../../services/Auth/AuthServiceFactory";
-import type { LoginCredentials, User } from "../../type/AppType";
-import type { BasePropsType } from "../../type/PropsType";
-import type { AuthState } from "../../type/StateContextType";
+import type { FirebaseError } from 'firebase/app';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useMemo, useReducer } from 'react';
+import type { AuthError } from '../../services/Auth/AuthError';
+import AuthServiceFactory from '../../services/Auth/AuthServiceFactory';
+import type { LoginCredentials, User } from '../../type/AppType';
+import type { BasePropsType } from '../../type/PropsType';
+import type { AuthState } from '../../type/StateContextType';
 import {
   clearStoredUser,
   storeUserEmail,
-} from "../../utils/localStorageUtilities";
-import { useSnackbarContext } from "../snackbar/SnackbarContext";
-import { authReducer } from "./authReducer";
-import { UserContext } from "./UserContext";
+} from '../../utils/localStorageUtilities';
+import { useSnackbarContext } from '../snackbar/SnackbarContext';
+import { authReducer } from './authReducer';
+import { UserContext } from './UserContext';
 
 const initialState: AuthState = {
   user: null,
@@ -31,7 +31,7 @@ export const UserProvider = ({ children }: BasePropsType) => {
       if (currentUser) {
         const user: User = { email: currentUser.email!, id: currentUser.uid };
         dispatch({
-          type: "LOGIN_SUCCESS",
+          type: 'LOGIN_SUCCESS',
           payload: user,
         });
       }
@@ -40,29 +40,29 @@ export const UserProvider = ({ children }: BasePropsType) => {
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
-    dispatch({ type: "LOGIN_START" });
+    dispatch({ type: 'LOGIN_START' });
 
     try {
       const user = await authService.signIn(credentials);
       storeUserEmail(user.email);
-      dispatch({ type: "LOGIN_SUCCESS", payload: user });
-      show("Successfully logged in", "success");
+      dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+      show('Successfully logged in', 'success');
     } catch (error: unknown) {
       dispatch({
-        type: "LOGIN_FAILURE",
+        type: 'LOGIN_FAILURE',
         payload: (error as AuthError).message,
       });
-      show((error as AuthError).message, "error");
+      show((error as AuthError).message, 'error');
     }
   };
 
   const logout = async () => {
     try {
       await authService.logout();
-      dispatch({ type: "LOGOUT" });
+      dispatch({ type: 'LOGOUT' });
       clearStoredUser();
     } catch (error) {
-      show((error as FirebaseError).message, "error");
+      show((error as FirebaseError).message, 'error');
     }
   };
 

@@ -1,16 +1,9 @@
-import { useState } from "react";
-import type { Withdrawal } from "../type/AppType";
-
-type DialogState =
-  | { type: "closed" }
-  | { type: "create" }
-  | { type: "filter" }
-  | { type: "edit"; withdrawal: Withdrawal }
-  | { type: "delete"; withdrawal: Withdrawal };
+import { useState } from 'react';
+import type { DialogHookState, Withdrawal } from '../type/AppType';
 
 export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
-  const [dialog, setDialog] = useState<DialogState>({
-    type: "closed",
+  const [dialog, setDialog] = useState<DialogHookState>({
+    type: 'closed',
   });
 
   const currentWithdrawals = withdrawals.filter(
@@ -34,23 +27,23 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
   };
 
   const openCreateDialog = () => {
-    setDialog({ type: "create" });
+    setDialog({ type: 'create' });
   };
 
   const openEditDialog = (withdrawal: Withdrawal) => {
-    setDialog({ type: "edit", withdrawal });
+    setDialog({ type: 'edit', withdrawal });
   };
 
   const openDeleteDialog = (withdrawal: Withdrawal) => {
-    setDialog({ type: "delete", withdrawal });
+    setDialog({ type: 'delete', withdrawal });
   };
 
   const openFilterDialog = () => {
-    setDialog({ type: "filter" });
+    setDialog({ type: 'filter' });
   };
 
   const closeDialog = () => {
-    setDialog({ type: "closed" });
+    setDialog({ type: 'closed' });
   };
 
   return {

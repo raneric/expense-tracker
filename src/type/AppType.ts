@@ -1,5 +1,5 @@
-import type { AppRoutes } from "../utils/Const";
-import type { GasEvent } from "./PropsType";
+import type { AppRoutes } from '../utils/Const';
+import type { GasEvent } from './PropsType';
 
 type RoutePath = (typeof AppRoutes)[keyof typeof AppRoutes];
 
@@ -55,3 +55,15 @@ export interface RequestResult<T> {
   data?: T;
   errorMessage?: string;
 }
+
+export type DialogHookState =
+  | { type: 'closed' }
+  | { type: 'create' }
+  | { type: 'filter' }
+  | { type: 'edit'; withdrawal: Withdrawal }
+  | { type: 'delete'; withdrawal: Withdrawal };
+
+export type TablePaginationState = {
+  page: number;
+  rowsPerPage: number;
+};

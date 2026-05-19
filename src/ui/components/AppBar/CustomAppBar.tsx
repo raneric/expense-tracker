@@ -11,10 +11,17 @@ export default function CustomAppBar() {
   };
 
   return (
-    <AppBar position='fixed' elevation={1}>
+    <AppBar
+      position="fixed"
+      elevation={1}
+    >
       <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <IconButton onClick={handleLogout} aria-label='fingerprint' sx={{ color: Colors.tint50 }}>
-          <ExitToAppTwoTone fontSize='medium' />
+        <IconButton
+          onClick={handleLogout}
+          aria-label="fingerprint"
+          sx={{ color: Colors.tint50 }}
+        >
+          <ExitToAppTwoTone fontSize="medium" />
         </IconButton>
       </Toolbar>
     </AppBar>

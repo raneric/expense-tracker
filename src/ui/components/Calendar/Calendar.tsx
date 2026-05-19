@@ -1,15 +1,25 @@
 import { Badge, Paper } from '@mui/material';
-import { DateCalendar, LocalizationProvider, PickerDay } from '@mui/x-date-pickers';
+import {
+  DateCalendar,
+  LocalizationProvider,
+  PickerDay,
+} from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { memo, useMemo } from 'react';
-import type { CalendarDayProps, GasEventsDataProps } from '../../../type/PropsType';
+import type {
+  CalendarDayProps,
+  GasEventsDataProps,
+} from '../../../type/PropsType';
 import Colors from '../../Theming/Colors';
 import CustomCardHeader from '../../core/CustomCardHeader';
 import { formatStringDate } from '../../../utils/formatterUtilities';
 import { generateGasEventData } from '../../../utils/dataTransformUtilities';
 
 export default function Calendar({ gasEvents }: GasEventsDataProps) {
-  const gasEventData = useMemo(() => generateGasEventData(gasEvents), [gasEvents]);
+  const gasEventData = useMemo(
+    () => generateGasEventData(gasEvents),
+    [gasEvents]
+  );
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -48,7 +58,10 @@ const DayCell = memo(function (props: CalendarDayProps) {
   };
 
   return (
-    <Badge overlap='circular' badgeContent={getBadge()}>
+    <Badge
+      overlap="circular"
+      badgeContent={getBadge()}
+    >
       <PickerDay
         sx={{
           ...(today && {

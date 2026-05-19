@@ -1,27 +1,32 @@
-import { LoginTwoTone } from "@mui/icons-material";
-import { Box, Button, Paper, TextField } from "@mui/material";
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
-import LogoImage from "../../../assets/lovo_v2.png";
-import { useUserContext } from "../../../contexts/auth/UserContext";
-import type { LoginCredentials } from "../../../type/AppType";
-import { AppRoutes } from "../../../utils/Const";
-import { validateInput } from "../../../utils/validationUtilities";
-import { Logo } from "../../core/Logo";
-import Colors from "../../Theming/Colors";
+import { LoginTwoTone } from '@mui/icons-material';
+import { Box, Button, Paper, TextField } from '@mui/material';
+import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import LogoImage from '../../../assets/lovo_v2.png';
+import { useUserContext } from '../../../contexts/auth/UserContext';
+import type { LoginCredentials } from '../../../type/AppType';
+import { AppRoutes } from '../../../utils/Const';
+import { validateInput } from '../../../utils/validationUtilities';
+import { Logo } from '../../core/Logo';
+import Colors from '../../Theming/Colors';
 
 export default function Login() {
   const { login, state } = useUserContext();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const [isValidEmail, setIsValidEmail] = useState(true);
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
 
   // Redirect to dashboard if user is already logged in
   if (state.user !== null) {
-    return <Navigate to={AppRoutes.DASHBOARD} replace />;
+    return (
+      <Navigate
+        to={AppRoutes.DASHBOARD}
+        replace
+      />
+    );
   }
 
   /**
@@ -65,17 +70,17 @@ export default function Login() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         p: 2,
       }}
     >
       <Paper
         elevation={6}
         sx={{
-          width: "100%",
+          width: '100%',
           maxWidth: 400,
           p: 4,
           borderRadius: 3,
@@ -89,7 +94,7 @@ export default function Login() {
           noValidate
           autoComplete="off"
           onSubmit={handleSubmit}
-          sx={{ display: "grid", gap: 4 }}
+          sx={{ display: 'grid', gap: 4 }}
         >
           <TextField
             id="email"
@@ -115,7 +120,7 @@ export default function Login() {
             sx={{
               backgroundColor: Colors.tint900,
               color: Colors.tint200,
-              fontWeight: "bold",
+              fontWeight: 'bold',
             }}
             loading={state.loading}
             loadingPosition="start"

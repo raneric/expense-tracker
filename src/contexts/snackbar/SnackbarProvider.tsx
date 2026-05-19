@@ -1,14 +1,14 @@
-import { useReducer } from "react";
-import type { BasePropsType } from "../../type/PropsType";
-import { SnackbarContext } from "./SnackbarContext";
-import { snackbarReducer } from "./snackbarReducer";
-import type { AlertColor } from "@mui/material";
-import type { SnackbarState } from "../../type/StateContextType";
+import { useReducer } from 'react';
+import type { BasePropsType } from '../../type/PropsType';
+import { SnackbarContext } from './SnackbarContext';
+import { snackbarReducer } from './snackbarReducer';
+import type { AlertColor } from '@mui/material';
+import type { SnackbarState } from '../../type/StateContextType';
 
 const initialState: SnackbarState = {
   isDisplayed: false,
   message: null,
-  severity: "error",
+  severity: 'error',
 };
 
 export const SnackbarProvider = ({ children }: BasePropsType) => {
@@ -17,7 +17,7 @@ export const SnackbarProvider = ({ children }: BasePropsType) => {
   const show = async (message: string, severity: AlertColor) => {
     if (message && severity) {
       dispatch({
-        type: "OPEN",
+        type: 'OPEN',
         payload: { isDisplayed: true, message, severity },
       });
     }
@@ -25,7 +25,7 @@ export const SnackbarProvider = ({ children }: BasePropsType) => {
 
   const hide = async () => {
     dispatch({
-      type: "CLOSED",
+      type: 'CLOSED',
     });
   };
 

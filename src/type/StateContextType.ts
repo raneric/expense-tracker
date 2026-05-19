@@ -1,12 +1,12 @@
-import type { AlertColor } from "@mui/material";
-import type { LoginCredentials, User } from "./AppType";
+import type { AlertColor } from '@mui/material';
+import type { LoginCredentials, User } from './AppType';
 
 // ------------------ Auth Context ----------------------------
 export type UserAction =
-  | { type: "LOGIN_START" }
-  | { type: "LOGIN_SUCCESS"; payload: User }
-  | { type: "LOGIN_FAILURE"; payload: string }
-  | { type: "LOGOUT" };
+  | { type: 'LOGIN_START' }
+  | { type: 'LOGIN_SUCCESS'; payload: User }
+  | { type: 'LOGIN_FAILURE'; payload: string }
+  | { type: 'LOGOUT' };
 
 export interface UserContextType {
   state: AuthState;
@@ -35,8 +35,8 @@ export interface SnackbarContextType {
 }
 
 export type SnackbarAction =
-  | { type: "OPEN"; payload: SnackbarState }
-  | { type: "CLOSED" };
+  | { type: 'OPEN'; payload: SnackbarState }
+  | { type: 'CLOSED' };
 
 //---------------------- Dialog context --------------------------
 export interface DialogState {
@@ -49,4 +49,25 @@ export interface DialogContextType {
   hide: () => void;
 }
 
-export type DialogAction = { type: "OPEN" } | { type: "CLOSED" };
+export type DialogAction = { type: 'OPEN' } | { type: 'CLOSED' };
+
+//---------------------- Withdrawals context -----------------------
+export interface DataRetrievalState<T, U> {
+  isLoading: boolean;
+  data: T[];
+  filter?: U;
+}
+
+export interface DataRetrievalContextType<T, U> {
+  state: DataRetrievalState<T, U>;
+  load: () => Promise<void>;
+  filterBy: (filter: U) => Promise<void>;
+}
+
+export type DataRetrievalAction<T, U> =
+  | { type: 'LOADING' }
+  | { type: 'FILTER'; payload: U }
+  | { type: 'LOADED'; payload: T[] }
+  | { type: 'ERROR' };
+
+export type DateFilter = { startDate?: Date; endDate?: Date };

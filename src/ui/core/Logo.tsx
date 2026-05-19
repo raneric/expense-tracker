@@ -18,9 +18,9 @@ export function Logo({ logoSize, src }: LogoProps) {
       }}
     >
       <Box
-        component='img'
+        component="img"
         src={src}
-        alt='Logo'
+        alt="Logo"
         sx={{
           width: '100%',
           maxWidth,

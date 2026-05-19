@@ -1,20 +1,20 @@
-import { FilterList } from "@mui/icons-material";
-import AddIcon from "@mui/icons-material/Add";
-import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
-import Colors from "../../Theming/Colors";
-import { useDialogContext } from "../../../contexts/dialog/DialogContext";
+import { FilterList } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
+import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
+import Colors from '../../Theming/Colors';
+import { useDialogContext } from '../../../contexts/dialog/DialogContext';
 
 export default function AppSpeedDial() {
   const { show } = useDialogContext();
   const speedDialAction = [
-    { icon: <AddIcon />, name: "Add", action: show },
-    { icon: <FilterList />, name: "Filter", action: show },
+    { icon: <AddIcon />, name: 'Add', action: show },
+    { icon: <FilterList />, name: 'Filter', action: show },
   ];
 
   return (
     <SpeedDial
       sx={{
-        position: "fixed",
+        position: 'fixed',
         bottom: 24,
         right: 24,
       }}
@@ -27,7 +27,7 @@ export default function AppSpeedDial() {
           icon={dialAction.icon}
           sx={{
             backgroundColor: Colors.tint100,
-            "&:hover": {
+            '&:hover': {
               backgroundColor: Colors.tint300,
             },
           }}
