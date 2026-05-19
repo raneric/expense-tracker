@@ -14,6 +14,7 @@ export default function WithdrawTableBody({
       {withdrawals.length > 0 ? (
         withdrawals.map((withdrawal: Withdrawal) => (
           <WithdrawTableRow
+            key={withdrawal.id}
             withdrawal={withdrawal}
             onRowDeleteClick={() => onRowDeleteClick(withdrawal)}
             onRowEditClick={() => onRowEditClick(withdrawal)}

@@ -1,5 +1,5 @@
 import { AuthService } from './AuthService';
-import MockAuthProvider from './MockAuthProvider';
+import FirebaseAuthProvider from './FirebaseAuthProvider';
 
 export default class AuthServiceFactory {
   private static authServiceInstance: AuthService;
@@ -8,11 +8,11 @@ export default class AuthServiceFactory {
     if (!AuthServiceFactory.authServiceInstance) {
       if (import.meta.env.DEV) {
         AuthServiceFactory.authServiceInstance = new AuthService(
-          new MockAuthProvider()
+          new FirebaseAuthProvider()
         );
       } else {
         AuthServiceFactory.authServiceInstance = new AuthService(
-          new MockAuthProvider()
+          new FirebaseAuthProvider()
         );
       }
     }

@@ -1,21 +1,20 @@
 import {
-  CollectionReference,
+  collection,
+  doc,
+  getDoc,
   getDocs,
   Query,
   query,
   QueryConstraint,
   type DocumentData,
 } from 'firebase/firestore';
+import { firestoreDb } from '../../config/firebase';
 import type DataProvider from './DataProvider';
-
-export default class FirestoreDataProvider<T, U> implements DataProvider<T, U> {
-  private collectionReference: CollectionReference<DocumentData, DocumentData>;
-
-  constructor(
-    collectionReference: CollectionReference<DocumentData, DocumentData>
-  ) {
-    this.collectionReference = collectionReference;
-  }
+export default class FirestoreDataProvider<T> implements DataProvider<
+  T,
+  string
+> {
+  private static readonly docsCollection = 'withdrawals';
 
   async getAll(
     dataMapper: (data: DocumentData) => T,
@@ -24,18 +23,38 @@ export default class FirestoreDataProvider<T, U> implements DataProvider<T, U> {
     let dataQuery: Query<DocumentData, DocumentData>;
 
     if (queryConstraints) {
-      dataQuery = query(query(this.collectionReference, ...queryConstraints));
+      dataQuery = query(
+        query(this.getCollectionReference(), ...queryConstraints)
+      );
     } else {
-      dataQuery = query(this.collectionReference);
+      dataQuery = query(this.getCollectionReference());
     }
     const data = await getDocs(dataQuery);
     return data.docs.map(dataMapper);
   }
+
   async createOne(data: T): Promise<void> {
     console.log(data);
   }
-  /*  getByUnique: (unique: U) => Promise<T>;
- 
+
+  async getByUnique(
+    id: string,
+    dataMapper: (data: DocumentData) => T
+  ): Promise<T> {
+    const result = await getDoc(this.getDocReference(id));
+    const data = result.data;
+    return dataMapper(data);
+  }
+
+  private getCollectionReference() {
+    return collection(firestoreDb, FirestoreDataProvider.docsCollection);
+  }
+
+  public getDocReference(id: string) {
+    return doc(firestoreDb, FirestoreDataProvider.docsCollection, id);
+  }
+
+  /*  
   deleteByUnique: (unique: U) => Promise<void>;
   updateOne: (data: T) => Promise<T>;*/
 }

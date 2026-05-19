@@ -86,3 +86,13 @@ export interface GasEventProps {
   current: GasEvent;
   forecast: string;
 }
+
+export interface SpeedDialActionElement {
+  icon: React.ReactNode;
+  name: string;
+  action: () => void;
+}
+
+export interface SpeedDialProps {
+  elements: SpeedDialActionElement[];
+}

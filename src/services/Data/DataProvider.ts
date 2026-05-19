@@ -6,8 +6,8 @@ export default interface DataProvider<T, U> {
     queryConstraints?: QueryConstraint[]
   ) => Promise<T[]>;
   createOne: (data: T) => Promise<void>;
-  /*   getByUnique: (unique: U) => Promise<T>;
- 
-  deleteByUnique: (unique: U) => Promise<void>;
+  getByUnique: (unique: U, dataMapper: (data: DocumentData) => T) => Promise<T>;
+
+  /* deleteByUnique: (unique: U) => Promise<void>;
   updateOne: (data: T) => Promise<T>; */
 }

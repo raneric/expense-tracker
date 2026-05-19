@@ -1,29 +1,21 @@
-import { collection, orderBy, QueryConstraint } from 'firebase/firestore';
-import { firestoreDb } from '../config/firebase';
+import { orderBy, QueryConstraint } from 'firebase/firestore';
 import type DataProvider from '../services/Data/DataProvider';
 import FirestoreDataProvider from '../services/Data/FirestoreDataProvider';
 import type { Withdrawal } from '../type/AppType';
+import { rows } from '../utils/Const';
 import { withdrawalDataMapper } from '../utils/dataMappers';
 import type BaseRepository from './BaseRepository';
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default class WithdrawRepository implements BaseRepository<
   Withdrawal,
   string
 > {
-  private static readonly docsCollection = 'withdrawals';
-  private static docsCollectionRef = collection(
-    firestoreDb,
-    WithdrawRepository.docsCollection
-  );
   private readonly dataProvider: DataProvider<Withdrawal, string>;
 
   constructor() {
-    this.dataProvider = new FirestoreDataProvider<Withdrawal, string>(
-      WithdrawRepository.docsCollectionRef
-    );
-    /* this.dataProvider = new MockDataProvider(
-      WithdrawRepository.docsCollectionRef
-    );*/
+    this.dataProvider = new FirestoreDataProvider<Withdrawal>();
   }
 
   async getAll(constraints?: QueryConstraint[]): Promise<Withdrawal[]> {
@@ -40,6 +32,14 @@ export default class WithdrawRepository implements BaseRepository<
   async createOne(data: Withdrawal): Promise<void> {
     console.log(data);
   }
+
+  // MOCK NOW, SOLVE LATER
+  async getByUnique(unique: string): Promise<Withdrawal> {
+    console.log(unique);
+    await delay(2000);
+    return rows[0];
+  }
+
   /* async getByUnique(unique: string): Promise<Withdrawal> {}
   async createOne(data: Withdrawal): Promise<void> {}
   async deleteByUnique(unique: string): Promise<void> {}
