@@ -17,7 +17,7 @@ import Colors from '../../Theming/Colors';
 import { useState } from 'react';
 import type { Withdrawal } from '../../../type/AppType';
 import type { DialogFormProps } from '../../../type/PropsType';
-import { initialWithdrawal, reasonsList } from '../../../utils/Const';
+import { initialWithdrawal } from '../../../utils/Const';
 import { isNanOrNegative } from '../../../utils/validationUtilities';
 import DialogHeader from './DialogHeader';
 
@@ -29,6 +29,7 @@ import DialogHeader from './DialogHeader';
 export default function WithdrawalFormDialog({
   isOpen,
   initialData,
+  reasonsList,
   onClose,
   onSubmit,
 }: DialogFormProps<Withdrawal>) {

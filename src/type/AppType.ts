@@ -58,9 +58,9 @@ export interface RequestResult<T> {
 
 export type DialogHookState =
   | { type: 'closed' }
-  | { type: 'create' }
+  | { type: 'create'; reasonsList: string[] }
   | { type: 'filter' }
-  | { type: 'edit'; withdrawal: Withdrawal }
+  | { type: 'edit'; withdrawal: Withdrawal; reasonsList: string[] }
   | { type: 'delete'; withdrawal: Withdrawal };
 
 export type TablePaginationState = {

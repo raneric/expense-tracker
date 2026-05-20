@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { DialogHookState, Withdrawal } from '../type/AppType';
 
 export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
@@ -6,32 +6,43 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
     type: 'closed',
   });
 
-  const currentWithdrawals = withdrawals.filter(
-    (withdraw) => !withdraw.isForecast
+  const currentWithdrawals = useMemo(
+    () => withdrawals.filter((withdraw) => !withdraw.isForecast),
+    [withdrawals]
   );
 
-  const charts = {
-    current: {
-      dataset: currentWithdrawals
-        .toReversed()
-        .map((withdraw) => withdraw.amount),
-      dimension: currentWithdrawals
-        .toReversed()
-        .map((withdraw) => withdraw.date),
-    },
+  const charts = useMemo(
+    () => ({
+      current: {
+        dataset: currentWithdrawals
+          .toReversed()
+          .map((withdraw) => withdraw.amount),
+        dimension: currentWithdrawals
+          .toReversed()
+          .map((withdraw) => withdraw.date),
+      },
 
-    forecast: {
-      dataset: withdrawals.toReversed().map((withdraw) => withdraw.amount),
-      dimension: withdrawals.toReversed().map((withdraw) => withdraw.date),
-    },
-  };
+      forecast: {
+        dataset: withdrawals.toReversed().map((withdraw) => withdraw.amount),
+        dimension: withdrawals.toReversed().map((withdraw) => withdraw.date),
+      },
+    }),
+    [currentWithdrawals, withdrawals]
+  );
+
+  const reasonsList = useMemo(() => {
+    const reasons: string[] = withdrawals
+      .flatMap((value) => value.reasons)
+      .filter((value) => value !== '');
+    return [...new Set(reasons)];
+  }, [withdrawals]);
 
   const openCreateDialog = () => {
-    setDialog({ type: 'create' });
+    setDialog({ type: 'create', reasonsList });
   };
 
   const openEditDialog = (withdrawal: Withdrawal) => {
-    setDialog({ type: 'edit', withdrawal });
+    setDialog({ type: 'edit', withdrawal, reasonsList });
   };
 
   const openDeleteDialog = (withdrawal: Withdrawal) => {

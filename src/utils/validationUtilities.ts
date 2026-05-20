@@ -4,6 +4,7 @@ import type { LoginCredentials, ValidatorConfig } from '../type/AppType';
 export function validateInput(value: string, config: ValidatorConfig<string>) {
   const { regex, emptyMessage, invalidMessage, setError, setValid, setData } =
     config;
+
   if (value === '') {
     setError(emptyMessage);
     setValid(false);
@@ -20,6 +21,7 @@ export function validateInput(value: string, config: ValidatorConfig<string>) {
   setValid(true);
   setData(value);
 }
+
 export function removeDuplicateValues<T>(values: T[]): T[] {
   return Array.from(new Set(values));
 }

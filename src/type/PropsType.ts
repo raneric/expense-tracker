@@ -14,6 +14,7 @@ export interface WithdrawRowEventProps {
   onRowEditClick: (withdrawal: Withdrawal) => void;
   onRowDeleteClick: (withdrawal: Withdrawal) => void;
 }
+
 export interface WithdrawTableProps extends BasePropsType {
   tablePaginationState: TablePaginationState;
   onPageChange: (_event: unknown, newPage: number) => void;
@@ -46,6 +47,7 @@ export interface FeedbackDialogProps extends DialogProps {
 
 export interface DialogFormProps<T> extends DialogProps {
   initialData: T;
+  reasonsList: string[];
   onSubmit: (data: T) => void;
 }
 
@@ -59,6 +61,7 @@ export interface GasEventsDataProps {
 }
 
 type GasEventType = 'done' | 'previous' | 'current';
+
 export interface GasEvent {
   id: string;
   startDate: string;
@@ -72,6 +75,7 @@ export type GasEventData = {
   endDates: Set<string>;
   forecastedDate?: string;
 };
+
 export interface CalendarDayProps extends PickerDayProps {
   gasEventData?: GasEventData;
 }
