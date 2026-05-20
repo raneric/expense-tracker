@@ -9,6 +9,15 @@ import { AppRoutes } from '../../../utils/Const';
 import { validateInput } from '../../../utils/validationUtilities';
 import { Logo } from '../../core/Logo';
 import Colors from '../../Theming/Colors';
+import { styled } from '@mui/material/styles';
+
+const LoginContainer = styled(Box)(({ theme }) => ({
+  minHeight: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: theme.spacing(2),
+}));
 
 export default function Login() {
   const { login, state } = useUserContext();
@@ -68,15 +77,7 @@ export default function Login() {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        p: 2,
-      }}
-    >
+    <LoginContainer>
       <Paper
         elevation={6}
         sx={{
@@ -103,7 +104,7 @@ export default function Login() {
             helperText={emailErrorMessage}
             type="email"
             label="Email"
-            variant="outlined"
+            variant="standard"
             onChange={handleEmailChange}
             fullWidth
           />
@@ -112,7 +113,7 @@ export default function Login() {
             name="password"
             type="password"
             label="Password"
-            variant="outlined"
+            variant="standard"
             onChange={handlePasswordChange}
             fullWidth
           />
@@ -134,6 +135,6 @@ export default function Login() {
           </Button>
         </Box>
       </Paper>
-    </Box>
+    </LoginContainer>
   );
 }

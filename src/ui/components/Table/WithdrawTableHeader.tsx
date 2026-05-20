@@ -8,54 +8,55 @@ import {
 import { Box, TableCell, TableHead, TableRow } from '@mui/material';
 import Colors from '../../Theming/Colors';
 import AppTypography from '../../Theming/Typography';
+import { styled } from '@mui/material/styles';
 
-const headerCellStyle = {
+const CellContainer = styled(TableCell)(() => ({
   fontWeight: 'bold',
   color: Colors.tint200,
   fontSize: AppTypography.FontSize.tableHeader,
   backgroundColor: Colors.tint900,
-};
+}));
 
-const headerCellContentStyle = {
+const CellContent = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: '0.5rem',
-};
+  gap: theme.spacing(1),
+}));
 
 export default function WithdrawTableHeader() {
   return (
     <TableHead>
       <TableRow>
-        <TableCell sx={headerCellStyle}>
-          <Box sx={headerCellContentStyle}>
+        <CellContainer>
+          <CellContent>
             <span>Reasons</span>
             <InfoTwoTone />
-          </Box>
-        </TableCell>
-        <TableCell sx={headerCellStyle}>
-          <Box sx={headerCellContentStyle}>
+          </CellContent>
+        </CellContainer>
+        <CellContainer>
+          <CellContent>
             <span>Date</span>
             <CalendarMonth />
-          </Box>
-        </TableCell>
-        <TableCell sx={headerCellStyle}>
-          <Box sx={headerCellContentStyle}>
+          </CellContent>
+        </CellContainer>
+        <CellContainer>
+          <CellContent>
             <span>Location</span>
             <ExploreTwoTone />
-          </Box>
-        </TableCell>
-        <TableCell sx={headerCellStyle}>
-          <Box sx={{ ...headerCellContentStyle, justifyContent: 'end' }}>
+          </CellContent>
+        </CellContainer>
+        <CellContainer>
+          <CellContent sx={{ justifyContent: 'end' }}>
             <span>Amount</span>
             <PaidTwoTone />
-          </Box>
-        </TableCell>
-        <TableCell sx={headerCellStyle}>
-          <Box sx={{ ...headerCellContentStyle, justifyContent: 'end' }}>
+          </CellContent>
+        </CellContainer>
+        <CellContainer>
+          <CellContent sx={{ justifyContent: 'end' }}>
             <span>Actions</span>
             <EditNote />
-          </Box>
-        </TableCell>
+          </CellContent>
+        </CellContainer>
       </TableRow>
     </TableHead>
   );

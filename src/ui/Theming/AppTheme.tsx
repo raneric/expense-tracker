@@ -5,6 +5,10 @@ import AppTypography from './Typography';
 const { FontColor, FontFamilies } = AppTypography;
 
 const theme = createTheme({
+  gradients: {
+    appBackground: 'linear-gradient(to right, #243b55, #141e30)',
+  },
+
   palette: {
     primary: {
       main: Colors.tint400,
