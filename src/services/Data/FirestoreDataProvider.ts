@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -48,6 +49,10 @@ export default class FirestoreDataProvider<
     return dataMapper(data);
   }
 
+  async deleteByUnique(id: string): Promise<void> {
+    await deleteDoc(this.getDocReference(id));
+  }
+
   private getCollectionReference() {
     return collection(firestoreDb, FirestoreDataProvider.docsCollection);
   }
@@ -56,7 +61,5 @@ export default class FirestoreDataProvider<
     return doc(firestoreDb, FirestoreDataProvider.docsCollection, id);
   }
 
-  /*  
-  deleteByUnique: (unique: U) => Promise<void>;
-  updateOne: (data: T) => Promise<T>;*/
+  /*updateOne: (data: T) => Promise<T>;*/
 }

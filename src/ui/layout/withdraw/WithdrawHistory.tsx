@@ -22,6 +22,7 @@ import {
   Tittle,
   TittleHelperInfo,
 } from '../../core/SectionTitle';
+import useWithdrawalDelete from '../../../hooks/useWithdrawalDelete';
 
 /**
  * The WithdrawalHistory component is responsible for displaying the user's withdrawal history. It includes a section title, two sparkline charts (one for current withdrawals and one for forecasted withdrawals), a table of withdrawal transactions, and a form dialog for adding or editing withdrawals. The component uses the useLoaderData hook to fetch withdrawal data and manages the state for the form dialog and selected withdrawal row.
@@ -41,7 +42,7 @@ export default function WithdrawalHistory() {
   } = useWithdrawalHistory(withdrawalState.data);
 
   const handleUpdateSubmit = useWithdrawalSubmit(closeDialog);
-
+  const handleDelete = useWithdrawalDelete(closeDialog);
   const { pagination, currentPage, onPageChange, onRowsPerPageChange } =
     useWithdrawalPagination(withdrawalState.data);
 
@@ -116,7 +117,7 @@ export default function WithdrawalHistory() {
         onCancel={closeDialog}
         onConfirm={() => {
           if (dialog.type === 'delete') {
-            handleUpdateSubmit(dialog.withdrawal);
+            handleDelete(dialog.withdrawal.id!);
           }
         }}
         message={

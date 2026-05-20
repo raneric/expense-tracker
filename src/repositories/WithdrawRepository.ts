@@ -40,8 +40,8 @@ export default class WithdrawRepository implements BaseRepository<
     return rows[0];
   }
 
-  /* async getByUnique(unique: string): Promise<Withdrawal> {}
-  async createOne(data: Withdrawal): Promise<void> {}
-  async deleteByUnique(unique: string): Promise<void> {}
-  async updateOne(data: Withdrawal): Promise<Withdrawal> {} */
+  async deleteByUnique(unique: string): Promise<void> {
+    await this.dataProvider.deleteByUnique(unique);
+  }
+  /*async updateOne(data: Withdrawal): Promise<Withdrawal> {} */
 }

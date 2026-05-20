@@ -3,6 +3,6 @@ export default interface BaseRepository<T, U> {
   createOne: (data: T) => Promise<void>;
   getByUnique: (unique: U) => Promise<T>;
 
-  /*   deleteByUnique: (unique: U) => Promise<void>;
-  updateOne: (data: T) => Promise<T>; */
+  deleteByUnique: (unique: U) => Promise<void>;
+  /*   updateOne: (data: T) => Promise<T>; */
 }
