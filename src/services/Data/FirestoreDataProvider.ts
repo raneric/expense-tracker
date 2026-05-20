@@ -1,4 +1,5 @@
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -7,13 +8,13 @@ import {
   query,
   QueryConstraint,
   type DocumentData,
+  type WithFieldValue,
 } from 'firebase/firestore';
 import { firestoreDb } from '../../config/firebase';
 import type DataProvider from './DataProvider';
-export default class FirestoreDataProvider<T> implements DataProvider<
-  T,
-  string
-> {
+export default class FirestoreDataProvider<
+  T extends WithFieldValue<DocumentData>,
+> implements DataProvider<T, string> {
   private static readonly docsCollection = 'withdrawals';
 
   async getAll(
@@ -34,6 +35,7 @@ export default class FirestoreDataProvider<T> implements DataProvider<
   }
 
   async createOne(data: T): Promise<void> {
+    await addDoc(this.getCollectionReference(), data);
     console.log(data);
   }
 

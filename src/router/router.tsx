@@ -8,7 +8,6 @@ import Profile from '../ui/layout/profile/Profile';
 import WithdrawalHistory from '../ui/layout/withdraw/WithdrawHistory';
 import { AppRoutes } from '../utils/Const';
 import { action as gasStatusAction } from './actions/gasStatusAction';
-import { action as withdrawalAction } from './actions/withdrawalAction';
 import { dashboardLoader } from './loaders/dashboardLoader';
 import { gasLoader } from './loaders/gasLoader';
 const router = createBrowserRouter([
@@ -29,7 +28,6 @@ const router = createBrowserRouter([
       {
         element: <WithdrawalHistory />,
         path: AppRoutes.WITHDRAWS,
-        action: withdrawalAction,
         hydrateFallbackElement: <Error />,
       },
       {

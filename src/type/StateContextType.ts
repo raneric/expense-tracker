@@ -18,6 +18,7 @@ export interface UserContextType {
 export interface AuthState {
   user: User | null;
   loading: boolean;
+  isInit: boolean;
   error: string | null;
 }
 

@@ -54,6 +54,7 @@ export default function WithdrawalHistory() {
   const isFormDialogOpen = dialog.type === 'create' || dialog.type === 'edit';
   const formInitialData =
     dialog.type === 'edit' ? dialog.withdrawal : initialWithdrawal;
+
   const reasonsList =
     dialog.type === 'create' || dialog.type === 'edit'
       ? dialog.reasonsList

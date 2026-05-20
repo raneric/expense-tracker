@@ -33,14 +33,14 @@ export default function WithdrawalFormDialog({
   onClose,
   onSubmit,
 }: DialogFormProps<Withdrawal>) {
-  const [formData, setFormData] = useState<Withdrawal>(
+  const [withdrawalData, setWithdrawalData] = useState<Withdrawal>(
     initialData ?? initialWithdrawal
   );
   const [amountError, setAmountError] = useState(false);
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit(withdrawalData);
     onClose();
   };
 
@@ -50,13 +50,13 @@ export default function WithdrawalFormDialog({
   ) => {
     if (key === 'date') {
       const isForecast = (value as Date) > new Date();
-      setFormData((prev) => ({
+      setWithdrawalData((prev) => ({
         ...prev,
         isForecast,
       }));
     }
 
-    setFormData((prev) => ({
+    setWithdrawalData((prev) => ({
       ...prev,
       [key]: value,
     }));
@@ -69,7 +69,7 @@ export default function WithdrawalFormDialog({
     >
       <DialogHeader>
         <span>Withdrawal info</span>
-        <Fade in={formData.isForecast}>
+        <Fade in={withdrawalData.isForecast}>
           <Chip
             color="secondary"
             icon={<HistoryToggleOff />}
@@ -88,7 +88,7 @@ export default function WithdrawalFormDialog({
             freeSolo
             id="reasons-autocomplete"
             options={reasonsList}
-            value={formData.reasons}
+            value={withdrawalData.reasons}
             onChange={(_, newValue) => handleChange('reasons', newValue)}
             renderInput={(params) => (
               <TextField
@@ -102,14 +102,14 @@ export default function WithdrawalFormDialog({
           <TextField
             label="Date"
             type="date"
-            value={formData.date.toISOString().split('T')[0]}
+            value={withdrawalData.date.toISOString().split('T')[0]}
             onChange={(e) => handleChange('date', new Date(e.target.value))}
             fullWidth
             margin="normal"
           />
           <TextField
             label="Location"
-            value={formData.location}
+            value={withdrawalData.location}
             onChange={(e) => handleChange('location', e.target.value)}
             fullWidth
             margin="normal"
@@ -117,7 +117,7 @@ export default function WithdrawalFormDialog({
           <TextField
             label="Amount"
             type="text"
-            value={formData.amount}
+            value={withdrawalData.amount}
             onChange={(e) => {
               if (isNanOrNegative(e.target.value)) {
                 setAmountError(true);

@@ -30,7 +30,7 @@ export default class WithdrawRepository implements BaseRepository<
   }
 
   async createOne(data: Withdrawal): Promise<void> {
-    console.log(data);
+    this.dataProvider.createOne(data);
   }
 
   // MOCK NOW, SOLVE LATER

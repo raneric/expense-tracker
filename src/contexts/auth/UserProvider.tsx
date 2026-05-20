@@ -17,6 +17,7 @@ import { UserContext } from './UserContext';
 const initialState: AuthState = {
   user: null,
   loading: false,
+  isInit: true,
   error: null,
 };
 
