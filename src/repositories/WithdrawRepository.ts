@@ -43,5 +43,10 @@ export default class WithdrawRepository implements BaseRepository<
   async deleteByUnique(unique: string): Promise<void> {
     await this.dataProvider.deleteByUnique(unique);
   }
-  /*async updateOne(data: Withdrawal): Promise<Withdrawal> {} */
+
+  async updateOne(data: Withdrawal): Promise<void> {
+    const idToUpdate = data.id!;
+    delete data.id;
+    await this.dataProvider.updateOne(idToUpdate, data);
+  }
 }

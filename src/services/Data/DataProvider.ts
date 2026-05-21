@@ -9,5 +9,5 @@ export default interface DataProvider<T, U> {
   getByUnique: (unique: U, dataMapper: (data: DocumentData) => T) => Promise<T>;
 
   deleteByUnique: (unique: U) => Promise<void>;
-  /* updateOne: (data: T) => Promise<T>; */
+  updateOne: (id: string, data: T) => Promise<void>;
 }

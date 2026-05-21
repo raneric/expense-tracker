@@ -29,7 +29,6 @@ export default function useWithdrawalPagination(withdrawals: Withdrawal[]) {
       rowsPerPage: Number(event.target.value),
     });
   };
-
   return {
     pagination,
     currentPage,

@@ -53,15 +53,12 @@ export const UserReducerActions = {
 
 // -------------- Temporary Fake Data ----------------------
 
-export const initialWithdrawal = {
+export const initialWithdrawal: Withdrawal = {
   reasons: [],
   date: new Date(),
   amount: 0,
   location: '',
-  user: {
-    id: '',
-    email: '',
-  },
+  user: null,
   isForecast: false,
 };
 

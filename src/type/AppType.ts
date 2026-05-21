@@ -16,7 +16,7 @@ export interface Withdrawal {
   date: Date;
   amount: number;
   location: string;
-  user: User;
+  user: User | null;
   isForecast: boolean;
 }
 

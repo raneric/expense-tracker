@@ -8,6 +8,7 @@ import {
   Query,
   query,
   QueryConstraint,
+  updateDoc,
   type DocumentData,
   type WithFieldValue,
 } from 'firebase/firestore';
@@ -53,6 +54,9 @@ export default class FirestoreDataProvider<
     await deleteDoc(this.getDocReference(id));
   }
 
+  async updateOne(id: string, data: T): Promise<void> {
+    await updateDoc(this.getDocReference(id), data);
+  }
   private getCollectionReference() {
     return collection(firestoreDb, FirestoreDataProvider.docsCollection);
   }
@@ -60,6 +64,4 @@ export default class FirestoreDataProvider<
   public getDocReference(id: string) {
     return doc(firestoreDb, FirestoreDataProvider.docsCollection, id);
   }
-
-  /*updateOne: (data: T) => Promise<T>;*/
 }

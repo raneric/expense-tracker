@@ -16,9 +16,18 @@ export default class MockWithdrawRepository implements BaseRepository<
   async createOne(data: Withdrawal): Promise<void> {
     console.log(data);
   }
+
   async getByUnique(unique: string): Promise<Withdrawal> {
     console.log(unique);
     await delay(2000);
     return rows[0];
+  }
+
+  async deleteByUnique(unique: string): Promise<void> {
+    console.log(unique);
+  }
+
+  async updateOne(data: Withdrawal): Promise<void> {
+    console.log(data);
   }
 }

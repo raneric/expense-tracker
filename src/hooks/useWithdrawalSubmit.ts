@@ -11,10 +11,13 @@ export default function useWithdrawalSubmit(closeDialog: () => void) {
 
   return useCallback(
     (withdrawal: Withdrawal) => {
-      if (state.user) {
+      if (withdrawal.user === null && state.user && !withdrawal.id) {
         withdrawal.user = state.user;
+        withdrawalRepository.createOne(withdrawal);
+      } else if (withdrawal.user && withdrawal.id) {
+        withdrawalRepository.updateOne(withdrawal);
       }
-      withdrawalRepository.createOne(withdrawal);
+
       load();
       closeDialog();
     },
