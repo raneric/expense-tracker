@@ -37,10 +37,10 @@ export default function ExpenseSparkLine({
     data: dataset,
     baseline: 'min',
     margin: { bottom: 0, top: 5, left: 4, right: 0 },
-    xAxis: { id: 'days', data: dimension },
+    xAxis: { id: 'days', data: dimension, scaleType: 'time' },
     yAxis: {
-      domainLimit: (_: NumberValue, maxValue: NumberValue) => ({
-        min: -maxValue / 6,
+      domainLimit: (minValue: NumberValue, maxValue: NumberValue) => ({
+        min: minValue,
         max: maxValue,
       }),
     },
@@ -49,12 +49,11 @@ export default function ExpenseSparkLine({
       [`& .${lineClasses.line}`]: { strokeWidth: 3 },
       [`& .${chartsAxisHighlightClasses.root}`]: {
         stroke: 'rgb(86, 255, 193)',
-        strokeDasharray: 'none',
         strokeWidth: 2,
       },
     },
     slotProps: {
-      lineHighlight: { r: 4 },
+      lineHighlight: { r: 6 },
     },
     clipAreaOffset: { top: 2, bottom: 2 },
     axisHighlight: { x: 'line' },

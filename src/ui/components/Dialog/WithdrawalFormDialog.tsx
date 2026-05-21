@@ -9,10 +9,9 @@ import {
   DialogContent,
   Fade,
   InputAdornment,
+  Stack,
   TextField,
 } from '@mui/material';
-
-import Colors from '../../Theming/Colors';
 
 import { useState } from 'react';
 import type { Withdrawal } from '../../../type/AppType';
@@ -41,7 +40,13 @@ export default function WithdrawalFormDialog({
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(withdrawalData);
+    resetForm();
     onClose();
+  };
+
+  const resetForm = () => {
+    setWithdrawalData(initialWithdrawal);
+    setAmountError(false);
   };
 
   const handleChange = <K extends keyof Withdrawal>(
@@ -99,6 +104,7 @@ export default function WithdrawalFormDialog({
               />
             )}
           />
+
           <TextField
             label="Date"
             type="date"
@@ -108,7 +114,7 @@ export default function WithdrawalFormDialog({
             margin="normal"
           />
           <TextField
-            label="Location"
+            label="Location / Source"
             value={withdrawalData.location}
             onChange={(e) => handleChange('location', e.target.value)}
             fullWidth
@@ -138,18 +144,35 @@ export default function WithdrawalFormDialog({
               },
             }}
           />
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{
-              backgroundColor: Colors.tint900,
-              color: Colors.tint200,
-              fontWeight: 'bold',
-            }}
-            fullWidth
+          <Stack
+            spacing={2}
+            direction={'row'}
           >
-            Submit
-          </Button>
+            <Button
+              variant="contained"
+              onClick={resetForm}
+              sx={{
+                backgroundColor: 'error.light',
+                color: 'error.contrastText',
+                fontWeight: 'bold',
+              }}
+              fullWidth
+            >
+              Reset
+            </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'primary.contrastText',
+                fontWeight: 'bold',
+              }}
+              fullWidth
+            >
+              Submit
+            </Button>
+          </Stack>
         </Box>
       </DialogContent>
     </Dialog>

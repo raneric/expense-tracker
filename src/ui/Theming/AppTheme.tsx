@@ -27,11 +27,13 @@ const theme = createTheme({
       main: Colors.error,
       light: Colors.errorLight,
       dark: Colors.errorDark,
+      contrastText: Colors.errorContrastText,
     },
     warning: {
       main: Colors.warning,
       light: Colors.warningLight,
       dark: Colors.warningDark,
+      contrastText: Colors.warningContrastText,
     },
   },
   typography: {
