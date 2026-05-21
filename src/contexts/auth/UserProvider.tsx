@@ -1,44 +1,43 @@
 import type { FirebaseError } from 'firebase/app';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useMemo, useReducer } from 'react';
-import { AuthService } from '../../services/Auth/AuthService';
+import type { AuthError } from '../../services/Auth/AuthError';
+import AuthServiceFactory from '../../services/Auth/AuthServiceFactory';
 import type { LoginCredentials, User } from '../../type/AppType';
 import type { BasePropsType } from '../../type/PropsType';
-import { users } from '../../utils/Const';
+import type { AuthState } from '../../type/StateContextType';
 import {
   clearStoredUser,
-  getStoredUserEmail,
   storeUserEmail,
 } from '../../utils/localStorageUtilities';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { authReducer } from './authReducer';
 import { UserContext } from './UserContext';
-import type { AuthError } from '../../services/Auth/AuthError';
-import MockAuthProvider from '../../services/Auth/MockAuthProvider';
-import type { AuthState } from '../../type/StateContextType';
 
 const initialState: AuthState = {
   user: null,
   loading: false,
+  isInit: true,
   error: null,
 };
 
 export const UserProvider = ({ children }: BasePropsType) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const { show } = useSnackbarContext();
-  const authService = useMemo(
-    () => new AuthService(new MockAuthProvider()),
-    []
-  );
+  const authService = useMemo(() => AuthServiceFactory.createAuthService(), []);
 
   useEffect(() => {
-    const storedUser = getStoredUserEmail();
-    if (storedUser) {
-      const user: User = users[0];
-      dispatch({
-        type: 'LOGIN_SUCCESS',
-        payload: user,
-      });
-    }
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        const user: User = { email: currentUser.email!, id: currentUser.uid };
+        dispatch({
+          type: 'LOGIN_SUCCESS',
+          payload: user,
+        });
+      }
+    });
+    return () => unsubscribe();
   }, []);
 
   const login = async (credentials: LoginCredentials) => {

@@ -19,9 +19,11 @@ const Colors = {
   error: '#d32f2f',
   errorLight: '#ef5350',
   errorDark: '#c62828',
+  errorContrastText: '#3c0a0a',
   warning: '#ed6c02',
   warningLight: '#ff9800',
   warningDark: '#e65100',
+  warningContrastText: '#3e1701',
   onPrimary: '#001a2d',
 };
 

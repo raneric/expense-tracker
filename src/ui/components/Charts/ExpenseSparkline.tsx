@@ -10,6 +10,16 @@ import { useState } from 'react';
 import type { ExpenseSparkLineProps } from '../../../type/PropsType';
 import Colors from '../../Theming/Colors';
 import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
+import { styled } from '@mui/material/styles';
+
+const ExpenseSparkLineContainer = styled(Box)(() => ({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  maxWidth: '21em',
+}));
 
 export default function ExpenseSparkLine({
   dataLabel,
@@ -18,17 +28,19 @@ export default function ExpenseSparkLine({
 }: ExpenseSparkLineProps<Date>) {
   const [weekIndex, setWeekIndex] = useState<null | number>(null);
 
-  const total: number = dataset.reduce(
-    (acc: number, value: number) => acc + value
-  );
+  const total: number =
+    dataset.length > 0
+      ? dataset.reduce((acc: number, value: number) => acc + value)
+      : 0;
+
   const settings: SparkLineChartProps = {
     data: dataset,
     baseline: 'min',
     margin: { bottom: 0, top: 5, left: 4, right: 0 },
-    xAxis: { id: 'days', data: dimension },
+    xAxis: { id: 'days', data: dimension, scaleType: 'time' },
     yAxis: {
-      domainLimit: (_: NumberValue, maxValue: NumberValue) => ({
-        min: -maxValue / 6,
+      domainLimit: (minValue: NumberValue, maxValue: NumberValue) => ({
+        min: minValue,
         max: maxValue,
       }),
     },
@@ -37,30 +49,21 @@ export default function ExpenseSparkLine({
       [`& .${lineClasses.line}`]: { strokeWidth: 3 },
       [`& .${chartsAxisHighlightClasses.root}`]: {
         stroke: 'rgb(86, 255, 193)',
-        strokeDasharray: 'none',
         strokeWidth: 2,
       },
     },
     slotProps: {
-      lineHighlight: { r: 4 },
+      lineHighlight: { r: 6 },
     },
     clipAreaOffset: { top: 2, bottom: 2 },
     axisHighlight: { x: 'line' },
   };
 
   return (
-    <Box
+    <ExpenseSparkLineContainer
       role="button"
       aria-label="Showing withdrawals amount"
       tabIndex={0}
-      sx={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        maxWidth: '21em',
-      }}
     >
       <Stack
         direction="column"
@@ -111,6 +114,6 @@ export default function ExpenseSparkLine({
           />
         </Stack>
       </Stack>
-    </Box>
+    </ExpenseSparkLineContainer>
   );
 }

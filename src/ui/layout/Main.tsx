@@ -4,11 +4,12 @@ import { useUserContext } from '../../contexts/auth/UserContext';
 import { AppRoutes } from '../../utils/Const';
 import CustomAppBar from '../components/AppBar/CustomAppBar';
 import AppDrawer from '../components/Drawer/AppDrawer';
+import { WithdrawalProvider } from '../../contexts/dataRetrieval/WithdrawalProvider';
 
 export default function Main() {
   const { state } = useUserContext();
 
-  if (state.user === null) {
+  if (state.user === null && !state.isInit) {
     return (
       <Navigate
         to={AppRoutes.LOGIN}
@@ -45,7 +46,9 @@ export default function Main() {
             overflow: 'auto',
           }}
         >
-          <Outlet />
+          <WithdrawalProvider>
+            <Outlet />
+          </WithdrawalProvider>
         </Box>
       </Box>
     </Box>

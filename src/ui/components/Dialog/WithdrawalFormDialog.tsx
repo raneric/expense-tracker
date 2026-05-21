@@ -9,15 +9,14 @@ import {
   DialogContent,
   Fade,
   InputAdornment,
+  Stack,
   TextField,
 } from '@mui/material';
-
-import Colors from '../../Theming/Colors';
 
 import { useState } from 'react';
 import type { Withdrawal } from '../../../type/AppType';
 import type { DialogFormProps } from '../../../type/PropsType';
-import { initialWithdrawal, reasonsList } from '../../../utils/Const';
+import { initialWithdrawal } from '../../../utils/Const';
 import { isNanOrNegative } from '../../../utils/validationUtilities';
 import DialogHeader from './DialogHeader';
 
@@ -29,18 +28,25 @@ import DialogHeader from './DialogHeader';
 export default function WithdrawalFormDialog({
   isOpen,
   initialData,
+  reasonsList,
   onClose,
   onSubmit,
 }: DialogFormProps<Withdrawal>) {
-  const [formData, setFormData] = useState<Withdrawal>(
+  const [withdrawalData, setWithdrawalData] = useState<Withdrawal>(
     initialData ?? initialWithdrawal
   );
   const [amountError, setAmountError] = useState(false);
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit(withdrawalData);
+    resetForm();
     onClose();
+  };
+
+  const resetForm = () => {
+    setWithdrawalData(initialWithdrawal);
+    setAmountError(false);
   };
 
   const handleChange = <K extends keyof Withdrawal>(
@@ -49,13 +55,13 @@ export default function WithdrawalFormDialog({
   ) => {
     if (key === 'date') {
       const isForecast = (value as Date) > new Date();
-      setFormData((prev) => ({
+      setWithdrawalData((prev) => ({
         ...prev,
         isForecast,
       }));
     }
 
-    setFormData((prev) => ({
+    setWithdrawalData((prev) => ({
       ...prev,
       [key]: value,
     }));
@@ -68,7 +74,7 @@ export default function WithdrawalFormDialog({
     >
       <DialogHeader>
         <span>Withdrawal info</span>
-        <Fade in={formData.isForecast}>
+        <Fade in={withdrawalData.isForecast}>
           <Chip
             color="secondary"
             icon={<HistoryToggleOff />}
@@ -87,7 +93,7 @@ export default function WithdrawalFormDialog({
             freeSolo
             id="reasons-autocomplete"
             options={reasonsList}
-            value={formData.reasons}
+            value={withdrawalData.reasons}
             onChange={(_, newValue) => handleChange('reasons', newValue)}
             renderInput={(params) => (
               <TextField
@@ -101,14 +107,14 @@ export default function WithdrawalFormDialog({
           <TextField
             label="Date"
             type="date"
-            value={formData.date.toISOString().split('T')[0]}
+            value={withdrawalData.date.toISOString().split('T')[0]}
             onChange={(e) => handleChange('date', new Date(e.target.value))}
             fullWidth
             margin="normal"
           />
           <TextField
-            label="Location"
-            value={formData.location}
+            label="Location / Source"
+            value={withdrawalData.location}
             onChange={(e) => handleChange('location', e.target.value)}
             fullWidth
             margin="normal"
@@ -116,7 +122,7 @@ export default function WithdrawalFormDialog({
           <TextField
             label="Amount"
             type="text"
-            value={formData.amount}
+            value={withdrawalData.amount}
             onChange={(e) => {
               if (isNanOrNegative(e.target.value)) {
                 setAmountError(true);
@@ -137,18 +143,43 @@ export default function WithdrawalFormDialog({
               },
             }}
           />
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{
-              backgroundColor: Colors.tint900,
-              color: Colors.tint200,
-              fontWeight: 'bold',
-            }}
+          <TextField
             fullWidth
+            label="Description"
+            margin="normal"
+            onChange={(e) => handleChange('comments', e.target.value)}
+            multiline
+            rows={4}
+          />
+          <Stack
+            spacing={2}
+            direction={'row'}
           >
-            Submit
-          </Button>
+            <Button
+              variant="contained"
+              onClick={resetForm}
+              sx={{
+                backgroundColor: 'error.light',
+                color: 'error.contrastText',
+                fontWeight: 'bold',
+              }}
+              fullWidth
+            >
+              Reset
+            </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'primary.contrastText',
+                fontWeight: 'bold',
+              }}
+              fullWidth
+            >
+              Submit
+            </Button>
+          </Stack>
         </Box>
       </DialogContent>
     </Dialog>

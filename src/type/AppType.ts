@@ -12,12 +12,14 @@ export type AppRoute = {
 
 export interface Withdrawal {
   id?: string;
+  ownerId?: string;
+  email?: string;
   reasons: string[];
   date: Date;
   amount: number;
   location: string;
-  user: User;
   isForecast: boolean;
+  comments?: string;
 }
 
 export interface User {
@@ -55,3 +57,15 @@ export interface RequestResult<T> {
   data?: T;
   errorMessage?: string;
 }
+
+export type DialogHookState =
+  | { type: 'closed' }
+  | { type: 'create'; reasonsList: string[] }
+  | { type: 'filter' }
+  | { type: 'edit'; withdrawal: Withdrawal; reasonsList: string[] }
+  | { type: 'delete'; withdrawal: Withdrawal };
+
+export type TablePaginationState = {
+  page: number;
+  rowsPerPage: number;
+};

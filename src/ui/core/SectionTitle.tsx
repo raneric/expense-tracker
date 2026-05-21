@@ -1,26 +1,17 @@
-import { Box, Typography } from '@mui/material';
-import type { BasePropsType } from '../../type/PropsType';
-import Colors from '../Theming/Colors';
 import { HelpTwoTone } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-function SectionTitle({ children }: BasePropsType) {
-  const tittleStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    p: 2,
-    mb: 2,
-    borderRadius: 2,
-    backgroundColor: 'primary.dark',
-    color: Colors.tint50,
-  };
-
-  return (
-    <>
-      <Box sx={tittleStyle}>{children}</Box>
-    </>
-  );
-}
+const SectionTitle = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  borderRadius: theme.spacing(1),
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+}));
 
 function Tittle({
   displayText,

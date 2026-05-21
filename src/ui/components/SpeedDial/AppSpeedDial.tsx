@@ -1,16 +1,11 @@
-import { FilterList } from '@mui/icons-material';
-import AddIcon from '@mui/icons-material/Add';
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
 import Colors from '../../Theming/Colors';
-import { useDialogContext } from '../../../contexts/dialog/DialogContext';
+import type {
+  SpeedDialActionElement,
+  SpeedDialProps,
+} from '../../../type/PropsType';
 
-export default function AppSpeedDial() {
-  const { show } = useDialogContext();
-  const speedDialAction = [
-    { icon: <AddIcon />, name: 'Add', action: show },
-    { icon: <FilterList />, name: 'Filter', action: show },
-  ];
-
+export default function AppSpeedDial({ elements }: SpeedDialProps) {
   return (
     <SpeedDial
       sx={{
@@ -21,7 +16,7 @@ export default function AppSpeedDial() {
       ariaLabel="SpeedDial for withdrawal and filter"
       icon={<SpeedDialIcon />}
     >
-      {speedDialAction.map((dialAction) => (
+      {elements.map((dialAction: SpeedDialActionElement) => (
         <SpeedDialAction
           key={dialAction.name}
           icon={dialAction.icon}

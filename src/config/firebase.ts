@@ -1,7 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, type FirebaseApp } from 'firebase/app';
 import { Firestore, getFirestore } from 'firebase/firestore';
-import { getAuth, type Auth } from 'firebase/auth';
+import {
+  getAuth,
+  browserLocalPersistence,
+  setPersistence,
+  type Auth,
+} from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -9,7 +14,7 @@ const firebaseConfig = {
   databaseURL: import.meta.env.VITE_DATABASE_URL,
   projectId: import.meta.env.VITE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_MESSAGINE_SENDER_ID,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_APP_ID,
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
@@ -23,6 +28,7 @@ class FirebaseService {
   private constructor() {
     this.app = initializeApp(firebaseConfig);
     this.auth = getAuth(this.app);
+    setPersistence(this.auth, browserLocalPersistence);
     this.db = getFirestore(this.app);
   }
 

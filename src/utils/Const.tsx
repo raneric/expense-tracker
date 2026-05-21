@@ -53,15 +53,11 @@ export const UserReducerActions = {
 
 // -------------- Temporary Fake Data ----------------------
 
-export const initialWithdrawal = {
+export const initialWithdrawal: Withdrawal = {
   reasons: [],
   date: new Date(),
   amount: 0,
   location: '',
-  user: {
-    id: '',
-    email: '',
-  },
   isForecast: false,
 };
 
@@ -87,7 +83,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-05-21'),
     location: 'New York',
     amount: 200000,
-    user: users[0],
     isForecast: true,
   },
   {
@@ -96,7 +91,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-05-15'),
     location: 'Los Angeles',
     amount: 30000,
-    user: users[1],
     isForecast: true,
   },
   {
@@ -105,7 +99,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-05-10'),
     location: 'Chicago',
     amount: 42000,
-    user: users[2],
     isForecast: true,
   },
   {
@@ -114,7 +107,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-29'),
     location: 'Houston',
     amount: 315000,
-    user: users[0],
     isForecast: false,
   },
   {
@@ -123,7 +115,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-28'),
     location: 'San Francisco',
     amount: 13500,
-    user: users[1],
     isForecast: false,
   },
   {
@@ -132,7 +123,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-27'),
     location: 'Seattle',
     amount: 100000,
-    user: users[2],
     isForecast: false,
   },
   {
@@ -141,7 +131,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-26'),
     location: 'Austin',
     amount: 22000,
-    user: users[0],
     isForecast: false,
   },
   {
@@ -150,7 +139,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-25'),
     location: 'Miami',
     amount: 30000,
-    user: users[1],
     isForecast: false,
   },
   {
@@ -159,7 +147,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-24'),
     location: 'Denver',
     amount: 40000,
-    user: users[2],
     isForecast: false,
   },
   {
@@ -168,7 +155,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-23'),
     location: 'Boston',
     amount: 63000,
-    user: users[0],
     isForecast: false,
   },
   {
@@ -177,7 +163,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-22'),
     location: 'Portland',
     amount: 15000,
-    user: users[1],
     isForecast: false,
   },
   {
@@ -186,7 +171,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-21'),
     location: 'San Diego',
     amount: 16000,
-    user: users[2],
     isForecast: false,
   },
   {
@@ -195,7 +179,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-20'),
     location: 'Philadelphia',
     amount: 17000,
-    user: users[0],
     isForecast: false,
   },
   {
@@ -204,7 +187,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-19'),
     location: 'Atlanta',
     amount: 18000,
-    user: users[1],
     isForecast: false,
   },
   {
@@ -213,7 +195,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-18'),
     location: 'Dallas',
     amount: 19000,
-    user: users[2],
     isForecast: false,
   },
   {
@@ -222,7 +203,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-17'),
     location: 'Phoenix',
     amount: 20000,
-    user: users[0],
     isForecast: false,
   },
   {
@@ -231,7 +211,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-16'),
     location: 'Las Vegas',
     amount: 21000,
-    user: users[1],
     isForecast: false,
   },
   {
@@ -240,7 +219,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-15'),
     location: 'San Jose',
     amount: 22000,
-    user: users[2],
     isForecast: false,
   },
   {
@@ -249,7 +227,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-14'),
     location: 'Orlando',
     amount: 23000,
-    user: users[0],
     isForecast: false,
   },
   {
@@ -258,7 +235,6 @@ export const rows: Withdrawal[] = [
     date: new Date('2026-04-13'),
     location: 'Nashville',
     amount: 24000,
-    user: users[1],
     isForecast: false,
   },
 ];
