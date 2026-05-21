@@ -30,6 +30,10 @@ jobs:
           echo "VITE_APP_ID=${{ secrets.APP_ID }}" >> .env
           echo "VITE_MEASUREMENT_ID=${{ secrets.MEASUREMENT_ID }}" >> .env
 
+      - name: Debug folder
+        run: |
+          ls
+
       - name: Build Vite App
         run: npm run build
 

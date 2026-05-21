@@ -2,6 +2,7 @@ import { DeleteForever, Edit } from '@mui/icons-material';
 import { IconButton, TableCell, TableRow } from '@mui/material';
 import type { WithdrawTableRowProps } from '../../../type/PropsType';
 import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
+import ReasonsCell from './ReasonsCell';
 
 const forecastedStyle = { color: 'warning.main', fontWeight: 'bold' };
 
@@ -17,7 +18,7 @@ export default function WithdrawTableRow({
         hover
       >
         <TableCell sx={withdrawal.isForecast ? forecastedStyle : {}}>
-          {withdrawal.reasons.join(', ')}
+          <ReasonsCell withdrawal={withdrawal} />
         </TableCell>
         <TableCell sx={withdrawal.isForecast ? forecastedStyle : {}}>
           {withdrawal.date.toDateString()}

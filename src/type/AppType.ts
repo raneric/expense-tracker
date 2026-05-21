@@ -12,12 +12,14 @@ export type AppRoute = {
 
 export interface Withdrawal {
   id?: string;
+  ownerId?: string;
+  email?: string;
   reasons: string[];
   date: Date;
   amount: number;
   location: string;
-  user: User | null;
   isForecast: boolean;
+  comments?: string;
 }
 
 export interface User {

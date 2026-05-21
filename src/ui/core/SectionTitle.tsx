@@ -8,7 +8,7 @@ const SectionTitle = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   padding: theme.spacing(2),
   marginBottom: theme.spacing(2),
-  borderRadius: theme.spacing(2),
+  borderRadius: theme.spacing(1),
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
 }));

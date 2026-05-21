@@ -104,7 +104,6 @@ export default function WithdrawalFormDialog({
               />
             )}
           />
-
           <TextField
             label="Date"
             type="date"
@@ -143,6 +142,14 @@ export default function WithdrawalFormDialog({
                 ),
               },
             }}
+          />
+          <TextField
+            fullWidth
+            label="Description"
+            margin="normal"
+            onChange={(e) => handleChange('comments', e.target.value)}
+            multiline
+            rows={4}
           />
           <Stack
             spacing={2}

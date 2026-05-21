@@ -4,6 +4,9 @@ import WithdrawRepository from '../repositories/WithdrawRepository';
 import type { Withdrawal } from '../type/AppType';
 import { useWithdrawalContext } from '../contexts/dataRetrieval/WithdrawalContext';
 
+const isNewWithdrawal = (withdrawal: Withdrawal) =>
+  !withdrawal.ownerId && !withdrawal.email && !withdrawal.id;
+
 export default function useWithdrawalSubmit(closeDialog: () => void) {
   const { state } = useUserContext();
   const { load } = useWithdrawalContext();
@@ -11,10 +14,11 @@ export default function useWithdrawalSubmit(closeDialog: () => void) {
 
   return useCallback(
     (withdrawal: Withdrawal) => {
-      if (withdrawal.user === null && state.user && !withdrawal.id) {
-        withdrawal.user = state.user;
+      if (isNewWithdrawal(withdrawal) && state.user) {
+        withdrawal.ownerId = state.user.id;
+        withdrawal.email = state.user.email;
         withdrawalRepository.createOne(withdrawal);
-      } else if (withdrawal.user && withdrawal.id) {
+      } else {
         withdrawalRepository.updateOne(withdrawal);
       }
 
