@@ -1,12 +1,13 @@
-import { orderBy, QueryConstraint, where } from 'firebase/firestore';
+import { orderBy, where } from 'firebase/firestore';
 import { useCallback, useEffect, useMemo, useReducer } from 'react';
 import WithdrawRepository from '../../repositories/WithdrawRepository';
 import type { Withdrawal } from '../../type/AppType';
 import type { BasePropsType } from '../../type/PropsType';
 import type {
-  DateFilter,
   DataRetrievalState,
+  DateFilter,
 } from '../../type/StateContextType';
+import { getDefaultDateFilterRange } from '../../utils/dataTransformUtilities';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { WithdrawalContext } from './WithdrawalContext';
 import { withdrawalReducer } from './withdrawalReducer';
@@ -14,7 +15,7 @@ import { withdrawalReducer } from './withdrawalReducer';
 const initialState: DataRetrievalState<Withdrawal, DateFilter> = {
   data: [],
   isLoading: false,
-  filter: null,
+  filter: getDefaultDateFilterRange(),
 };
 
 // TODO: Refactoring filer constraint by using filter builder
@@ -27,6 +28,15 @@ export const WithdrawalProvider = ({ children }: BasePropsType) => {
    * Repository instance
    */
   const withdrawalRepository = useMemo(() => new WithdrawRepository(), []);
+
+  const constraints = useMemo(
+    () => [
+      orderBy('date', 'desc'),
+      where('date', '>=', state.filter.startDate),
+      where('date', '<=', state.filter.endDate),
+    ],
+    [state.filter]
+  );
 
   /**
    * Generic error handler
@@ -46,23 +56,20 @@ export const WithdrawalProvider = ({ children }: BasePropsType) => {
   /**
    * Fetch all withdrawals
    */
-  const load = useCallback(
-    async (constraints?: QueryConstraint[]) => {
-      try {
-        dispatch({ type: 'LOADING' });
+  const load = useCallback(async () => {
+    try {
+      dispatch({ type: 'LOADING' });
 
-        const data = await withdrawalRepository.getAll(constraints);
+      const data = await withdrawalRepository.getAll(constraints);
 
-        dispatch({
-          type: 'LOADED',
-          payload: data,
-        });
-      } catch (error) {
-        handleError(error);
-      }
-    },
-    [withdrawalRepository, handleError]
-  );
+      dispatch({
+        type: 'LOADED',
+        payload: data,
+      });
+    } catch (error) {
+      handleError(error);
+    }
+  }, [withdrawalRepository, handleError, constraints]);
 
   /**
    * Future filtering support
@@ -70,19 +77,8 @@ export const WithdrawalProvider = ({ children }: BasePropsType) => {
   const filterBy = useCallback(
     async (filter: DateFilter) => {
       try {
-        dispatch({ type: 'LOADING' });
-        const constraints: QueryConstraint[] = [orderBy('date', 'desc')]; // TO REFACTOR AND TO REMOVE
-
-        if (filter.startDate) {
-          constraints.push(where('date', '>=', filter.startDate));
-        }
-
-        if (filter.endDate) {
-          constraints.push(where('date', '<=', filter.endDate));
-        }
-
         dispatch({ type: 'FILTER', payload: filter });
-        void load(constraints);
+        void load();
       } catch (error) {
         handleError(error);
       }
@@ -92,8 +88,7 @@ export const WithdrawalProvider = ({ children }: BasePropsType) => {
 
   const resetFilter = useCallback(() => {
     dispatch({ type: 'RESET_FILTER' });
-    const constraints: QueryConstraint[] = [orderBy('date', 'desc')]; // TO REFACTOR AND TO REMOVE
-    void load(constraints);
+    void load();
   }, [load]);
 
   /**

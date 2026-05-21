@@ -56,7 +56,7 @@ export type DialogAction = { type: 'OPEN' } | { type: 'CLOSED' };
 export interface DataRetrievalState<T, U> {
   isLoading: boolean;
   data: T[];
-  filter: U | null;
+  filter: U;
 }
 
 export interface DataRetrievalContextType<T, U> {

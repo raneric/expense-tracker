@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import type { GasStatusInfo, User } from '../type/AppType';
 import type { GasEvent, GasEventData } from '../type/PropsType';
 import { type User as FirebaseUserData } from 'firebase/auth';
+import type { DateFilter } from '../type/StateContextType';
 
 const generateRateMessage = (value: number, valueMax: number) => {
   return `${value} / ${valueMax} Days`;
@@ -99,5 +100,14 @@ export function mapFirebaseUser(firebaseUser: FirebaseUserData): User {
   return {
     id: firebaseUser.uid,
     email: firebaseUser.email!,
+  };
+}
+
+export function getDefaultDateFilterRange(): DateFilter {
+  const currentMonth28 = dayjs().date(28);
+  const previousMonth28 = dayjs().subtract(1, 'month').date(28);
+  return {
+    startDate: previousMonth28.toDate(),
+    endDate: currentMonth28.toDate(),
   };
 }
