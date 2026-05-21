@@ -9,7 +9,7 @@ import { WithdrawalProvider } from '../../contexts/dataRetrieval/WithdrawalProvi
 export default function Main() {
   const { state } = useUserContext();
 
-  if (state.user === null && !state.isInit) {
+  if (state.user === null) {
     return (
       <Navigate
         to={AppRoutes.LOGIN}

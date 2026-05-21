@@ -15,8 +15,9 @@ import {
 import { firestoreDb } from '../../config/firebase';
 import type DataProvider from './DataProvider';
 export default class FirestoreDataProvider<
-  T extends WithFieldValue<DocumentData>,
-> implements DataProvider<T, string> {
+  T extends WithFieldValue<DocumentData>
+> implements DataProvider<T, string>
+{
   private static readonly docsCollection = 'withdrawals';
 
   async getAll(

@@ -11,6 +11,7 @@ import { getDefaultDateFilterRange } from '../../utils/dataTransformUtilities';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { WithdrawalContext } from './WithdrawalContext';
 import { withdrawalReducer } from './withdrawalReducer';
+import { useUserContext } from '../auth/UserContext';
 
 const initialState: DataRetrievalState<Withdrawal, DateFilter> = {
   data: [],
@@ -21,7 +22,7 @@ const initialState: DataRetrievalState<Withdrawal, DateFilter> = {
 // TODO: Refactoring filer constraint by using filter builder
 export const WithdrawalProvider = ({ children }: BasePropsType) => {
   const [state, dispatch] = useReducer(withdrawalReducer, initialState);
-
+  const { state: userState } = useUserContext();
   const { show } = useSnackbarContext();
 
   /**
@@ -31,11 +32,12 @@ export const WithdrawalProvider = ({ children }: BasePropsType) => {
 
   const constraints = useMemo(
     () => [
-      orderBy('date', 'desc'),
       where('date', '>=', state.filter.startDate),
       where('date', '<=', state.filter.endDate),
+      where('ownerId', '==', userState.user?.id),
+      orderBy('date', 'desc'),
     ],
-    [state.filter]
+    [state.filter, userState.user]
   );
 
   /**
