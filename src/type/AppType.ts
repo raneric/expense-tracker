@@ -74,3 +74,9 @@ export type TablePaginationState = {
   page: number;
   rowsPerPage: number;
 };
+
+export interface DrawerState {
+  isOpen: boolean;
+  variant: 'permanent' | 'persistent' | 'temporary';
+  width: number;
+}

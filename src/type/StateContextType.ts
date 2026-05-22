@@ -74,3 +74,21 @@ export type DataRetrievalAction<T, U> =
   | { type: 'ERROR' };
 
 export type DateFilter = { startDate?: Date; endDate?: Date };
+
+//---------------------- Drawer context -----------------------
+export interface DrawerState {
+  isOpen: boolean;
+  width: number;
+}
+
+export interface DrawerContextType {
+  state: DrawerState;
+  hide: () => void;
+  show: () => void;
+  toggle: () => void;
+}
+
+export type DrawerAction =
+  | { type: 'TOGGLE' }
+  | { type: 'OPEN' }
+  | { type: 'CLOSE' };

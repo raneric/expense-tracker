@@ -5,6 +5,7 @@ import { AppRoutes } from '../../utils/Const';
 import CustomAppBar from '../components/AppBar/CustomAppBar';
 import AppDrawer from '../components/Drawer/AppDrawer';
 import { WithdrawalProvider } from '../../contexts/dataRetrieval/WithdrawalProvider';
+import { DrawerProvider } from '../../contexts/drawer/DrawerProvider';
 
 export default function Main() {
   const { state } = useUserContext();
@@ -26,31 +27,33 @@ export default function Main() {
         height: '100vh',
       }}
     >
-      <CustomAppBar />
-      <Box
-        sx={{
-          display: 'flex',
-          flexGrow: 1,
-          mt: 8,
-        }}
-      >
-        <AppDrawer />
+      <DrawerProvider>
+        <CustomAppBar />
         <Box
-          component="main"
           sx={{
+            display: 'flex',
             flexGrow: 1,
-            pt: 2,
-            pr: 2,
-            pb: 1,
-            pl: 2,
-            overflow: 'auto',
+            mt: 8,
           }}
         >
-          <WithdrawalProvider>
-            <Outlet />
-          </WithdrawalProvider>
+          <AppDrawer />
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              pt: 2,
+              pr: 2,
+              pb: 1,
+              pl: 2,
+              overflow: 'auto',
+            }}
+          >
+            <WithdrawalProvider>
+              <Outlet />
+            </WithdrawalProvider>
+          </Box>
         </Box>
-      </Box>
+      </DrawerProvider>
     </Box>
   );
 }

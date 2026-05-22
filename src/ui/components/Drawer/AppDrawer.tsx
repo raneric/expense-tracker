@@ -1,4 +1,3 @@
-import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Box,
   Divider,
@@ -8,19 +7,14 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import LogoImage from '../../../assets/lovo_v2.png';
+import { useDrawerContext } from '../../../contexts/drawer/DrawerContext';
 import { AppRoutes, RouteList } from '../../../utils/Const';
 import { Logo } from '../../core/Logo';
-import LogoImage from '../../../assets/lovo_v2.png';
-
-const drawerStyle = {
-  width: 240,
-  flexShrink: 0,
-  '& .MuiDrawer-paper': {
-    width: 240,
-    boxSizing: 'border-box',
-  },
-};
 
 const activeItemStyle = {
   '&.Mui-selected': {
@@ -36,12 +30,38 @@ const activeItemStyle = {
 export default function AppDrawer() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+
+  const { state, hide } = useDrawerContext();
+
   const activeRoute = location.pathname;
+
+  const variant = isDesktop ? 'permanent' : 'temporary';
+  const open = isDesktop ? true : state.isOpen;
+
+  const handleNavigate = (path: string) => {
+    navigate(path);
+
+    if (!isDesktop) {
+      hide();
+    }
+  };
 
   return (
     <Drawer
-      variant="permanent"
-      sx={drawerStyle}
+      variant={variant}
+      open={open}
+      onClose={hide}
+      sx={{
+        width: state.width,
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
+          width: state.width,
+          boxSizing: 'border-box',
+        },
+      }}
     >
       <Logo src={LogoImage} />
 
@@ -55,7 +75,7 @@ export default function AppDrawer() {
               >
                 <ListItemButton
                   selected={activeRoute === route.path}
-                  onClick={() => navigate(route.path)}
+                  onClick={() => handleNavigate(route.path)}
                   sx={activeItemStyle}
                 >
                   <ListItemIcon>{route.icon}</ListItemIcon>
