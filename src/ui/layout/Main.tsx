@@ -1,14 +1,25 @@
 import { Box } from '@mui/material';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useUserContext } from '../../contexts/auth/UserContext';
+import { WithdrawalProvider } from '../../contexts/dataRetrieval/WithdrawalProvider';
+import { DrawerProvider } from '../../contexts/drawer/DrawerProvider';
 import { AppRoutes } from '../../utils/Const';
 import CustomAppBar from '../components/AppBar/CustomAppBar';
 import AppDrawer from '../components/Drawer/AppDrawer';
-import { WithdrawalProvider } from '../../contexts/dataRetrieval/WithdrawalProvider';
-import { DrawerProvider } from '../../contexts/drawer/DrawerProvider';
+import SplashScreen from '../components/SplashScreen/SplashScreen';
+import { Logo } from '../core/Logo';
+import LogoImage from '../../assets/logo_v2.png';
 
 export default function Main() {
   const { state } = useUserContext();
+
+  if (state.isInit) {
+    return (
+      <SplashScreen>
+        <Logo src={LogoImage} />
+      </SplashScreen>
+    );
+  }
 
   if (state.user === null) {
     return (

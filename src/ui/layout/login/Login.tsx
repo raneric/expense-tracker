@@ -2,7 +2,7 @@ import { LoginTwoTone } from '@mui/icons-material';
 import { Box, Button, Paper, TextField } from '@mui/material';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import LogoImage from '../../../assets/lovo_v2.png';
+import LogoImage from '../../../assets/logo_v2.png';
 import { useUserContext } from '../../../contexts/auth/UserContext';
 import type { LoginCredentials } from '../../../type/AppType';
 import { AppRoutes } from '../../../utils/Const';

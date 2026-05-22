@@ -8,9 +8,21 @@ export const snackbarReducer = (
   action: SnackbarAction
 ): SnackbarState => {
   switch (action.type) {
-    case 'OPEN':
-      return { ...state, ...action.payload };
-    case 'CLOSED':
-      return { isDisplayed: false, message: null, severity: 'info' };
+    case 'PUSH':
+      return {
+        ...state,
+        notifications: [...state.notifications, action.payload],
+      };
+
+    case 'REMOVE':
+      return {
+        ...state,
+        notifications: state.notifications.filter(
+          (notification) => notification.id !== action.payload
+        ),
+      };
+
+    default:
+      return state;
   }
 };

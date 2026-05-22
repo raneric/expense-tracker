@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import { Stack, useMediaQuery, useTheme } from '@mui/material';
 import type { DimensionalChartProps } from '../../../type/PropsType';
 import ChartCard from '../../core/ChartCard';
 import ExpenseSparkLine from './ExpenseSparkline';
@@ -9,9 +9,11 @@ type Props = {
 };
 
 export function WithdrawalCharts({ current, forecast }: Props) {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   return (
     <Stack
-      direction="row"
+      direction={isDesktop ? 'row' : 'column'}
       spacing={2}
     >
       <ChartCard>

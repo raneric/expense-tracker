@@ -6,31 +6,38 @@ import type { AlertColor } from '@mui/material';
 import type { SnackbarState } from '../../type/StateContextType';
 
 const initialState: SnackbarState = {
-  isDisplayed: false,
-  message: null,
-  severity: 'error',
+  notifications: [],
 };
 
 export const SnackbarProvider = ({ children }: BasePropsType) => {
   const [state, dispatch] = useReducer(snackbarReducer, initialState);
 
-  const show = async (message: string, severity: AlertColor) => {
-    if (message && severity) {
-      dispatch({
-        type: 'OPEN',
-        payload: { isDisplayed: true, message, severity },
-      });
-    }
+  const show = (message: string, severity: AlertColor) => {
+    dispatch({
+      type: 'PUSH',
+      payload: {
+        id: crypto.randomUUID(),
+        message,
+        severity,
+      },
+    });
   };
 
-  const hide = async () => {
+  const hide = (id: string) => {
     dispatch({
-      type: 'CLOSED',
+      type: 'REMOVE',
+      payload: id,
     });
   };
 
   return (
-    <SnackbarContext.Provider value={{ state, show, hide }}>
+    <SnackbarContext.Provider
+      value={{
+        state,
+        show,
+        hide,
+      }}
+    >
       {children}
     </SnackbarContext.Provider>
   );

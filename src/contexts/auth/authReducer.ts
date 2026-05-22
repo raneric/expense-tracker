@@ -33,6 +33,12 @@ export const authReducer = (
         isInit: true,
         error: null,
       };
+    case 'AUTH_INITIALIZED':
+      return {
+        ...state,
+        user: action.payload,
+        isInit: false,
+      };
     default:
       return state;
   }

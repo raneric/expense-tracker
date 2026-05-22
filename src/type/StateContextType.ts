@@ -6,7 +6,8 @@ export type UserAction =
   | { type: 'LOGIN_START' }
   | { type: 'LOGIN_SUCCESS'; payload: User }
   | { type: 'LOGIN_FAILURE'; payload: string }
-  | { type: 'LOGOUT' };
+  | { type: 'LOGOUT' }
+  | { type: 'AUTH_INITIALIZED'; payload: User | null };
 
 export interface UserContextType {
   state: AuthState;
@@ -24,20 +25,24 @@ export interface AuthState {
 
 //---------------------- Snackbar Context ------------------------
 export interface SnackbarState {
-  isDisplayed: boolean;
-  message: string | null;
-  severity: AlertColor;
+  notifications: SnackbarItem[];
 }
+
+export type SnackbarItem = {
+  id: string;
+  message: string;
+  severity: AlertColor;
+};
 
 export interface SnackbarContextType {
   state: SnackbarState;
   show: (message: string, severity: AlertColor) => void;
-  hide: () => void;
+  hide: (id: string) => void;
 }
 
 export type SnackbarAction =
-  | { type: 'OPEN'; payload: SnackbarState }
-  | { type: 'CLOSED' };
+  | { type: 'PUSH'; payload: SnackbarItem }
+  | { type: 'REMOVE'; payload: string };
 
 //---------------------- Dialog context --------------------------
 export interface DialogState {

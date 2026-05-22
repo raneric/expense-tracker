@@ -3,7 +3,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useMemo, useReducer } from 'react';
 import type { AuthError } from '../../services/Auth/AuthError';
 import AuthServiceFactory from '../../services/Auth/AuthServiceFactory';
-import type { LoginCredentials, User } from '../../type/AppType';
+import type { LoginCredentials } from '../../type/AppType';
 import type { BasePropsType } from '../../type/PropsType';
 import type { AuthState } from '../../type/StateContextType';
 import { clearStoredUser } from '../../utils/localStorageUtilities';
@@ -26,13 +26,15 @@ export const UserProvider = ({ children }: BasePropsType) => {
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        const user: User = { email: currentUser.email!, id: currentUser.uid };
-        dispatch({
-          type: 'LOGIN_SUCCESS',
-          payload: user,
-        });
-      }
+      dispatch({
+        type: 'AUTH_INITIALIZED',
+        payload: currentUser
+          ? {
+              email: currentUser.email!,
+              id: currentUser.uid,
+            }
+          : null,
+      });
     });
     return () => unsubscribe();
   }, []);
@@ -41,14 +43,14 @@ export const UserProvider = ({ children }: BasePropsType) => {
     dispatch({ type: 'LOGIN_START' });
 
     try {
-      const user = await authService.signIn(credentials);
-      dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+      await authService.signIn(credentials);
       show('Successfully logged in', 'success');
     } catch (error: unknown) {
       dispatch({
         type: 'LOGIN_FAILURE',
         payload: (error as AuthError).message,
       });
+
       show((error as AuthError).message, 'error');
     }
   };

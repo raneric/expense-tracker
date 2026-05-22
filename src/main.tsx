@@ -14,8 +14,8 @@ createRoot(document.getElementById('root')!).render(
       <SnackbarProvider>
         <CssBaseline />
         <UserProvider>
-          <App />
           <GlobalSnackbar />
+          <App />
         </UserProvider>
       </SnackbarProvider>
     </ThemeProvider>
