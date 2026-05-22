@@ -5,6 +5,7 @@ import type { Withdrawal } from '../type/AppType';
 import { rows } from '../utils/Const';
 import { withdrawalDataMapper } from '../utils/dataMappers';
 import type BaseRepository from './BaseRepository';
+import { COLLECTIONS } from '../config/firebase';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -15,7 +16,9 @@ export default class WithdrawRepository implements BaseRepository<
   private readonly dataProvider: DataProvider<Withdrawal, string>;
 
   constructor() {
-    this.dataProvider = new FirestoreDataProvider<Withdrawal>();
+    this.dataProvider = new FirestoreDataProvider<Withdrawal>(
+      COLLECTIONS.withdrawals
+    );
   }
 
   async getAll(constraints?: QueryConstraint[]): Promise<Withdrawal[]> {
@@ -33,7 +36,7 @@ export default class WithdrawRepository implements BaseRepository<
     this.dataProvider.createOne(data);
   }
 
-  // MOCK NOW, SOLVE LATER
+  // MOCK NOW, IMPLEMENT LATER
   async getByUnique(unique: string): Promise<Withdrawal> {
     console.log(unique);
     await delay(2000);

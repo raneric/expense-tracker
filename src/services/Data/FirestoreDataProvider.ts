@@ -15,10 +15,13 @@ import {
 import { firestoreDb } from '../../config/firebase';
 import type DataProvider from './DataProvider';
 export default class FirestoreDataProvider<
-  T extends WithFieldValue<DocumentData>
-> implements DataProvider<T, string>
-{
-  private static readonly docsCollection = 'withdrawals';
+  T extends WithFieldValue<DocumentData>,
+> implements DataProvider<T, string> {
+  private docsCollection: string;
+
+  constructor(docsCollection: string) {
+    this.docsCollection = docsCollection;
+  }
 
   async getAll(
     dataMapper: (data: DocumentData) => T,
@@ -59,10 +62,10 @@ export default class FirestoreDataProvider<
     await updateDoc(this.getDocReference(id), data);
   }
   private getCollectionReference() {
-    return collection(firestoreDb, FirestoreDataProvider.docsCollection);
+    return collection(firestoreDb, this.docsCollection);
   }
 
   public getDocReference(id: string) {
-    return doc(firestoreDb, FirestoreDataProvider.docsCollection, id);
+    return doc(firestoreDb, this.docsCollection, id);
   }
 }
