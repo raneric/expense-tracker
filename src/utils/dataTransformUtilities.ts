@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
-import type { GasStatusInfo, User } from '../type/AppType';
+import type { GasStatusInfo } from '../type/AppType';
 import type { GasEvent, GasEventData } from '../type/PropsType';
-import { type User as FirebaseUserData } from 'firebase/auth';
 import type { DateFilter } from '../type/StateContextType';
 
 const generateRateMessage = (value: number, valueMax: number) => {
@@ -94,13 +93,6 @@ export function generateGasStatusInfo(
 
 export function checkInUseDays(value: string) {
   return dayjs().diff(dayjs(value), 'days');
-}
-
-export function mapFirebaseUser(firebaseUser: FirebaseUserData): User {
-  return {
-    id: firebaseUser.uid,
-    email: firebaseUser.email!,
-  };
 }
 
 export function getDefaultDateFilterRange(): DateFilter {

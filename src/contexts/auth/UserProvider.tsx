@@ -6,10 +6,7 @@ import AuthServiceFactory from '../../services/Auth/AuthServiceFactory';
 import type { LoginCredentials, User } from '../../type/AppType';
 import type { BasePropsType } from '../../type/PropsType';
 import type { AuthState } from '../../type/StateContextType';
-import {
-  clearStoredUser,
-  storeUserEmail,
-} from '../../utils/localStorageUtilities';
+import { clearStoredUser } from '../../utils/localStorageUtilities';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { authReducer } from './authReducer';
 import { UserContext } from './UserContext';
@@ -45,7 +42,6 @@ export const UserProvider = ({ children }: BasePropsType) => {
 
     try {
       const user = await authService.signIn(credentials);
-      storeUserEmail(user.email);
       dispatch({ type: 'LOGIN_SUCCESS', payload: user });
       show('Successfully logged in', 'success');
     } catch (error: unknown) {

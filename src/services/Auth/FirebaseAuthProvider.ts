@@ -2,10 +2,10 @@ import type { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { firebaseAuth } from '../../config/firebase';
 import type { LoginCredentials } from '../../type/AppType';
-import { mapFirebaseUser } from '../../utils/dataTransformUtilities';
 import { validateCredentials } from '../../utils/validationUtilities';
 import { AuthError } from './AuthError';
 import type AuthProvider from './AuthProvider';
+import { mapFirebaseUser } from '../../utils/dataMappers';
 
 export default class FirebaseAuthProvider implements AuthProvider {
   async signIn(credentials: LoginCredentials) {

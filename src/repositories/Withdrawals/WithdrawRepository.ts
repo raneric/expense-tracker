@@ -1,11 +1,11 @@
-import { orderBy, QueryConstraint } from 'firebase/firestore';
-import type DataProvider from '../services/Data/DataProvider';
-import FirestoreDataProvider from '../services/Data/FirestoreDataProvider';
-import type { Withdrawal } from '../type/AppType';
-import { rows } from '../utils/Const';
-import { withdrawalDataMapper } from '../utils/dataMappers';
-import type BaseRepository from './BaseRepository';
-import { COLLECTIONS } from '../config/firebase';
+import { orderBy, type QueryConstraint } from 'firebase/firestore';
+import { COLLECTIONS } from '../../config/firebase';
+import type DataProvider from '../../services/Data/DataProvider';
+import FirestoreDataProvider from '../../services/Data/FirestoreDataProvider';
+import type { Withdrawal } from '../../type/AppType';
+import type BaseRepository from '../BaseRepository';
+import { withdrawalDataMapper } from '../../utils/dataMappers';
+import { rows } from '../../utils/Const';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

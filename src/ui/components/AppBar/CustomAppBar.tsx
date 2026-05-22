@@ -1,10 +1,10 @@
 import { ExitToAppTwoTone } from '@mui/icons-material';
-import { AppBar, IconButton, Toolbar } from '@mui/material';
+import { AppBar, Avatar, Chip, IconButton, Toolbar } from '@mui/material';
 import Colors from '../../Theming/Colors';
 import { useUserContext } from '../../../contexts/auth/UserContext';
 
 export default function CustomAppBar() {
-  const { logout } = useUserContext();
+  const { logout, state } = useUserContext();
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     logout();
@@ -16,6 +16,16 @@ export default function CustomAppBar() {
       elevation={1}
     >
       <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Chip
+          avatar={
+            <Avatar
+              alt="Natacha"
+              src="/static/images/avatar/1.jpg"
+            />
+          }
+          label={state.user?.email}
+          variant="outlined"
+        />
         <IconButton
           onClick={handleLogout}
           aria-label="fingerprint"

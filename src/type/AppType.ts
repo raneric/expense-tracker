@@ -27,8 +27,13 @@ export interface User {
   email: string;
 }
 
-export interface LoginCredentials {
-  email: string;
+export interface UserInfo extends User {
+  firstName: string;
+  lastName: string;
+  pictureUrl: string;
+}
+
+export interface LoginCredentials extends Omit<User, 'id'> {
   password: string;
 }
 

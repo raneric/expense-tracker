@@ -1,6 +1,6 @@
 import { orderBy, where } from 'firebase/firestore';
 import { useCallback, useEffect, useMemo, useReducer } from 'react';
-import WithdrawRepository from '../../repositories/WithdrawRepository';
+import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import type { Withdrawal } from '../../type/AppType';
 import type { BasePropsType } from '../../type/PropsType';
 import type {
@@ -8,10 +8,10 @@ import type {
   DateFilter,
 } from '../../type/StateContextType';
 import { getDefaultDateFilterRange } from '../../utils/dataTransformUtilities';
+import { useUserContext } from '../auth/UserContext';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { WithdrawalContext } from './WithdrawalContext';
 import { withdrawalReducer } from './withdrawalReducer';
-import { useUserContext } from '../auth/UserContext';
 
 const initialState: DataRetrievalState<Withdrawal, DateFilter> = {
   data: [],
@@ -28,7 +28,10 @@ export const WithdrawalProvider = ({ children }: BasePropsType) => {
   /**
    * Repository instance
    */
-  const withdrawalRepository = useMemo(() => new WithdrawRepository(), []);
+  const withdrawalRepository = useMemo(
+    () => RepositoriesFactory.createWithdrawRepository(),
+    []
+  );
 
   const constraints = useMemo(
     () => [

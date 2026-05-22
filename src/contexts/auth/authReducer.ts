@@ -23,14 +23,14 @@ export const authReducer = (
       return {
         user: null,
         loading: false,
-        isInit: false,
+        isInit: true,
         error: action.payload,
       };
     case 'LOGOUT':
       return {
         user: null,
         loading: false,
-        isInit: false,
+        isInit: true,
         error: null,
       };
     default:
