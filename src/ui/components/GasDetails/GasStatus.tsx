@@ -21,7 +21,7 @@ import InfoRow from '../../core/InfoRow';
 import Colors from '../../Theming/Colors';
 import AppDimensions from '../../Theming/Dimensions';
 import { useSubmit } from 'react-router-dom';
-import ConfirmationDialog from '../FeedbackDialog/ConfirmationDialog';
+import ConfirmationDialog from '../Dialog/ConfirmationDialog';
 
 export default function GasStatus({ gasEvents }: GasEventsDataProps) {
   const submit = useSubmit();

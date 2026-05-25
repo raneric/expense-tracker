@@ -1,5 +1,4 @@
 import type { AppRoutes } from '../utils/Const';
-import type { GasEvent } from './PropsType';
 
 type RoutePath = (typeof AppRoutes)[keyof typeof AppRoutes];
 
@@ -47,6 +46,17 @@ export interface ValidatorConfig<T> {
 }
 
 export type PrimitiveType = string | boolean | Date | number;
+
+type GasEventType = 'done' | 'previous' | 'current';
+
+export interface GasEvent {
+  id: string;
+  startDate: string;
+  endDate: string | null;
+  totalDays: number;
+  type: GasEventType;
+  price: number;
+}
 
 export type GasStatusInfo = {
   previous: GasEvent;

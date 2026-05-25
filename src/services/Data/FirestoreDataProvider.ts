@@ -15,8 +15,9 @@ import {
 import { firestoreDb } from '../../config/firebase';
 import type DataProvider from './DataProvider';
 export default class FirestoreDataProvider<
-  T extends WithFieldValue<DocumentData>,
-> implements DataProvider<T, string> {
+  T extends WithFieldValue<DocumentData>
+> implements DataProvider<T, string>
+{
   private docsCollection: string;
 
   constructor(docsCollection: string) {
@@ -42,7 +43,6 @@ export default class FirestoreDataProvider<
 
   async createOne(data: T): Promise<void> {
     await addDoc(this.getCollectionReference(), data);
-    console.log(data);
   }
 
   async getByUnique(
@@ -50,8 +50,7 @@ export default class FirestoreDataProvider<
     dataMapper: (data: DocumentData) => T
   ): Promise<T> {
     const result = await getDoc(this.getDocReference(id));
-    const data = result.data;
-    return dataMapper(data);
+    return dataMapper(result);
   }
 
   async deleteByUnique(id: string): Promise<void> {

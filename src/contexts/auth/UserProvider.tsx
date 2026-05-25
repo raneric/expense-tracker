@@ -2,7 +2,7 @@ import type { FirebaseError } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useMemo, useReducer } from 'react';
 import type { AuthError } from '../../services/Auth/AuthError';
-import AuthServiceFactory from '../../services/Auth/AuthServiceFactory';
+import AuthProviderFactory from '../../services/Auth/AuthProviderFactory';
 import type { LoginCredentials } from '../../type/AppType';
 import type { BasePropsType } from '../../type/PropsType';
 import type { AuthState } from '../../type/StateContextType';
@@ -21,7 +21,10 @@ const initialState: AuthState = {
 export const UserProvider = ({ children }: BasePropsType) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const { show } = useSnackbarContext();
-  const authService = useMemo(() => AuthServiceFactory.createAuthService(), []);
+  const authProvider = useMemo(
+    () => AuthProviderFactory.createAuthService(),
+    []
+  );
 
   useEffect(() => {
     const auth = getAuth();
@@ -43,7 +46,7 @@ export const UserProvider = ({ children }: BasePropsType) => {
     dispatch({ type: 'LOGIN_START' });
 
     try {
-      await authService.signIn(credentials);
+      await authProvider.signIn(credentials);
       show('Successfully logged in', 'success');
     } catch (error: unknown) {
       dispatch({
@@ -57,7 +60,7 @@ export const UserProvider = ({ children }: BasePropsType) => {
 
   const logout = async () => {
     try {
-      await authService.logout();
+      await authProvider.logout();
       dispatch({ type: 'LOGOUT' });
       clearStoredUser();
     } catch (error) {

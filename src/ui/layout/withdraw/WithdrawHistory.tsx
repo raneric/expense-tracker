@@ -11,7 +11,7 @@ import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
 import { WithdrawalCharts } from '../../components/Charts/WithdrawalCharts';
 import FilterDialog from '../../components/Dialog/FilterDialog';
 import WithdrawalFormDialog from '../../components/Dialog/WithdrawalFormDialog';
-import ConfirmationDialog from '../../components/FeedbackDialog/ConfirmationDialog';
+import ConfirmationDialog from '../../components/Dialog/ConfirmationDialog';
 import AppSpeedDial from '../../components/SpeedDial/AppSpeedDial';
 import SkeletonTableBody from '../../components/Table/SkeletonTableBody';
 import WithdrawTable from '../../components/Table/WithdrawTable';

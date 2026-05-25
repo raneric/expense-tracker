@@ -14,7 +14,7 @@ export const mapFirebaseUser = (firebaseUser: FirebaseUserData): User => ({
 });
 
 export const userInfoDataMapper = (doc: DocumentData): UserInfo => ({
-  id: doc.data().id,
+  id: doc.id,
   firstName: doc.data().first_name,
   lastName: doc.data().last_name,
   pictureUrl: doc.data().picture_url,

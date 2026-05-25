@@ -1,5 +1,5 @@
 import { type PickerDayProps } from '@mui/x-date-pickers';
-import type { TablePaginationState, Withdrawal } from './AppType';
+import type { GasEvent, TablePaginationState, Withdrawal } from './AppType';
 export interface BasePropsType {
   children?: React.ReactNode;
 }
@@ -58,16 +58,6 @@ export interface DimensionalChartProps<T, U> {
 
 export interface GasEventsDataProps {
   gasEvents: GasEvent[];
-}
-
-type GasEventType = 'done' | 'previous' | 'current';
-
-export interface GasEvent {
-  id: string;
-  startDate: string;
-  endDate: string | null;
-  totalDays: number;
-  type: GasEventType;
 }
 
 export type GasEventData = {
