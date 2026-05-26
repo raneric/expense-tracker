@@ -1,14 +1,9 @@
 import { Stack, useMediaQuery, useTheme } from '@mui/material';
-import type { DimensionalChartProps } from '../../../type/PropsType';
 import ChartCard from '../../core/ChartCard';
 import ExpenseSparkLine from './ExpenseSparkline';
+import type { WithdrawalChartsProps } from '../../../type/PropsType';
 
-type Props = {
-  current: DimensionalChartProps<number, Date>;
-  forecast: DimensionalChartProps<number, Date>;
-};
-
-export function WithdrawalCharts({ current, forecast }: Props) {
+export function WithdrawalCharts({ current, forecast }: WithdrawalChartsProps) {
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   return (

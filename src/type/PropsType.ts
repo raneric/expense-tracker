@@ -90,3 +90,8 @@ export interface SpeedDialActionElement {
 export interface SpeedDialProps {
   elements: SpeedDialActionElement[];
 }
+
+export interface WithdrawalChartsProps {
+  current: DimensionalChartProps<number, Date>;
+  forecast: DimensionalChartProps<number, Date>;
+}

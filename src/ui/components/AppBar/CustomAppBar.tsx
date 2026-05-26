@@ -63,11 +63,11 @@ export default function CustomAppBar() {
           <Chip
             avatar={
               <Avatar
-                alt="Natacha"
-                src="/static/images/avatar/1.jpg"
+                alt={state.profile?.firstName}
+                src={state.profile?.pictureUrl}
               />
             }
-            label={state.user?.email}
+            label={state.profile?.email}
             variant="outlined"
           />
 

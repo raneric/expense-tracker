@@ -15,6 +15,7 @@ export const authReducer = (
     case 'LOGIN_SUCCESS':
       return {
         user: action.payload,
+        profile: null,
         loading: false,
         isInit: false,
         error: null,
@@ -23,6 +24,7 @@ export const authReducer = (
       return {
         user: null,
         loading: false,
+        profile: null,
         isInit: true,
         error: action.payload,
       };
@@ -30,6 +32,7 @@ export const authReducer = (
       return {
         user: null,
         loading: false,
+        profile: null,
         isInit: true,
         error: null,
       };
@@ -37,6 +40,12 @@ export const authReducer = (
       return {
         ...state,
         user: action.payload,
+        isInit: false,
+      };
+    case 'LOAD_PROFILE':
+      return {
+        ...state,
+        profile: action.payload,
         isInit: false,
       };
     default:

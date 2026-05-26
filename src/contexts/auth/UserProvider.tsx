@@ -1,6 +1,7 @@
 import type { FirebaseError } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useMemo, useReducer } from 'react';
+import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import type { AuthError } from '../../services/Auth/AuthError';
 import AuthProviderFactory from '../../services/Auth/AuthProviderFactory';
 import type { LoginCredentials } from '../../type/AppType';
@@ -13,7 +14,8 @@ import { UserContext } from './UserContext';
 
 const initialState: AuthState = {
   user: null,
-  loading: false,
+  profile: null,
+  loading: true,
   isInit: true,
   error: null,
 };
@@ -26,21 +28,41 @@ export const UserProvider = ({ children }: BasePropsType) => {
     []
   );
 
+  const userInfoRepo = useMemo(
+    () => RepositoriesFactory.createUserInfoRepository(),
+    []
+  );
+
   useEffect(() => {
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      dispatch({
-        type: 'AUTH_INITIALIZED',
-        payload: currentUser
-          ? {
-              email: currentUser.email!,
-              id: currentUser.uid,
-            }
-          : null,
-      });
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        dispatch({
+          type: 'AUTH_INITIALIZED',
+          payload: {
+            email: currentUser.email!,
+            id: currentUser.uid,
+          },
+        });
+      }
     });
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (!state.user) return;
+
+    const load = async () => {
+      const data = await userInfoRepo.getByUnique(state.user!.id);
+
+      dispatch({
+        type: 'LOAD_PROFILE',
+        payload: data,
+      });
+    };
+
+    load();
+  }, [state.user, userInfoRepo]);
 
   const login = async (credentials: LoginCredentials) => {
     dispatch({ type: 'LOGIN_START' });

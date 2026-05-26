@@ -35,7 +35,7 @@ export default function useWithdrawalSubmit(closeDialog: () => void) {
         withdrawalRepository
           .updateOne(withdrawal)
           .then(() => {
-            show('Successfully create', 'success');
+            show('Successfully updated', 'success');
           })
           .catch((error: unknown) => {
             show((error as Error).message, 'error');

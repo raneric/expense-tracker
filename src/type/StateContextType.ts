@@ -1,5 +1,5 @@
 import type { AlertColor } from '@mui/material';
-import type { LoginCredentials, User } from './AppType';
+import type { LoginCredentials, User, UserInfo } from './AppType';
 
 // ------------------ Auth Context ----------------------------
 export type UserAction =
@@ -7,7 +7,8 @@ export type UserAction =
   | { type: 'LOGIN_SUCCESS'; payload: User }
   | { type: 'LOGIN_FAILURE'; payload: string }
   | { type: 'LOGOUT' }
-  | { type: 'AUTH_INITIALIZED'; payload: User | null };
+  | { type: 'AUTH_INITIALIZED'; payload: User | null }
+  | { type: 'LOAD_PROFILE'; payload: UserInfo | null };
 
 export interface UserContextType {
   state: AuthState;
@@ -18,6 +19,7 @@ export interface UserContextType {
 
 export interface AuthState {
   user: User | null;
+  profile: UserInfo | null;
   loading: boolean;
   isInit: boolean;
   error: string | null;

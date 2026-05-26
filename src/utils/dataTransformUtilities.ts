@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import type { GasStatusInfo } from '../type/AppType';
-import type { GasEvent, GasEventData } from '../type/PropsType';
+import type { GasEvent, GasStatusInfo } from '../type/AppType';
+import type { GasEventData } from '../type/PropsType';
 import type { DateFilter } from '../type/StateContextType';
 
 const generateRateMessage = (value: number, valueMax: number) => {

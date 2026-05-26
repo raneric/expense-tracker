@@ -13,7 +13,7 @@ import LogoImage from '../../assets/logo_v2.png';
 export default function Main() {
   const { state } = useUserContext();
 
-  if (state.isInit) {
+  if (state.isInit && state.loading) {
     return (
       <SplashScreen>
         <Logo src={LogoImage} />

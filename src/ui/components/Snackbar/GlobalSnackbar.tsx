@@ -1,19 +1,26 @@
-import { Alert, Slide, Snackbar, Stack } from '@mui/material';
+import { Alert, Slide, Snackbar } from '@mui/material';
 import { useSnackbarContext } from '../../../contexts/snackbar/SnackbarContext';
 
 export default function GlobalSnackbar() {
   const { state, hide } = useSnackbarContext();
 
   return (
-    <Stack spacing={1}>
-      {state.notifications.map((notification) => (
+    <>
+      {state.notifications.map((notification, index) => (
         <Snackbar
           key={notification.id}
           open
           autoHideDuration={5000}
           onClose={() => hide(notification.id)}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
           slots={{
             transition: Slide,
+          }}
+          sx={{
+            mb: `${index * 60}px`,
           }}
           slotProps={{
             transition: {
@@ -21,13 +28,9 @@ export default function GlobalSnackbar() {
                 enter: 'ease-out',
               },
               timeout: {
-                enter: 500,
+                enter: 300,
               },
             },
-          }}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
           }}
         >
           <Alert
@@ -40,6 +43,6 @@ export default function GlobalSnackbar() {
           </Alert>
         </Snackbar>
       ))}
-    </Stack>
+    </>
   );
 }
