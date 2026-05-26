@@ -44,6 +44,10 @@ export const UserProvider = ({ children }: BasePropsType) => {
             id: currentUser.uid,
           },
         });
+      } else {
+        dispatch({
+          type: 'LOGOUT',
+        });
       }
     });
     return () => unsubscribe();
