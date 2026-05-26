@@ -6,19 +6,18 @@ import {
 } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { memo, useMemo } from 'react';
-import type {
-  CalendarDayProps,
-  GasEventsDataProps,
-} from '../../../type/PropsType';
+import { useGasEventsContext } from '../../../contexts/gasEvents/GasEventsContext';
+import type { CalendarDayProps } from '../../../type/PropsType';
+import { generateGasEventData } from '../../../utils/dataTransformUtilities';
 import Colors from '../../Theming/Colors';
 import CustomCardHeader from '../../core/CustomCardHeader';
 import { formatStringDate } from '../../../utils/formatterUtilities';
-import { generateGasEventData } from '../../../utils/dataTransformUtilities';
 
-export default function Calendar({ gasEvents }: GasEventsDataProps) {
+export default function Calendar() {
+  const { state } = useGasEventsContext();
   const gasEventData = useMemo(
-    () => generateGasEventData(gasEvents),
-    [gasEvents]
+    () => generateGasEventData(state.data),
+    [state.data]
   );
 
   return (
@@ -45,7 +44,6 @@ export default function Calendar({ gasEvents }: GasEventsDataProps) {
 
 const DayCell = memo(function (props: CalendarDayProps) {
   const { gasEventData, day, today, ...other } = props;
-
   const currentDay = useMemo(() => day.format('YYYY-MM-DD'), [day]);
 
   const getBadge = () => {

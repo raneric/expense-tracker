@@ -1,14 +1,11 @@
 import { CalendarMonth } from '@mui/icons-material';
 import { Stack } from '@mui/material';
-import { useLoaderData } from 'react-router-dom';
 import Calendar from '../../components/Calendar/Calendar';
 import GasStatus from '../../components/GasDetails/GasStatus';
 import { SectionTitle, Tittle } from '../../core/SectionTitle';
-import type { GasEvent } from '../../../type/AppType';
+import { GasEventsProvider } from '../../../contexts/gasEvents/GasEventsProvider';
 
 export default function Gas() {
-  const data: GasEvent[] = useLoaderData();
-
   return (
     <>
       <SectionTitle>
@@ -21,8 +18,10 @@ export default function Gas() {
         direction="row"
         spacing={2}
       >
-        <Calendar gasEvents={data} />
-        <GasStatus gasEvents={data} />
+        <GasEventsProvider>
+          <Calendar />
+          <GasStatus />
+        </GasEventsProvider>
       </Stack>
     </>
   );

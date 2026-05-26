@@ -1,5 +1,5 @@
 import type { AlertColor } from '@mui/material';
-import type { LoginCredentials, User, UserInfo } from './AppType';
+import type { GasEvent, LoginCredentials, User, UserInfo } from './AppType';
 
 // ------------------ Auth Context ----------------------------
 export type UserAction =
@@ -99,3 +99,15 @@ export type DrawerAction =
   | { type: 'TOGGLE' }
   | { type: 'OPEN' }
   | { type: 'CLOSE' };
+
+//---------------------- Gas events context -----------------------
+export type GasEventsDataRetrievalState = Omit<
+  DataRetrievalState<GasEvent, undefined>,
+  'filter'
+>;
+
+export type GasEventDataRetrievalContextType = {
+  state: GasEventsDataRetrievalState;
+  load: () => Promise<void>;
+  submit: () => Promise<void>;
+};

@@ -1,3 +1,4 @@
+import type { Dayjs } from 'dayjs';
 import type { AppRoutes } from '../utils/Const';
 
 type RoutePath = (typeof AppRoutes)[keyof typeof AppRoutes];
@@ -51,8 +52,8 @@ type GasEventType = 'done' | 'previous' | 'current';
 
 export interface GasEvent {
   id: string;
-  startDate: string;
-  endDate: string | null;
+  startDate: Dayjs;
+  endDate: Dayjs | null;
   totalDays: number;
   type: GasEventType;
   price: number;

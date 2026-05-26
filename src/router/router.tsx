@@ -7,9 +7,7 @@ import Main from '../ui/layout/Main';
 import Profile from '../ui/layout/profile/Profile';
 import WithdrawalHistory from '../ui/layout/withdraw/WithdrawHistory';
 import { AppRoutes } from '../utils/Const';
-import { action as gasStatusAction } from './actions/gasStatusAction';
 import { dashboardLoader } from './loaders/dashboardLoader';
-import { gasLoader } from './loaders/gasLoader';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -37,8 +35,6 @@ const router = createBrowserRouter([
       {
         element: <Gas />,
         path: AppRoutes.GAS,
-        loader: gasLoader,
-        action: gasStatusAction,
       },
     ],
   },

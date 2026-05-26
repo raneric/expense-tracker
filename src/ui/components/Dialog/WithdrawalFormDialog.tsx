@@ -15,7 +15,7 @@ import {
 
 import { useState } from 'react';
 import type { Withdrawal } from '../../../type/AppType';
-import type { DialogFormProps } from '../../../type/PropsType';
+import type { WithdrawalDialogFormProps } from '../../../type/PropsType';
 import { initialWithdrawal } from '../../../utils/Const';
 import { isNanOrNegative } from '../../../utils/validationUtilities';
 import DialogHeader from './DialogHeader';
@@ -31,7 +31,7 @@ export default function WithdrawalFormDialog({
   reasonsList,
   onClose,
   onSubmit,
-}: DialogFormProps<Withdrawal>) {
+}: WithdrawalDialogFormProps) {
   const [withdrawalData, setWithdrawalData] = useState<Withdrawal>(
     initialData ?? initialWithdrawal
   );

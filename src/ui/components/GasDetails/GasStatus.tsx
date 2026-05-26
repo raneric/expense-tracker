@@ -10,48 +10,53 @@ import { Gauge } from '@mui/x-charts';
 
 import { useMemo, useState } from 'react';
 
-import type { GasStatusInfo } from '../../../type/AppType';
-import type { GasEventsDataProps } from '../../../type/PropsType';
+import type { GasEvent, GasStatusInfo } from '../../../type/AppType';
 
 import { AssignmentTurnedIn } from '@mui/icons-material';
+import dayjs from 'dayjs';
+import { useGasEventsContext } from '../../../contexts/gasEvents/GasEventsContext';
 import { generateGasStatusInfo } from '../../../utils/dataTransformUtilities';
 import { formatStringDate } from '../../../utils/formatterUtilities';
 import CustomCardHeader from '../../core/CustomCardHeader';
 import InfoRow from '../../core/InfoRow';
 import Colors from '../../Theming/Colors';
 import AppDimensions from '../../Theming/Dimensions';
-import { useSubmit } from 'react-router-dom';
-import ConfirmationDialog from '../Dialog/ConfirmationDialog';
+import GasFormDialog from '../Dialog/GasFormDialog';
 
-export default function GasStatus({ gasEvents }: GasEventsDataProps) {
-  const submit = useSubmit();
+const testInit: GasEvent = {
+  id: '',
+  startDate: dayjs(),
+  endDate: null,
+  totalDays: 0,
+  type: 'current',
+  price: 0,
+};
+
+export default function GasStatus() {
+  const { state, submit } = useGasEventsContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const gasStatusInfo = useMemo<GasStatusInfo | null>(
-    () => generateGasStatusInfo(gasEvents),
-    [gasEvents]
+    () => generateGasStatusInfo(state.data),
+    [state.data]
   );
 
   const hasData = gasStatusInfo !== null;
 
   const handleConfirm = () => {
-    const formData = new FormData();
     if (hasData) {
-      formData.set('current_id', gasStatusInfo.current.id);
-      formData.set('startDate', gasStatusInfo.current.startDate);
-      formData.set('previous_id', gasStatusInfo.previous.id);
-      submit(formData, { method: 'post', action: '/gas' });
+      submit();
       setIsDialogOpen(false);
     }
   };
 
   return (
     <>
-      <ConfirmationDialog
+      <GasFormDialog
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
-        onConfirm={handleConfirm}
-        onCancel={() => setIsDialogOpen(false)}
-        message="Are you sure to mark current gas bottle as empty?"
+        onSubmit={handleConfirm}
+        initialData={testInit}
       />
       <Paper
         elevation={1}
@@ -76,7 +81,9 @@ export default function GasStatus({ gasEvents }: GasEventsDataProps) {
                   value={
                     gasStatusInfo.current?.startDate === undefined
                       ? ''
-                      : formatStringDate(gasStatusInfo.current?.startDate)
+                      : formatStringDate(
+                          gasStatusInfo.current?.startDate.toISOString()
+                        )
                   }
                 />
                 <InfoRow

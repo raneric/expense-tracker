@@ -45,4 +45,5 @@ export const { auth: firebaseAuth, db: firestoreDb } = firebaseService;
 export const COLLECTIONS = {
   withdrawals: import.meta.env.DEV ? 'withdrawals_dev' : 'withdrawals',
   userInfo: 'users',
+  gasEvents: 'gas_events',
 } as const;

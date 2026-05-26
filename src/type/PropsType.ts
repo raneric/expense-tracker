@@ -1,5 +1,6 @@
 import { type PickerDayProps } from '@mui/x-date-pickers';
 import type { GasEvent, TablePaginationState, Withdrawal } from './AppType';
+import type { Dayjs } from 'dayjs';
 export interface BasePropsType {
   children?: React.ReactNode;
 }
@@ -47,8 +48,11 @@ export interface FeedbackDialogProps extends DialogProps {
 
 export interface DialogFormProps<T> extends DialogProps {
   initialData: T;
-  reasonsList: string[];
   onSubmit: (data: T) => void;
+}
+
+export interface WithdrawalDialogFormProps extends DialogFormProps<Withdrawal> {
+  reasonsList: string[];
 }
 
 export interface DimensionalChartProps<T, U> {
@@ -62,7 +66,7 @@ export interface GasEventsDataProps {
 
 export type GasEventData = {
   startDates: Set<string>;
-  endDates: Set<string>;
+  endDates: Set<Dayjs>;
   forecastedDate?: string;
 };
 

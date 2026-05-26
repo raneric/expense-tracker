@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import type { GasEvent, GasStatusInfo } from '../type/AppType';
 import type { GasEventData } from '../type/PropsType';
 import type { DateFilter } from '../type/StateContextType';
@@ -9,13 +9,13 @@ const generateRateMessage = (value: number, valueMax: number) => {
 
 export function generateGasEventData(gasEvents: GasEvent[]): GasEventData {
   const startDates = new Set<string>();
-  const endDates = new Set<string>();
+  const endDates = new Set<Dayjs>();
 
   let currentGasEvent: GasEvent | undefined;
   let previousGasEvent: GasEvent | undefined;
 
   for (const event of gasEvents) {
-    startDates.add(event.startDate);
+    startDates.add(event.startDate.format('YYYY-MM-DD'));
 
     if (event.endDate) {
       endDates.add(event.endDate);
@@ -96,10 +96,10 @@ export function checkInUseDays(value: string) {
 }
 
 export function getDefaultDateFilterRange(): DateFilter {
-  const currentMonth28 = dayjs().date(28);
-  const previousMonth28 = dayjs().subtract(1, 'month').date(28);
+  const currentMonth27 = dayjs().date(27);
+  const previousMonth27 = dayjs().subtract(1, 'month').date(27);
   return {
-    startDate: previousMonth28.toDate(),
-    endDate: currentMonth28.toDate(),
+    startDate: previousMonth27.toDate(),
+    endDate: currentMonth27.toDate(),
   };
 }
