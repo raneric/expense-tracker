@@ -9,6 +9,8 @@ import type {
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { GasEventsContext } from './GasEventsContext';
 import { gasEventsReducer } from './gasEventsReducer';
+import { useUserContext } from '../auth/UserContext';
+import { where } from 'firebase/firestore';
 
 const initialState: Omit<DataRetrievalState<GasEvent, undefined>, 'filter'> = {
   data: [],
@@ -17,7 +19,13 @@ const initialState: Omit<DataRetrievalState<GasEvent, undefined>, 'filter'> = {
 
 export const GasEventsProvider = ({ children }: BasePropsType) => {
   const [state, dispatch] = useReducer(gasEventsReducer, initialState);
+  const { state: userState } = useUserContext();
   const { show } = useSnackbarContext();
+
+  const constraints = useMemo(
+    () => [where('ownerId', '==', userState.user?.id)],
+    [userState.user]
+  );
 
   const gasEventsRepository = useMemo(
     () => RepositoriesFactory.createGasEventRepository(),
@@ -46,7 +54,7 @@ export const GasEventsProvider = ({ children }: BasePropsType) => {
     try {
       dispatch({ type: 'LOADING' });
 
-      const data = await gasEventsRepository.getAll();
+      const data = await gasEventsRepository.getAll(constraints);
 
       dispatch({
         type: 'LOADED',
@@ -55,7 +63,7 @@ export const GasEventsProvider = ({ children }: BasePropsType) => {
     } catch (error) {
       handleError(error);
     }
-  }, [gasEventsRepository, handleError]);
+  }, [gasEventsRepository, handleError, constraints]);
 
   const submit = useCallback(async () => {
     console.log('called');
