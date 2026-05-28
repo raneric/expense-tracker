@@ -63,8 +63,6 @@ export default function WithdrawalHistory() {
 
   const formInitialData = isEdit ? dialog.withdrawal : initialWithdrawal;
 
-  const reasonsList = isCreate || isEdit ? dialog.reasonsList : [];
-
   return (
     <Stack spacing={2}>
       <SectionTitle>
@@ -104,7 +102,7 @@ export default function WithdrawalHistory() {
         key={isEdit ? `edit-${dialog.withdrawal.id}` : 'create'}
         isOpen={isFormDialogOpen}
         initialData={formInitialData}
-        reasonsList={reasonsList}
+        reasonsList={withdrawalState.reasons}
         onClose={closeDialog}
         onSubmit={handleUpdateSubmit}
       />

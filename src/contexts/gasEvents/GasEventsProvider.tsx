@@ -54,7 +54,7 @@ export const GasEventsProvider = ({ children }: PropsWithChildren) => {
   );
 
   /**
-   * Fetch all withdrawals
+   * Fetch all
    */
   const load = useCallback(async () => {
     try {
@@ -100,11 +100,12 @@ export const GasEventsProvider = ({ children }: PropsWithChildren) => {
           );
           await gasEventsRepository.updateOne(currentGas);
         }
+        load();
       } catch (error: unknown) {
         show((error as Error).message, 'error');
       }
     },
-    [state.data, gasEventsRepository, show, userState.user]
+    [state.data, gasEventsRepository, show, userState.user, load]
   );
 
   /**

@@ -5,13 +5,11 @@ import FirestoreDataProvider from '../../services/Data/FirestoreDataProvider';
 import type { Withdrawal } from '../../type/AppType';
 import { withdrawalDataMapper } from '../../utils/dataMappers';
 import type BaseRepository from '../BaseRepository';
+import { removeDuplicateValues } from '../../utils/validationUtilities';
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-export default class WithdrawRepository implements BaseRepository<
-  Withdrawal,
-  string
-> {
+export default class WithdrawRepository
+  implements BaseRepository<Withdrawal, string>
+{
   private readonly dataProvider: DataProvider<Withdrawal, string>;
 
   constructor() {
@@ -31,15 +29,21 @@ export default class WithdrawRepository implements BaseRepository<
     );
   }
 
+  async getReasonsList(constraints: QueryConstraint[]): Promise<string[]> {
+    const withdrawals = await this.dataProvider.getAll(
+      withdrawalDataMapper,
+      constraints
+    );
+    const reasons = withdrawals.flatMap((withdrawal) => withdrawal.reasons);
+    return removeDuplicateValues<string>(reasons);
+  }
+
   async createOne(data: Withdrawal): Promise<void> {
     await this.dataProvider.createOne(data);
   }
 
-  // MOCK NOW, IMPLEMENT LATER
   async getByUnique(unique: string): Promise<Withdrawal> {
-    console.log(unique);
-    await delay(2000);
-    throw new Error('getByUnique from WithdrawRepository not yet implemented');
+    return await this.dataProvider.getByUnique(unique, withdrawalDataMapper);
   }
 
   async deleteByUnique(unique: string): Promise<void> {

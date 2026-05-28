@@ -7,19 +7,20 @@ import {
   type PropsWithChildren,
 } from 'react';
 import RepositoriesFactory from '../../repositories/RepositoriesFactory';
-import type { Withdrawal } from '../../type/AppType';
 import type {
-  DataRetrievalState,
   DateFilter,
+  WithdrawalRetrievalState,
 } from '../../type/StateContextType';
+import { getDefaultDateFilterRange } from '../../utils/dataGeneratorUtilities';
 import { useUserContext } from '../auth/UserContext';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { WithdrawalContext } from './WithdrawalContext';
 import { withdrawalReducer } from './withdrawalReducer';
-import { getDefaultDateFilterRange } from '../../utils/dataGeneratorUtilities';
+import type WithdrawRepository from '../../repositories/Withdrawals/WithdrawRepository';
 
-const initialState: DataRetrievalState<Withdrawal, DateFilter> = {
+const initialState: WithdrawalRetrievalState = {
   data: [],
+  reasons: [],
   isLoading: false,
   filter: getDefaultDateFilterRange(),
 };
@@ -34,18 +35,23 @@ export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
    * Repository instance
    */
   const withdrawalRepository = useMemo(
-    () => RepositoriesFactory.createWithdrawRepository(),
+    () => RepositoriesFactory.createWithdrawRepository() as WithdrawRepository,
     []
+  );
+
+  const userIdConstraint = useMemo(
+    () => where('ownerId', '==', userState.user?.id),
+    [userState.user]
   );
 
   const constraints = useMemo(
     () => [
       where('date', '>=', state.filter.startDate),
       where('date', '<=', state.filter.endDate),
-      where('ownerId', '==', userState.user?.id),
+      userIdConstraint,
       orderBy('date', 'desc'),
     ],
-    [state.filter, userState.user]
+    [state.filter, userIdConstraint]
   );
 
   /**
@@ -70,16 +76,20 @@ export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
     try {
       dispatch({ type: 'LOADING' });
 
-      const data = await withdrawalRepository.getAll(constraints);
+      const wthdrawals = await withdrawalRepository.getAll(constraints);
+      const reasons = await withdrawalRepository.getReasonsList([
+        userIdConstraint,
+      ]);
 
       dispatch({
         type: 'LOADED',
-        payload: data,
+        payload: wthdrawals,
       });
+      dispatch({ type: 'LOAD_REASONS', payload: reasons });
     } catch (error) {
       handleError(error);
     }
-  }, [withdrawalRepository, handleError, constraints]);
+  }, [withdrawalRepository, handleError, constraints, userIdConstraint]);
 
   /**
    * Future filtering support

@@ -6,6 +6,7 @@ import type {
   LoginCredentials,
   User,
   UserInfo,
+  Withdrawal,
 } from './AppType';
 
 // ------------------ Auth Context ----------------------------
@@ -66,17 +67,10 @@ export interface DialogContextType {
 
 export type DialogAction = { type: 'OPEN' } | { type: 'CLOSE' };
 
-//---------------------- Withdrawals context -----------------------
 export interface DataRetrievalState<T, U = undefined> {
   isLoading: boolean;
   data: T[];
   filter: U;
-}
-export interface DataRetrievalContextType<T, U> {
-  state: DataRetrievalState<T, U>;
-  load: () => Promise<void>;
-  filterBy: (filter: U) => Promise<void>;
-  resetFilter: () => void;
 }
 
 export interface DataRetrievalContextType<T, U> {
@@ -92,6 +86,27 @@ export type DataRetrievalAction<T, U> =
   | { type: 'RESET_FILTER' }
   | { type: 'LOADED'; payload: T[] }
   | { type: 'ERROR' };
+
+//---------------------- Withdrawals context -----------------------
+export interface WithdrawalRetrievalState
+  extends DataRetrievalState<Withdrawal, DateFilter> {
+  isLoading: boolean;
+  data: Withdrawal[];
+  filter: DateFilter;
+  reasons: string[];
+}
+
+export interface WithdrawalRetrievalContextType
+  extends DataRetrievalContextType<Withdrawal, DateFilter> {
+  state: WithdrawalRetrievalState;
+  load: () => Promise<void>;
+  filterBy: (filter: DateFilter) => Promise<void>;
+  resetFilter: () => void;
+}
+
+export type WithdrawalRetrievalAction =
+  | DataRetrievalAction<Withdrawal, DateFilter>
+  | { type: 'LOAD_REASONS'; payload: string[] };
 
 export type DateFilter = { startDate?: Date; endDate?: Date };
 

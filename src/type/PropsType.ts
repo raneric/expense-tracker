@@ -42,7 +42,8 @@ export interface DialogProps {
 }
 
 export interface GasEventDialogProps
-  extends DialogProps, Submittable<GasFormDialogData> {}
+  extends DialogProps,
+    Submittable<GasFormDialogData> {}
 
 export interface FilterDialogProps extends DialogProps {
   onStartDateChange: () => void;

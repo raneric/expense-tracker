@@ -1,15 +1,13 @@
-import type { Withdrawal } from '../../type/AppType';
 import type {
-  DataRetrievalAction,
-  DataRetrievalState,
-  DateFilter,
+  WithdrawalRetrievalAction,
+  WithdrawalRetrievalState,
 } from '../../type/StateContextType';
 import { getDefaultDateFilterRange } from '../../utils/dataGeneratorUtilities';
 
 export const withdrawalReducer = (
-  state: DataRetrievalState<Withdrawal, DateFilter>,
-  action: DataRetrievalAction<Withdrawal, DateFilter>
-): DataRetrievalState<Withdrawal, DateFilter> => {
+  state: WithdrawalRetrievalState,
+  action: WithdrawalRetrievalAction
+): WithdrawalRetrievalState => {
   switch (action.type) {
     case 'LOADING':
       return {
@@ -37,6 +35,11 @@ export const withdrawalReducer = (
       return {
         ...state,
         filter: getDefaultDateFilterRange(),
+      };
+    case 'LOAD_REASONS':
+      return {
+        ...state,
+        reasons: action.payload,
       };
     default:
       return state;

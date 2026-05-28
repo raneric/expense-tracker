@@ -14,6 +14,7 @@ import {
 } from 'firebase/firestore';
 import { firestoreDb } from '../../config/firebase';
 import type DataProvider from './DataProvider';
+
 export default class FirestoreDataProvider<
   T extends WithFieldValue<DocumentData>
 > implements DataProvider<T, string>
