@@ -7,7 +7,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useWithdrawalContext } from '../../../contexts/dataRetrieval/WithdrawalContext';
+import { useWithdrawalContext } from '../../../../../contexts/dataRetrieval/WithdrawalContext';
 
 export default function EmptyTableFeedback() {
   const { resetFilter } = useWithdrawalContext();

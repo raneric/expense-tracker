@@ -6,8 +6,8 @@ import {
   PaidTwoTone,
 } from '@mui/icons-material';
 import { Box, TableCell, TableHead, TableRow } from '@mui/material';
-import Colors from '../../Theming/Colors';
-import AppTypography from '../../Theming/Typography';
+import Colors from '../../../../Theming/Colors';
+import AppTypography from '../../../../Theming/Typography';
 import { styled } from '@mui/material/styles';
 
 const CellContainer = styled(TableCell)(() => ({

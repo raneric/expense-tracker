@@ -14,10 +14,10 @@ import {
 } from '@mui/material';
 
 import { useCallback, useMemo, useState } from 'react';
-import type { Withdrawal } from '../../../type/AppType';
-import type { WithdrawalDialogFormProps } from '../../../type/PropsType';
-import { initialWithdrawal } from '../../../utils/Const';
-import DialogHeader from './DialogHeader';
+import type { Withdrawal } from '../../../../../type/AppType';
+import type { WithdrawalDialogFormProps } from '../../../../../type/PropsType';
+import { initialWithdrawal } from '../../../../../utils/Const';
+import DialogHeader from '../../../shared/Dialog/DialogHeader';
 
 const INITIAL_WITHDRAWAL: Withdrawal = initialWithdrawal;
 

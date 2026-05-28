@@ -1,8 +1,8 @@
 import { Dialog, DialogContent, TextField } from '@mui/material';
-import { useWithdrawalContext } from '../../../contexts/dataRetrieval/WithdrawalContext';
-import type { DialogProps } from '../../../type/PropsType';
-import DialogHeader from './DialogHeader';
-import { formatDateInput } from '../../../utils/formatterUtilities';
+import { useWithdrawalContext } from '../../../../../contexts/dataRetrieval/WithdrawalContext';
+import type { DialogProps } from '../../../../../type/PropsType';
+import DialogHeader from '../../../shared/Dialog/DialogHeader';
+import { formatDateInput } from '../../../../../utils/formatterUtilities';
 
 export default function FilterDialog({ isOpen, onClose }: DialogProps) {
   const { filterBy, state } = useWithdrawalContext();

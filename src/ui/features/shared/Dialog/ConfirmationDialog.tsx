@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogContentText,
 } from '@mui/material';
-import type { FeedbackDialogProps } from '../../../type/PropsType';
+import type { FeedbackDialogProps } from '../../../../type/PropsType';
 
 export default function ConfirmationDialog({
   isOpen,

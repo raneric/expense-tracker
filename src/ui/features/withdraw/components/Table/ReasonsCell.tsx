@@ -1,6 +1,6 @@
 import { Stack, Tooltip, Typography } from '@mui/material';
-import type { Withdrawal } from '../../../type/AppType';
 import { Info } from '@mui/icons-material';
+import type { Withdrawal } from '../../../../../type/AppType';
 
 export default function ReasonsCell({
   withdrawal,

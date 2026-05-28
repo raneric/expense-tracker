@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Error from '../ui/components/error/Error';
+import Error from '../ui/features/shared/error/Error';
 import Dashboard from '../ui/features/dashboard/Dashboard';
 import Gas from '../ui/features/gas/Gas';
 import Login from '../ui/features/login/Login';

@@ -1,8 +1,8 @@
 import { DeleteForever, Edit } from '@mui/icons-material';
 import { IconButton, TableCell, TableRow } from '@mui/material';
-import type { WithdrawTableRowProps } from '../../../type/PropsType';
-import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
+import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
 import ReasonsCell from './ReasonsCell';
+import type { WithdrawTableRowProps } from '../../../../../type/PropsType';
 
 const forecastedStyle = { color: 'warning.main', fontWeight: 'bold' };
 

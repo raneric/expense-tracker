@@ -7,9 +7,9 @@ import {
   TextField,
 } from '@mui/material';
 import { useCallback, useMemo, useState } from 'react';
-import type { GasFormDialogData } from '../../../type/AppType';
-import type { GasEventDialogProps } from '../../../type/PropsType';
-import DialogHeader from './DialogHeader';
+import type { GasFormDialogData } from '../../../../../type/AppType';
+import type { GasEventDialogProps } from '../../../../../type/PropsType';
+import DialogHeader from '../../../shared/Dialog/DialogHeader';
 
 const INITIAL_FORM: GasFormDialogData = {
   date: new Date(),

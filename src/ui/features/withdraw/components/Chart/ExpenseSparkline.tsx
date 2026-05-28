@@ -7,10 +7,10 @@ import {
   type SparkLineChartProps,
 } from '@mui/x-charts';
 import { useState } from 'react';
-import type { ExpenseSparkLineProps } from '../../../type/PropsType';
-import Colors from '../../Theming/Colors';
-import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
 import { styled } from '@mui/material/styles';
+import type { ExpenseSparkLineProps } from '../../../../../type/PropsType';
+import Colors from '../../../../Theming/Colors';
+import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
 
 const ExpenseSparkLineContainer = styled(Box)(() => ({
   width: '100%',

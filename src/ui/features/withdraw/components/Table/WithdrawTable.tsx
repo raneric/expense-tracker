@@ -5,8 +5,8 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-import type { WithdrawTableProps } from '../../../type/PropsType';
-import { rows } from '../../../utils/Const';
+import { rows } from '../../../../../utils/Const';
+import type { WithdrawTableProps } from '../../../../../type/PropsType';
 
 /**
  * A table for displaying withdrawal information.

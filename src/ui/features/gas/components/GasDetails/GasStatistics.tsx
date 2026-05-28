@@ -1,5 +1,5 @@
 import { Paper } from '@mui/material';
-import CustomCardHeader from '../../features/shared/CustomCardHeader/CustomCardHeader';
+import CustomCardHeader from '../../../shared/CustomCardHeader/CustomCardHeader';
 
 export default function GasStatistics() {
   return (

@@ -1,6 +1,6 @@
 import { TableBody } from '@mui/material';
-import type { Withdrawal } from '../../../type/AppType';
-import type { WithdrawTableBodyProps } from '../../../type/PropsType';
+import type { Withdrawal } from '../../../../../type/AppType';
+import type { WithdrawTableBodyProps } from '../../../../../type/PropsType';
 import EmptyTableFeedback from './EmptyTableFeedback';
 import WithdrawTableRow from './WithdrawTableRow';
 

@@ -1,7 +1,7 @@
 import { DialogTitle } from '@mui/material';
-import Colors from '../../Theming/Colors';
 import { styled } from '@mui/material/styles';
 import type { PropsWithChildren } from 'react';
+import Colors from '../../../Theming/Colors';
 
 const StyledDialogTitle = styled(DialogTitle)(() => ({
   fontWeight: 'bold',
