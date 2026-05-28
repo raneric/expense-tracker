@@ -10,9 +10,9 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { useUserContext } from '../../../contexts/auth/UserContext';
-import { useDrawerContext } from '../../../contexts/drawer/DrawerContext';
-import Colors from '../../Theming/Colors';
+import { useUserContext } from '../../../../contexts/auth/UserContext';
+import { useDrawerContext } from '../../../../contexts/drawer/DrawerContext';
+import Colors from '../../../Theming/Colors';
 
 export default function CustomAppBar() {
   const { logout, state } = useUserContext();

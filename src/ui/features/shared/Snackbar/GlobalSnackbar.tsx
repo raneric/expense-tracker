@@ -1,5 +1,5 @@
 import { Alert, Slide, Snackbar } from '@mui/material';
-import { useSnackbarContext } from '../../../contexts/snackbar/SnackbarContext';
+import { useSnackbarContext } from '../../../../contexts/snackbar/SnackbarContext';
 
 export default function GlobalSnackbar() {
   const { state, hide } = useSnackbarContext();

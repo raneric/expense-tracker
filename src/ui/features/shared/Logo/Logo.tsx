@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { LOGO_SIZES, type LogoWidth } from '../../type/UIType';
+import { LOGO_SIZES, type LogoWidth } from '../../../../type/UIType';
 
 type LogoProps = {
   src: string;

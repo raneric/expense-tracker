@@ -11,10 +11,10 @@ import {
   useTheme,
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import LogoImage from '../../../assets/logo_v2.png';
-import { useDrawerContext } from '../../../contexts/drawer/DrawerContext';
-import { AppRoutes, RouteList } from '../../../utils/Const';
-import { Logo } from '../../core/Logo';
+import LogoImage from '../../../../assets/logo_v2.png';
+import { useDrawerContext } from '../../../../contexts/drawer/DrawerContext';
+import { AppRoutes, RouteList } from '../../../../utils/Const';
+import { Logo } from '../Logo/Logo';
 
 const activeItemStyle = {
   '&.Mui-selected': {

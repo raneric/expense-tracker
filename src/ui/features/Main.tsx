@@ -4,11 +4,11 @@ import { useUserContext } from '../../contexts/auth/UserContext';
 import { WithdrawalProvider } from '../../contexts/dataRetrieval/WithdrawalProvider';
 import { DrawerProvider } from '../../contexts/drawer/DrawerProvider';
 import { AppRoutes } from '../../utils/Const';
-import CustomAppBar from '../components/AppBar/CustomAppBar';
-import AppDrawer from '../components/Drawer/AppDrawer';
-import SplashScreen from '../components/SplashScreen/SplashScreen';
-import { Logo } from '../core/Logo';
+import AppDrawer from './shared/Drawer/AppDrawer';
+import SplashScreen from './shared/SplashScreen/SplashScreen';
 import LogoImage from '../../assets/logo_v2.png';
+import CustomAppBar from './shared/AppBar/CustomAppBar';
+import { Logo } from './shared/Logo/Logo';
 
 export default function Main() {
   const { state } = useUserContext();

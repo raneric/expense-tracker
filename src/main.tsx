@@ -6,7 +6,7 @@ import App from './App.tsx';
 import { UserProvider } from './contexts/auth/UserProvider.tsx';
 import theme from './ui/Theming/AppTheme.tsx';
 import { SnackbarProvider } from './contexts/snackbar/SnackbarProvider.tsx';
-import GlobalSnackbar from './ui/components/Snackbar/GlobalSnackbar.tsx';
+import GlobalSnackbar from './ui/features/shared/Snackbar/GlobalSnackbar.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

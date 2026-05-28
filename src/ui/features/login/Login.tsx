@@ -7,9 +7,9 @@ import { useUserContext } from '../../../contexts/auth/UserContext';
 import type { LoginCredentials } from '../../../type/AppType';
 import { AppRoutes } from '../../../utils/Const';
 import { validateInput } from '../../../utils/validationUtilities';
-import { Logo } from '../../core/Logo';
 import Colors from '../../Theming/Colors';
 import { styled } from '@mui/material/styles';
+import { Logo } from '../shared/Logo/Logo';
 
 const LoginContainer = styled(Box)(({ theme }) => ({
   minHeight: '100vh',

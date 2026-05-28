@@ -1,9 +1,9 @@
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
-import Colors from '../../Theming/Colors';
+import Colors from '../../../Theming/Colors';
 import type {
   SpeedDialActionElement,
   SpeedDialProps,
-} from '../../../type/PropsType';
+} from '../../../../type/PropsType';
 
 export default function AppSpeedDial({ elements }: SpeedDialProps) {
   return (

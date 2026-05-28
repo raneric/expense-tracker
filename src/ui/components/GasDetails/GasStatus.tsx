@@ -16,11 +16,11 @@ import { AssignmentTurnedIn } from '@mui/icons-material';
 import { useGasEventsContext } from '../../../contexts/gasEvents/GasEventsContext';
 import { generateGasStatusInfo } from '../../../utils/dataTransformUtilities';
 import { formatStringDate } from '../../../utils/formatterUtilities';
-import CustomCardHeader from '../../core/CustomCardHeader';
-import InfoRow from '../../core/InfoRow';
 import Colors from '../../Theming/Colors';
 import AppDimensions from '../../Theming/Dimensions';
 import GasFormDialog from '../Dialog/GasFormDialog';
+import CustomCardHeader from '../../features/shared/CustomCardHeader/CustomCardHeader';
+import InfoRow from '../../features/shared/InfoRow/InfoRow';
 
 export default function GasStatus() {
   const { state, submit } = useGasEventsContext();

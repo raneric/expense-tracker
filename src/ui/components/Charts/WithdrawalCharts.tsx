@@ -1,7 +1,7 @@
 import { Stack, useMediaQuery, useTheme } from '@mui/material';
-import ChartCard from '../../core/ChartCard';
 import ExpenseSparkLine from './ExpenseSparkline';
 import type { WithdrawalChartsProps } from '../../../type/PropsType';
+import ChartCard from '../../features/shared/ChartCard/ChartCard';
 
 export function WithdrawalCharts({ current, forecast }: WithdrawalChartsProps) {
   const theme = useTheme();

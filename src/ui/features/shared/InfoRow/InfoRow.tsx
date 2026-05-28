@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import type { InfoRowProps } from '../../type/PropsType';
+import type { InfoRowProps } from '../../../../type/PropsType';
 
 const InfoRowContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,

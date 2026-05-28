@@ -3,7 +3,7 @@ import {
   SectionTitle,
   Tittle,
   TittleHelperInfo,
-} from '../../core/SectionTitle';
+} from '../shared/SectionTitle/SectionTitle';
 
 export default function Dashboard() {
   return (
