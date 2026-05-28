@@ -1,11 +1,25 @@
 name: deploy-to-firebase-hosting
+
 run-name: Build and deploy app to firebase hosting
+
 on:
   workflow_dispatch:
 
+  push:
+    branches:
+      - main
+
 jobs:
   deploy:
+    # Run when:
+    # - manually triggered
+    # - OR commit message ends with "ci:auto"
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      endsWith(github.event.head_commit.message, 'ci:auto')
+
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -16,8 +30,7 @@ jobs:
           node-version: 24
 
       - name: Install Dependencies
-        run: |
-          npm install
+        run: npm install
 
       - name: Build Vite App
         run: npm run build
@@ -34,7 +47,7 @@ jobs:
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: '${{ secrets.FIREBASE_PROJECT_ID }}'
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: ${{ secrets.FIREBASE_PROJECT_ID }}
           channelId: live
