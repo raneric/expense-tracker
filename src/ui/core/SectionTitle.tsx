@@ -1,6 +1,6 @@
 import { HelpTwoTone } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Tooltip, Typography, useMediaQuery } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 
 const SectionTitle = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -24,7 +24,7 @@ function Tittle({
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       {icon}
       <Typography
-        variant="h5"
+        variant="h6"
         sx={{ fontWeight: 'bold' }}
       >
         {displayText}
@@ -34,6 +34,21 @@ function Tittle({
 }
 
 function TittleHelperInfo({ displayText }: { displayText: string }) {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+
+  return (
+    <>
+      {isDesktop ? (
+        <ExpandedHelperInfo displayText={displayText} />
+      ) : (
+        <TooltipHelperInfo displayText={displayText} />
+      )}
+    </>
+  );
+}
+
+function ExpandedHelperInfo({ displayText }: { displayText: string }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       <Typography
@@ -44,6 +59,17 @@ function TittleHelperInfo({ displayText }: { displayText: string }) {
       </Typography>
       <HelpTwoTone sx={{ fontSize: '1.8rem' }} />
     </Box>
+  );
+}
+
+function TooltipHelperInfo({ displayText }: { displayText: string }) {
+  return (
+    <Tooltip
+      describeChild
+      title={displayText}
+    >
+      <HelpTwoTone sx={{ fontSize: '1.8rem' }} />
+    </Tooltip>
   );
 }
 
