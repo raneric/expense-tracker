@@ -4,7 +4,7 @@ import type {
   DataRetrievalState,
   DateFilter,
 } from '../../type/StateContextType';
-import { getDefaultDateFilterRange } from '../../utils/dataTransformUtilities';
+import { getDefaultDateFilterRange } from '../../utils/dataGeneratorUtilities';
 
 export const withdrawalReducer = (
   state: DataRetrievalState<Withdrawal, DateFilter>,

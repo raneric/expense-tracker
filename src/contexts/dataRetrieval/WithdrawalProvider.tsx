@@ -12,11 +12,11 @@ import type {
   DataRetrievalState,
   DateFilter,
 } from '../../type/StateContextType';
-import { getDefaultDateFilterRange } from '../../utils/dataTransformUtilities';
 import { useUserContext } from '../auth/UserContext';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { WithdrawalContext } from './WithdrawalContext';
 import { withdrawalReducer } from './withdrawalReducer';
+import { getDefaultDateFilterRange } from '../../utils/dataGeneratorUtilities';
 
 const initialState: DataRetrievalState<Withdrawal, DateFilter> = {
   data: [],

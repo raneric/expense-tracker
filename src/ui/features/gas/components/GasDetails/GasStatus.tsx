@@ -17,13 +17,13 @@ import type {
 
 import { AssignmentTurnedIn } from '@mui/icons-material';
 import { useGasEventsContext } from '../../../../../contexts/gasEvents/GasEventsContext';
-import { generateGasStatusInfo } from '../../../../../utils/dataTransformUtilities';
 import { formatStringDate } from '../../../../../utils/formatterUtilities';
 import Colors from '../../../../Theming/Colors';
 import AppDimensions from '../../../../Theming/Dimensions';
 import GasFormDialog from '../Dialog/GasFormDialog';
 import CustomCardHeader from '../../../shared/CustomCardHeader/CustomCardHeader';
 import InfoRow from '../../../shared/InfoRow/InfoRow';
+import { generateGasStatusInfo } from '../../../../../utils/dataGeneratorUtilities';
 
 export default function GasStatus() {
   const { state, submit } = useGasEventsContext();

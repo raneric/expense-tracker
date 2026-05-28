@@ -85,15 +85,25 @@ export function generateGasStatusInfo(
   }
 }
 
-export function checkInUseDays(value: string) {
+export function calculateInUseDays(value: string) {
   return dayjs().diff(dayjs(value), 'days');
 }
 
 export function getDefaultDateFilterRange(): DateFilter {
-  const currentMonth27 = dayjs().date(27);
-  const previousMonth27 = dayjs().subtract(1, 'month').date(27);
+  const today = dayjs();
+
+  const isAfterOrOn28th = today.date() >= 28;
+
+  const startDate = isAfterOrOn28th
+    ? today.date(28)
+    : today.subtract(1, 'month').date(28);
+
+  const endDate = isAfterOrOn28th
+    ? today.add(1, 'month').date(27)
+    : today.date(27);
+
   return {
-    startDate: previousMonth27.toDate(),
-    endDate: currentMonth27.toDate(),
+    startDate: startDate.startOf('day').toDate(),
+    endDate: endDate.endOf('day').toDate(),
   };
 }
