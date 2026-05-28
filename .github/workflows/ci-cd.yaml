@@ -13,10 +13,10 @@ jobs:
   deploy:
     # Run when:
     # - manually triggered
-    # - OR commit message ends with "ci:auto"
+    # - OR commit message ends with "cd:auto"
     if: >
       github.event_name == 'workflow_dispatch' ||
-      endsWith(github.event.head_commit.message, 'ci:auto')
+      endsWith(github.event.head_commit.message, 'cd:auto')
 
     runs-on: ubuntu-latest
 
