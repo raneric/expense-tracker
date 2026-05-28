@@ -19,6 +19,7 @@ export const userInfoDataMapper = (doc: DocumentData): UserInfo => ({
   lastName: doc.data().last_name,
   pictureUrl: doc.data().picture_url,
   email: doc.data().email,
+  salary: doc.data().salary,
 });
 
 export const gasEventsDataMapper = (doc: DocumentData): GasEvent => {

@@ -42,25 +42,27 @@ export default function WithdrawalHistory() {
   } = useWithdrawalHistory(withdrawalState.data);
 
   const handleUpdateSubmit = useWithdrawalSubmit(closeDialog);
+
   const handleDelete = useWithdrawalDelete(closeDialog);
+
   const { pagination, currentPage, onPageChange, onRowsPerPageChange } =
     useWithdrawalPagination(withdrawalState.data);
 
-  // -------------- TODO: REFACTOR THE SHITS BELOW -----------------
   const speedDialAction: SpeedDialActionElement[] = [
     { icon: <AddIcon />, name: 'Add', action: openCreateDialog },
     { icon: <FilterList />, name: 'Filter', action: openFilterDialog },
   ];
 
-  const isFormDialogOpen = dialog.type === 'create' || dialog.type === 'edit';
-  const formInitialData =
-    dialog.type === 'edit' ? dialog.withdrawal : initialWithdrawal;
+  const isCreate = dialog.type === 'create';
+  const isEdit = dialog.type === 'edit';
+  const isDelete = dialog.type === 'delete';
+  const isFilter = dialog.type === 'filter';
 
-  const reasonsList =
-    dialog.type === 'create' || dialog.type === 'edit'
-      ? dialog.reasonsList
-      : [];
-  //-----------------------------------------------------------------
+  const isFormDialogOpen = isCreate || isEdit;
+
+  const formInitialData = isEdit ? dialog.withdrawal : initialWithdrawal;
+
+  const reasonsList = isCreate || isEdit ? dialog.reasonsList : [];
 
   return (
     <Stack spacing={2}>
@@ -98,7 +100,7 @@ export default function WithdrawalHistory() {
       </WithdrawTable>
 
       <WithdrawalFormDialog
-        key={dialog.type === 'edit' ? `edit-${dialog.withdrawal.id}` : 'create'}
+        key={isEdit ? `edit-${dialog.withdrawal.id}` : 'create'}
         isOpen={isFormDialogOpen}
         initialData={formInitialData}
         reasonsList={reasonsList}
@@ -107,21 +109,21 @@ export default function WithdrawalHistory() {
       />
 
       <FilterDialog
-        isOpen={dialog.type === 'filter'}
+        isOpen={isFilter}
         onClose={closeDialog}
       />
 
       <ConfirmationDialog
-        isOpen={dialog.type === 'delete'}
+        isOpen={isDelete}
         onClose={closeDialog}
         onCancel={closeDialog}
         onConfirm={() => {
-          if (dialog.type === 'delete') {
+          if (isDelete) {
             handleDelete(dialog.withdrawal.id!);
           }
         }}
         message={
-          dialog.type === 'delete'
+          isDelete
             ? `Delete withdrawal of ${toLocalMgCurrency(
                 dialog.withdrawal.amount
               )} on ${dialog.withdrawal.date.toDateString()}?`

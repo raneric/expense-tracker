@@ -25,7 +25,7 @@ export default function ExpenseSparkLine({
   dataLabel,
   dataset,
   dimension,
-}: ExpenseSparkLineProps<Date>) {
+}: ExpenseSparkLineProps) {
   const [weekIndex, setWeekIndex] = useState<null | number>(null);
 
   const total: number =

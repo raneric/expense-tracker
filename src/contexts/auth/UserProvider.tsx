@@ -1,11 +1,10 @@
 import type { FirebaseError } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useMemo, useReducer } from 'react';
+import { useEffect, useMemo, useReducer, type PropsWithChildren } from 'react';
 import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import type { AuthError } from '../../services/Auth/AuthError';
 import AuthProviderFactory from '../../services/Auth/AuthProviderFactory';
 import type { LoginCredentials } from '../../type/AppType';
-import type { BasePropsType } from '../../type/PropsType';
 import type { AuthState } from '../../type/StateContextType';
 import { clearStoredUser } from '../../utils/localStorageUtilities';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
@@ -20,7 +19,7 @@ const initialState: AuthState = {
   error: null,
 };
 
-export const UserProvider = ({ children }: BasePropsType) => {
+export const UserProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
   const { show } = useSnackbarContext();
   const authProvider = useMemo(

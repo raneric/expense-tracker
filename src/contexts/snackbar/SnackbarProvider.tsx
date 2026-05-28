@@ -1,15 +1,14 @@
-import { useReducer } from 'react';
-import type { BasePropsType } from '../../type/PropsType';
+import type { AlertColor } from '@mui/material';
+import { useReducer, type PropsWithChildren } from 'react';
+import type { SnackbarState } from '../../type/StateContextType';
 import { SnackbarContext } from './SnackbarContext';
 import { snackbarReducer } from './snackbarReducer';
-import type { AlertColor } from '@mui/material';
-import type { SnackbarState } from '../../type/StateContextType';
 
 const initialState: SnackbarState = {
   notifications: [],
 };
 
-export const SnackbarProvider = ({ children }: BasePropsType) => {
+export const SnackbarProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(snackbarReducer, initialState);
 
   const show = (message: string, severity: AlertColor) => {

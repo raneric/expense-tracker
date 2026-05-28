@@ -7,7 +7,7 @@ export const dialogReducer = (
   switch (action.type) {
     case 'OPEN':
       return { isOpen: true };
-    case 'CLOSED':
+    case 'CLOSE':
       return { isOpen: false };
     default:
       return state;

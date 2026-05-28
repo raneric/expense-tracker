@@ -30,6 +30,7 @@ export interface UserInfo extends User {
   firstName: string;
   lastName: string;
   pictureUrl: string;
+  salary: number;
 }
 
 export interface LoginCredentials extends Omit<User, 'id'> {
@@ -68,11 +69,9 @@ export type GasStatusInfo = {
   gaugeText: string;
 };
 
-export interface RequestResult<T> {
-  success: boolean;
-  data?: T;
-  errorMessage?: string;
-}
+export type RequestResult<T> =
+  | { success: true; data: T }
+  | { success: false; errorMessage: string };
 
 export type DialogHookState =
   | { type: 'closed' }
@@ -88,7 +87,7 @@ export type TablePaginationState = {
 
 export interface DrawerState {
   isOpen: boolean;
-  variant: 'permanent' | 'persistent' | 'temporary';
+  variant?: 'permanent' | 'persistent' | 'temporary';
   width: number;
 }
 

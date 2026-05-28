@@ -1,9 +1,14 @@
 import dayjs from 'dayjs';
 import { where } from 'firebase/firestore';
-import { useCallback, useEffect, useMemo, useReducer } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  type PropsWithChildren,
+} from 'react';
 import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import type { GasEvent, GasFormDialogData } from '../../type/AppType';
-import type { BasePropsType } from '../../type/PropsType';
 import type {
   DataRetrievalState,
   GasEventDataRetrievalContextType,
@@ -18,7 +23,7 @@ const initialState: Omit<DataRetrievalState<GasEvent, undefined>, 'filter'> = {
   isLoading: false,
 };
 
-export const GasEventsProvider = ({ children }: BasePropsType) => {
+export const GasEventsProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(gasEventsReducer, initialState);
   const { state: userState } = useUserContext();
   const { show } = useSnackbarContext();

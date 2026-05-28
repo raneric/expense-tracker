@@ -1,5 +1,6 @@
 import type { AlertColor } from '@mui/material';
 import type {
+  DrawerState,
   GasEvent,
   GasFormDialogData,
   LoginCredentials,
@@ -63,13 +64,19 @@ export interface DialogContextType {
   hide: () => void;
 }
 
-export type DialogAction = { type: 'OPEN' } | { type: 'CLOSED' };
+export type DialogAction = { type: 'OPEN' } | { type: 'CLOSE' };
 
 //---------------------- Withdrawals context -----------------------
-export interface DataRetrievalState<T, U> {
+export interface DataRetrievalState<T, U = undefined> {
   isLoading: boolean;
   data: T[];
   filter: U;
+}
+export interface DataRetrievalContextType<T, U> {
+  state: DataRetrievalState<T, U>;
+  load: () => Promise<void>;
+  filterBy: (filter: U) => Promise<void>;
+  resetFilter: () => void;
 }
 
 export interface DataRetrievalContextType<T, U> {
@@ -89,10 +96,6 @@ export type DataRetrievalAction<T, U> =
 export type DateFilter = { startDate?: Date; endDate?: Date };
 
 //---------------------- Drawer context -----------------------
-export interface DrawerState {
-  isOpen: boolean;
-  width: number;
-}
 
 export interface DrawerContextType {
   state: DrawerState;
@@ -108,12 +111,12 @@ export type DrawerAction =
 
 //---------------------- Gas events context -----------------------
 export type GasEventsDataRetrievalState = Omit<
-  DataRetrievalState<GasEvent, undefined>,
+  DataRetrievalState<GasEvent>,
   'filter'
 >;
 
-export type GasEventDataRetrievalContextType = {
+export interface GasEventDataRetrievalContextType {
   state: GasEventsDataRetrievalState;
   load: () => Promise<void>;
   submit: (data: GasFormDialogData) => Promise<void>;
-};
+}

@@ -1,8 +1,7 @@
-import { useReducer } from 'react';
-import { drawerReducer } from './drawerReducer';
-import { DrawerContext } from './DrawerContext';
-import type { BasePropsType } from '../../type/PropsType';
+import { useReducer, type PropsWithChildren } from 'react';
 import type { DrawerState } from '../../type/AppType';
+import { DrawerContext } from './DrawerContext';
+import { drawerReducer } from './drawerReducer';
 
 const initialState: DrawerState = {
   isOpen: false,
@@ -10,7 +9,7 @@ const initialState: DrawerState = {
   width: 240,
 };
 
-export const DrawerProvider = ({ children }: BasePropsType) => {
+export const DrawerProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(drawerReducer, initialState);
 
   const hide = () => {

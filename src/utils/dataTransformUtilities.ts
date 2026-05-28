@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import type { GasEvent, GasStatusInfo } from '../type/AppType';
 import type { GasEventData } from '../type/PropsType';
 import type { DateFilter } from '../type/StateContextType';
@@ -9,17 +9,12 @@ const generateRateMessage = (value: number, valueMax: number) => {
 
 export function generateGasEventData(gasEvents: GasEvent[]): GasEventData {
   const startDates = new Set<string>();
-  const endDates = new Set<Dayjs>();
 
   let currentGasEvent: GasEvent | undefined;
   let previousGasEvent: GasEvent | undefined;
 
   for (const event of gasEvents) {
     startDates.add(dayjs(event.startDate).format('YYYY-MM-DD'));
-
-    if (event.endDate) {
-      endDates.add(dayjs(event.endDate));
-    }
 
     if (event.type === 'current') {
       currentGasEvent = event;
@@ -40,7 +35,6 @@ export function generateGasEventData(gasEvents: GasEvent[]): GasEventData {
 
   return {
     startDates,
-    endDates,
     forecastedDate,
   };
 }

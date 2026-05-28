@@ -5,15 +5,16 @@ import type {
   TablePaginationState,
   Withdrawal,
 } from './AppType';
-import type { Dayjs } from 'dayjs';
-export interface BasePropsType {
-  children?: React.ReactNode;
+import type { PropsWithChildren } from 'react';
+
+interface Submittable<T> {
+  onSubmit: (data: T) => void;
 }
 
-export interface ExpenseSparkLineProps<T> {
+export interface ExpenseSparkLineProps {
   dataLabel: string;
   dataset: number[];
-  dimension: T[];
+  dimension: Date[];
 }
 
 export interface WithdrawRowEventProps {
@@ -21,11 +22,11 @@ export interface WithdrawRowEventProps {
   onRowDeleteClick: (withdrawal: Withdrawal) => void;
 }
 
-export interface WithdrawTableProps extends BasePropsType {
+export type WithdrawTableProps = PropsWithChildren<{
   tablePaginationState: TablePaginationState;
   onPageChange: (_event: unknown, newPage: number) => void;
   onRowPerPageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+}>;
 
 export interface WithdrawTableBodyProps extends WithdrawRowEventProps {
   withdrawals: Withdrawal[];
@@ -40,9 +41,8 @@ export interface DialogProps {
   onClose: () => void;
 }
 
-export interface GasEventDialogProps extends DialogProps {
-  onSubmit: (dialogData: GasFormDialogData) => void;
-}
+export interface GasEventDialogProps
+  extends DialogProps, Submittable<GasFormDialogData> {}
 
 export interface FilterDialogProps extends DialogProps {
   onStartDateChange: () => void;
@@ -55,9 +55,8 @@ export interface FeedbackDialogProps extends DialogProps {
   onCancel: () => void;
 }
 
-export interface DialogFormProps<T> extends DialogProps {
+export interface DialogFormProps<T> extends DialogProps, Submittable<T> {
   initialData: T;
-  onSubmit: (data: T) => void;
 }
 
 export interface WithdrawalDialogFormProps extends DialogFormProps<Withdrawal> {
@@ -75,7 +74,6 @@ export interface GasEventsDataProps {
 
 export type GasEventData = {
   startDates: Set<string>;
-  endDates: Set<Dayjs>;
   forecastedDate?: string;
 };
 

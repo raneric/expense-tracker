@@ -1,11 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Error from '../ui/components/error/Error';
-import Dashboard from '../ui/layout/dashboard/Dashboard';
-import Gas from '../ui/layout/gas/Gas';
-import Login from '../ui/layout/login/Login';
-import Main from '../ui/layout/Main';
-import Profile from '../ui/layout/profile/Profile';
-import WithdrawalHistory from '../ui/layout/withdraw/WithdrawHistory';
+import Dashboard from '../ui/features/dashboard/Dashboard';
+import Gas from '../ui/features/gas/Gas';
+import Login from '../ui/features/login/Login';
+import Main from '../ui/features/Main';
+import Profile from '../ui/features/profile/Profile';
+import WithdrawalHistory from '../ui/features/withdraw/WithdrawHistory';
 import { AppRoutes } from '../utils/Const';
 import { dashboardLoader } from './loaders/dashboardLoader';
 const router = createBrowserRouter([

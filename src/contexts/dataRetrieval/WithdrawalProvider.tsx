@@ -1,8 +1,13 @@
 import { orderBy, where } from 'firebase/firestore';
-import { useCallback, useEffect, useMemo, useReducer } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  type PropsWithChildren,
+} from 'react';
 import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import type { Withdrawal } from '../../type/AppType';
-import type { BasePropsType } from '../../type/PropsType';
 import type {
   DataRetrievalState,
   DateFilter,
@@ -20,7 +25,7 @@ const initialState: DataRetrievalState<Withdrawal, DateFilter> = {
 };
 
 // TODO: Refactoring filer constraint by using filter builder
-export const WithdrawalProvider = ({ children }: BasePropsType) => {
+export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(withdrawalReducer, initialState);
   const { state: userState } = useUserContext();
   const { show } = useSnackbarContext();

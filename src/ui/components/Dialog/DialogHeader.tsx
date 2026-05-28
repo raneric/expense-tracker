@@ -1,7 +1,7 @@
 import { DialogTitle } from '@mui/material';
 import Colors from '../../Theming/Colors';
-import type { BasePropsType } from '../../../type/PropsType';
 import { styled } from '@mui/material/styles';
+import type { PropsWithChildren } from 'react';
 
 const StyledDialogTitle = styled(DialogTitle)(() => ({
   fontWeight: 'bold',
@@ -11,6 +11,6 @@ const StyledDialogTitle = styled(DialogTitle)(() => ({
   justifyContent: 'space-between',
 }));
 
-export default function DialogHeader({ children }: BasePropsType) {
+export default function DialogHeader({ children }: PropsWithChildren) {
   return <StyledDialogTitle>{children}</StyledDialogTitle>;
 }
