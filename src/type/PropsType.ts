@@ -1,5 +1,10 @@
 import { type PickerDayProps } from '@mui/x-date-pickers';
-import type { GasEvent, TablePaginationState, Withdrawal } from './AppType';
+import type {
+  GasEvent,
+  GasFormDialogData,
+  TablePaginationState,
+  Withdrawal,
+} from './AppType';
 import type { Dayjs } from 'dayjs';
 export interface BasePropsType {
   children?: React.ReactNode;
@@ -33,6 +38,10 @@ export interface WithdrawTableRowProps extends WithdrawRowEventProps {
 export interface DialogProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+export interface GasEventDialogProps extends DialogProps {
+  onSubmit: (dialogData: GasFormDialogData) => void;
 }
 
 export interface FilterDialogProps extends DialogProps {

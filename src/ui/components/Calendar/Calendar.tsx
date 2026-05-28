@@ -12,6 +12,7 @@ import { generateGasEventData } from '../../../utils/dataTransformUtilities';
 import Colors from '../../Theming/Colors';
 import CustomCardHeader from '../../core/CustomCardHeader';
 import { formatStringDate } from '../../../utils/formatterUtilities';
+import dayjs from 'dayjs';
 
 export default function Calendar() {
   const { state } = useGasEventsContext();
@@ -44,7 +45,7 @@ export default function Calendar() {
 
 const DayCell = memo(function (props: CalendarDayProps) {
   const { gasEventData, day, today, ...other } = props;
-  const currentDay = useMemo(() => day.format('YYYY-MM-DD'), [day]);
+  const currentDay = useMemo(() => dayjs(day).format('YYYY-MM-DD'), [day]);
 
   const getBadge = () => {
     if (gasEventData?.startDates.has(currentDay)) {

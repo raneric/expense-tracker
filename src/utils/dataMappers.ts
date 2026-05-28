@@ -1,7 +1,6 @@
+import { type User as FirebaseUserData } from 'firebase/auth';
 import type { DocumentData } from 'firebase/firestore';
 import type { GasEvent, User, UserInfo, Withdrawal } from '../type/AppType';
-import { type User as FirebaseUserData } from 'firebase/auth';
-import dayjs from 'dayjs';
 
 export const withdrawalDataMapper = (doc: DocumentData): Withdrawal => ({
   ...doc.data(),
@@ -23,15 +22,16 @@ export const userInfoDataMapper = (doc: DocumentData): UserInfo => ({
 });
 
 export const gasEventsDataMapper = (doc: DocumentData): GasEvent => {
-  const startDateAsDayjs = dayjs(doc.data().startDate.toDate());
+  const startDateAsDayjs = doc.data().startDate.toDate();
   const endDateAsDayjs = doc.data().endDate
-    ? dayjs(doc.data().endDate.toDate())
+    ? doc.data().endDate.toDate()
     : null;
 
   return {
     id: doc.id,
     startDate: startDateAsDayjs,
     endDate: endDateAsDayjs,
+    ownerId: doc.data().ownerId,
     totalDays: doc.data().totalDays,
     type: doc.data().type,
     price: doc.data().price,

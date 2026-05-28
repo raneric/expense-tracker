@@ -3,9 +3,8 @@ import { COLLECTIONS } from '../../config/firebase';
 import type DataProvider from '../../services/Data/DataProvider';
 import FirestoreDataProvider from '../../services/Data/FirestoreDataProvider';
 import type { Withdrawal } from '../../type/AppType';
-import type BaseRepository from '../BaseRepository';
 import { withdrawalDataMapper } from '../../utils/dataMappers';
-import { rows } from '../../utils/Const';
+import type BaseRepository from '../BaseRepository';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -33,14 +32,14 @@ export default class WithdrawRepository implements BaseRepository<
   }
 
   async createOne(data: Withdrawal): Promise<void> {
-    this.dataProvider.createOne(data);
+    await this.dataProvider.createOne(data);
   }
 
   // MOCK NOW, IMPLEMENT LATER
   async getByUnique(unique: string): Promise<Withdrawal> {
     console.log(unique);
     await delay(2000);
-    return rows[0];
+    throw new Error('getByUnique from WithdrawRepository not yet implemented');
   }
 
   async deleteByUnique(unique: string): Promise<void> {

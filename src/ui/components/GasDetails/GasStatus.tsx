@@ -10,10 +10,9 @@ import { Gauge } from '@mui/x-charts';
 
 import { useMemo, useState } from 'react';
 
-import type { GasEvent, GasStatusInfo } from '../../../type/AppType';
+import type { GasFormDialogData, GasStatusInfo } from '../../../type/AppType';
 
 import { AssignmentTurnedIn } from '@mui/icons-material';
-import dayjs from 'dayjs';
 import { useGasEventsContext } from '../../../contexts/gasEvents/GasEventsContext';
 import { generateGasStatusInfo } from '../../../utils/dataTransformUtilities';
 import { formatStringDate } from '../../../utils/formatterUtilities';
@@ -22,15 +21,6 @@ import InfoRow from '../../core/InfoRow';
 import Colors from '../../Theming/Colors';
 import AppDimensions from '../../Theming/Dimensions';
 import GasFormDialog from '../Dialog/GasFormDialog';
-
-const testInit: GasEvent = {
-  id: '',
-  startDate: dayjs(),
-  endDate: null,
-  totalDays: 0,
-  type: 'current',
-  price: 0,
-};
 
 export default function GasStatus() {
   const { state, submit } = useGasEventsContext();
@@ -43,8 +33,8 @@ export default function GasStatus() {
 
   const hasData = gasStatusInfo !== null;
 
-  const handleConfirm = () => {
-    submit();
+  const handleConfirm = (data: GasFormDialogData) => {
+    submit(data);
     setIsDialogOpen(false);
   };
 
@@ -54,7 +44,6 @@ export default function GasStatus() {
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         onSubmit={handleConfirm}
-        initialData={testInit}
       />
       <Paper
         elevation={1}

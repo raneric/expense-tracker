@@ -1,16 +1,17 @@
+import dayjs from 'dayjs';
+import { where } from 'firebase/firestore';
 import { useCallback, useEffect, useMemo, useReducer } from 'react';
 import RepositoriesFactory from '../../repositories/RepositoriesFactory';
-import type { GasEvent } from '../../type/AppType';
+import type { GasEvent, GasFormDialogData } from '../../type/AppType';
 import type { BasePropsType } from '../../type/PropsType';
 import type {
   DataRetrievalState,
   GasEventDataRetrievalContextType,
 } from '../../type/StateContextType';
+import { useUserContext } from '../auth/UserContext';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { GasEventsContext } from './GasEventsContext';
 import { gasEventsReducer } from './gasEventsReducer';
-import { useUserContext } from '../auth/UserContext';
-import { where } from 'firebase/firestore';
 
 const initialState: Omit<DataRetrievalState<GasEvent, undefined>, 'filter'> = {
   data: [],
@@ -53,9 +54,7 @@ export const GasEventsProvider = ({ children }: BasePropsType) => {
   const load = useCallback(async () => {
     try {
       dispatch({ type: 'LOADING' });
-
       const data = await gasEventsRepository.getAll(constraints);
-
       dispatch({
         type: 'LOADED',
         payload: data,
@@ -65,9 +64,43 @@ export const GasEventsProvider = ({ children }: BasePropsType) => {
     }
   }, [gasEventsRepository, handleError, constraints]);
 
-  const submit = useCallback(async () => {
-    console.log('called');
-  }, []);
+  const submit = useCallback(
+    async (data: GasFormDialogData) => {
+      const previousGas = state.data.find((value) => value.type === 'previous');
+      const currentGas = state.data.find((value) => value.type === 'current');
+      try {
+        if (userState.user) {
+          const newGasEvent: GasEvent = {
+            startDate: data.date,
+            ownerId: userState.user?.id,
+            endDate: null,
+            type: 'current',
+            totalDays: 0,
+            price: data.price,
+          };
+          await gasEventsRepository.createOne(newGasEvent);
+        }
+
+        if (previousGas) {
+          previousGas.type = 'done';
+          await gasEventsRepository.updateOne(previousGas);
+        }
+
+        if (currentGas) {
+          currentGas.endDate = data.date;
+          currentGas.type = 'previous';
+          currentGas.totalDays = dayjs(currentGas.endDate).diff(
+            dayjs(currentGas.startDate),
+            'day'
+          );
+          await gasEventsRepository.updateOne(currentGas);
+        }
+      } catch (error: unknown) {
+        show((error as Error).message, 'error');
+      }
+    },
+    [state.data, gasEventsRepository, show, userState.user]
+  );
 
   /**
    * Initial load

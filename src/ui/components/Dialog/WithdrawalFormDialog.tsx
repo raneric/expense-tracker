@@ -13,12 +13,28 @@ import {
   TextField,
 } from '@mui/material';
 
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { Withdrawal } from '../../../type/AppType';
 import type { WithdrawalDialogFormProps } from '../../../type/PropsType';
 import { initialWithdrawal } from '../../../utils/Const';
-import { isNanOrNegative } from '../../../utils/validationUtilities';
 import DialogHeader from './DialogHeader';
+
+const INITIAL_WITHDRAWAL: Withdrawal = initialWithdrawal;
+
+function formatDateForInput(date: Date): string {
+  return date.toLocaleDateString('en-CA');
+}
+
+function isFutureDate(date: Date): boolean {
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+
+  const selected = new Date(date);
+  selected.setHours(0, 0, 0, 0);
+
+  return selected > today;
+}
 
 /**
  * A form for adding or editing withdrawal information.
@@ -32,40 +48,65 @@ export default function WithdrawalFormDialog({
   onClose,
   onSubmit,
 }: WithdrawalDialogFormProps) {
-  const [withdrawalData, setWithdrawalData] = useState<Withdrawal>(
+  const [formData, setFormData] = useState<Withdrawal>(
     initialData ?? initialWithdrawal
   );
-  const [amountError, setAmountError] = useState(false);
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmit(withdrawalData);
-    resetForm();
-    onClose();
-  };
+  const errors = useMemo(() => {
+    return {
+      reasons:
+        formData.reasons.length === 0 ? 'At least one reason is required' : '',
 
-  const resetForm = () => {
-    setWithdrawalData(initialWithdrawal);
-    setAmountError(false);
-  };
+      amount: formData.amount < 0 ? 'Amount must be greater or equal to 0' : '',
+    };
+  }, [formData]);
 
-  const handleChange = <K extends keyof Withdrawal>(
-    key: K,
-    value: Withdrawal[K]
-  ) => {
-    if (key === 'date') {
-      const isForecast = (value as Date) > new Date();
-      setWithdrawalData((prev) => ({
-        ...prev,
-        isForecast,
-      }));
-    }
+  const hasErrors = Boolean(errors.reasons || errors.amount);
 
-    setWithdrawalData((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
+  const handleChange = useCallback(
+    <K extends keyof Withdrawal>(key: K, value: Withdrawal[K]) => {
+      setFormData((prev) => {
+        const updated = {
+          ...prev,
+          [key]: value,
+        };
+
+        if (key === 'date') {
+          updated.isForecast = isFutureDate(value as Date);
+        }
+
+        return updated;
+      });
+    },
+    []
+  );
+
+  const handleAmountChange = useCallback(
+    (value: string) => {
+      const parsed = parseFloat(value);
+
+      handleChange('amount', Number.isNaN(parsed) ? 0 : parsed);
+    },
+    [handleChange]
+  );
+
+  const resetForm = useCallback(() => {
+    setFormData(INITIAL_WITHDRAWAL);
+  }, []);
+
+  const handleSubmit = useCallback(
+    (e: React.SubmitEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      if (hasErrors) return;
+
+      onSubmit(formData);
+
+      resetForm();
+      onClose();
+    },
+    [formData, hasErrors, onSubmit, onClose, resetForm]
+  );
 
   return (
     <Dialog
@@ -74,7 +115,8 @@ export default function WithdrawalFormDialog({
     >
       <DialogHeader>
         <span>Withdrawal info</span>
-        <Fade in={withdrawalData.isForecast}>
+
+        <Fade in={formData.isForecast}>
           <Chip
             color="secondary"
             icon={<HistoryToggleOff />}
@@ -82,6 +124,7 @@ export default function WithdrawalFormDialog({
           />
         </Fade>
       </DialogHeader>
+
       <DialogContent>
         <Box
           component="form"
@@ -91,51 +134,52 @@ export default function WithdrawalFormDialog({
           <Autocomplete
             multiple
             freeSolo
-            id="reasons-autocomplete"
             options={reasonsList}
-            value={withdrawalData.reasons}
+            value={formData.reasons}
             onChange={(_, newValue) => handleChange('reasons', newValue)}
             renderInput={(params) => (
               <TextField
-                margin="normal"
                 {...params}
+                margin="normal"
                 label="Reasons"
                 placeholder="Select reasons"
+                error={Boolean(errors.reasons)}
+                helperText={errors.reasons}
               />
             )}
           />
+
           <TextField
             label="Date"
             type="date"
-            value={withdrawalData.date.toISOString().split('T')[0]}
+            value={formatDateForInput(formData.date)}
             onChange={(e) => handleChange('date', new Date(e.target.value))}
             fullWidth
             margin="normal"
           />
+
           <TextField
             label="Location / Source"
-            value={withdrawalData.location}
+            value={formData.location}
             onChange={(e) => handleChange('location', e.target.value)}
             fullWidth
             margin="normal"
           />
+
           <TextField
             label="Amount"
-            type="text"
-            value={withdrawalData.amount}
-            onChange={(e) => {
-              if (isNanOrNegative(e.target.value)) {
-                setAmountError(true);
-                return;
-              }
-              setAmountError(false);
-              handleChange('amount', Number(e.target.value));
-            }}
+            type="number"
+            value={formData.amount}
+            onChange={(e) => handleAmountChange(e.target.value)}
             fullWidth
             margin="normal"
-            error={amountError}
-            helperText={amountError ? 'Please enter a valid number' : ''}
+            error={Boolean(errors.amount)}
+            helperText={errors.amount}
             slotProps={{
+              htmlInput: {
+                min: 0,
+                step: 0.01,
+              },
               input: {
                 endAdornment: (
                   <InputAdornment position="end">Ar</InputAdornment>
@@ -143,38 +187,34 @@ export default function WithdrawalFormDialog({
               },
             }}
           />
+
           <TextField
             fullWidth
+            value={formData.comments}
             label="Description"
             margin="normal"
             onChange={(e) => handleChange('comments', e.target.value)}
             multiline
             rows={4}
           />
+
           <Stack
             spacing={2}
-            direction={'row'}
+            direction="row"
           >
             <Button
               variant="contained"
               onClick={resetForm}
-              sx={{
-                backgroundColor: 'error.light',
-                color: 'error.contrastText',
-                fontWeight: 'bold',
-              }}
+              color="error"
               fullWidth
             >
               Reset
             </Button>
+
             <Button
               variant="contained"
               type="submit"
-              sx={{
-                backgroundColor: 'primary.main',
-                color: 'primary.contrastText',
-                fontWeight: 'bold',
-              }}
+              disabled={hasErrors}
               fullWidth
             >
               Submit

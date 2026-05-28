@@ -15,10 +15,10 @@ export function generateGasEventData(gasEvents: GasEvent[]): GasEventData {
   let previousGasEvent: GasEvent | undefined;
 
   for (const event of gasEvents) {
-    startDates.add(event.startDate.format('YYYY-MM-DD'));
+    startDates.add(dayjs(event.startDate).format('YYYY-MM-DD'));
 
     if (event.endDate) {
-      endDates.add(event.endDate);
+      endDates.add(dayjs(event.endDate));
     }
 
     if (event.type === 'current') {

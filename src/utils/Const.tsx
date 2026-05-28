@@ -1,8 +1,7 @@
 import { AccountBox, CalendarMonth, SyncAlt } from '@mui/icons-material';
-import type { AppRoute, GasEvent, User, Withdrawal } from '../type/AppType';
 import DashboardCustomize from '@mui/icons-material/DashboardCustomize';
+import type { AppRoute, GasEvent, User, Withdrawal } from '../type/AppType';
 import { removeDuplicateValues } from './validationUtilities';
-import dayjs from 'dayjs';
 
 export const AppRoutes = {
   DASHBOARD: '/dashboard',
@@ -246,40 +245,45 @@ export const reasonsList: string[] = removeDuplicateValues<string>(
 export const gasEventList: GasEvent[] = [
   {
     id: 'bK7xP2mQ9vL4tR8aYcNz',
-    startDate: dayjs('2024-10-03'),
-    endDate: dayjs('2024-11-18'),
+    ownerId: 'bK7xP2mQ9vL4tR8aYcNz',
+    startDate: new Date('2024-10-03'),
+    endDate: new Date('2024-11-18'),
     totalDays: 46,
     type: 'done',
     price: 69000,
   },
   {
     id: 'Jd8Wq1XnT5uHk3LpZsVr',
-    startDate: dayjs('2024-11-18'),
-    endDate: dayjs('2025-01-02'),
+    ownerId: 'bK7xP2mQ9vL4tR8aYcNz',
+    startDate: new Date('2024-11-18'),
+    endDate: new Date('2025-01-02'),
     totalDays: 45,
     type: 'done',
     price: 69000,
   },
   {
     id: 'Qm2Yt9BcV7pLs4XfNjKa',
-    startDate: dayjs('2025-01-02'),
-    endDate: dayjs('2025-02-14'),
+    ownerId: 'bK7xP2mQ9vL4tR8aYcNz',
+    startDate: new Date('2025-01-02'),
+    endDate: new Date('2025-02-14'),
     totalDays: 43,
     type: 'done',
     price: 69000,
   },
   {
     id: 'Rk5Np8HdT1vYq3LmWxCs',
-    startDate: dayjs('2025-02-14'),
-    endDate: dayjs('2025-03-31'),
+    ownerId: 'bK7xP2mQ9vL4tR8aYcNz',
+    startDate: new Date('2025-02-14'),
+    endDate: new Date('2025-03-31'),
     totalDays: 45,
     type: 'done',
     price: 69000,
   },
   {
     id: 'Vz7Xt2QmLp9Hc4NbKrDy',
-    startDate: dayjs('2025-03-31'),
-    endDate: dayjs('2025-05-16'),
+    ownerId: 'bK7xP2mQ9vL4tR8aYcNz',
+    startDate: new Date('2025-03-31'),
+    endDate: new Date('2025-05-16'),
     totalDays: 46,
     type: 'done',
     price: 69000,
@@ -287,15 +291,17 @@ export const gasEventList: GasEvent[] = [
 
   {
     id: 'Lp9Qx2HtVc7Yn4KmRdWs',
-    startDate: dayjs('2026-03-01'),
-    endDate: dayjs('2026-04-15'),
+    ownerId: 'bK7xP2mQ9vL4tR8aYcNz',
+    startDate: new Date('2026-03-01'),
+    endDate: new Date('2026-04-15'),
     totalDays: 46,
     type: 'previous',
     price: 69000,
   },
   {
     id: 'Ht3Qm8LpVc1Yn7KxRdWs',
-    startDate: dayjs('2026-04-15'),
+    ownerId: 'bK7xP2mQ9vL4tR8aYcNz',
+    startDate: new Date('2026-04-15'),
     endDate: null,
     totalDays: 0,
     type: 'current',

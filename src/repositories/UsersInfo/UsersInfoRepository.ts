@@ -21,14 +21,19 @@ export default class UsersInfoRepository implements BaseRepository<
   }
   async createOne(data: UserInfo): Promise<void> {
     console.log(data);
+    throw new Error('createOne from UsersInfoRepository not yet implemented');
   }
   async getByUnique(unique: string): Promise<UserInfo> {
     return await this.dataProvider.getByUnique(unique, userInfoDataMapper);
   }
   async deleteByUnique(unique: string): Promise<void> {
     console.log(unique);
+    throw new Error(
+      'deleteByUnique from UsersInfoRepository not yet implemented'
+    );
   }
   async updateOne(data: UserInfo): Promise<void> {
     console.log(data);
+    throw new Error('updateOne from UsersInfoRepository not yet implemented');
   }
 }

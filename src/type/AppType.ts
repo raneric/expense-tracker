@@ -1,4 +1,3 @@
-import type { Dayjs } from 'dayjs';
 import type { AppRoutes } from '../utils/Const';
 
 type RoutePath = (typeof AppRoutes)[keyof typeof AppRoutes];
@@ -51,9 +50,10 @@ export type PrimitiveType = string | boolean | Date | number;
 type GasEventType = 'done' | 'previous' | 'current';
 
 export interface GasEvent {
-  id: string;
-  startDate: Dayjs;
-  endDate: Dayjs | null;
+  id?: string;
+  ownerId: string;
+  startDate: Date;
+  endDate: Date | null;
   totalDays: number;
   type: GasEventType;
   price: number;
@@ -91,3 +91,8 @@ export interface DrawerState {
   variant: 'permanent' | 'persistent' | 'temporary';
   width: number;
 }
+
+export type GasFormDialogData = {
+  date: Date;
+  price: number;
+};

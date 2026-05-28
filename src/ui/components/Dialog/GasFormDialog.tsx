@@ -6,34 +6,73 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import type { GasEvent } from '../../../type/AppType';
-import type { DialogFormProps } from '../../../type/PropsType';
+import { useCallback, useMemo, useState } from 'react';
+import type { GasFormDialogData } from '../../../type/AppType';
+import type { GasEventDialogProps } from '../../../type/PropsType';
 import DialogHeader from './DialogHeader';
-import { useState } from 'react';
 
-type FormType = {
-  date: Date;
-  price: number;
+const INITIAL_FORM: GasFormDialogData = {
+  date: new Date(),
+  price: 0,
 };
+
+function formatDateForInput(date: Date): string {
+  return date.toLocaleDateString('en-CA');
+}
+
+function isFutureDate(date: Date): boolean {
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+
+  const selected = new Date(date);
+  selected.setHours(0, 0, 0, 0);
+
+  return selected > today;
+}
 
 export default function GasFormDialog({
   isOpen,
   onClose,
-}: DialogFormProps<GasEvent>) {
-  const [dialogData, setDialogData] = useState<FormType>({
-    date: new Date(),
-    price: 0,
-  });
+  onSubmit,
+}: GasEventDialogProps) {
+  const [formData, setFormData] = useState<GasFormDialogData>(INITIAL_FORM);
 
-  const handleChange = <K extends keyof FormType>(
-    key: K,
-    value: FormType[K]
-  ) => {
-    setDialogData((prev) => ({
+  const errors = useMemo(() => {
+    return {
+      date: isFutureDate(formData.date) ? "Can't be greater than today" : '',
+
+      price: formData.price < 0 ? "Can't be a negative value" : '',
+    };
+  }, [formData]);
+
+  const hasErrors = Boolean(errors.date || errors.price);
+
+  const handleDateChange = useCallback((value: string) => {
+    setFormData((prev) => ({
       ...prev,
-      [key]: value,
+      date: new Date(value),
     }));
-  };
+  }, []);
+
+  const handlePriceChange = useCallback((value: string) => {
+    const parsed = parseFloat(value);
+
+    setFormData((prev) => ({
+      ...prev,
+      price: Number.isNaN(parsed) ? 0 : parsed,
+    }));
+  }, []);
+
+  const handleReset = useCallback(() => {
+    setFormData(INITIAL_FORM);
+  }, []);
+
+  const handleSubmit = useCallback(() => {
+    if (hasErrors) return;
+
+    onSubmit(formData);
+  }, [formData, hasErrors, onSubmit]);
 
   return (
     <Dialog
@@ -43,52 +82,54 @@ export default function GasFormDialog({
       <DialogHeader>
         <span>Gas status</span>
       </DialogHeader>
+
       <DialogContent>
-        <Box
-          component="form"
-          method="post"
-          onSubmit={() => {}}
-        >
+        <Box>
           <TextField
             label="End date"
             type="date"
-            value={dialogData.date.toISOString().split('T')[0]}
-            onChange={(e) => handleChange('date', new Date(e.target.value))}
+            error={Boolean(errors.date)}
+            helperText={errors.date}
+            value={formatDateForInput(formData.date)}
+            onChange={(e) => handleDateChange(e.target.value)}
             fullWidth
             margin="normal"
           />
+
           <TextField
             label="Amount"
-            type="text"
-            value={dialogData.price}
-            onChange={(e) => handleChange('price', Number(e.target.value))}
+            type="number"
+            error={Boolean(errors.price)}
+            helperText={errors.price}
+            value={formData.price}
+            onChange={(e) => handlePriceChange(e.target.value)}
             fullWidth
             margin="normal"
+            slotProps={{
+              htmlInput: {
+                min: 0,
+                step: 0.01,
+              },
+            }}
           />
+
           <Stack
             spacing={2}
-            direction={'row'}
+            direction="row"
           >
             <Button
               variant="contained"
-              onClick={() => {}}
-              sx={{
-                backgroundColor: 'error.light',
-                color: 'error.contrastText',
-                fontWeight: 'bold',
-              }}
+              onClick={handleReset}
+              color="error"
               fullWidth
             >
               Reset
             </Button>
+
             <Button
               variant="contained"
-              type="submit"
-              sx={{
-                backgroundColor: 'primary.main',
-                color: 'primary.contrastText',
-                fontWeight: 'bold',
-              }}
+              onClick={handleSubmit}
+              disabled={hasErrors}
               fullWidth
             >
               Submit
