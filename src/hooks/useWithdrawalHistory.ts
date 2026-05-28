@@ -33,7 +33,8 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
   const reasonsList = useMemo(() => {
     const reasons: string[] = withdrawals
       .flatMap((value) => value.reasons)
-      .filter((value) => value !== '');
+      .filter((value) => value !== '')
+      .toSorted();
     return [...new Set(reasons)];
   }, [withdrawals]);
 

@@ -44,10 +44,8 @@ export default function GasStatus() {
   const hasData = gasStatusInfo !== null;
 
   const handleConfirm = () => {
-    if (hasData) {
-      submit();
-      setIsDialogOpen(false);
-    }
+    submit();
+    setIsDialogOpen(false);
   };
 
   return (
