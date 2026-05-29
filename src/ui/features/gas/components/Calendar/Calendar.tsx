@@ -64,7 +64,7 @@ const DayCell = memo(function (props: CalendarDayProps) {
   };
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const hasEvent = getBadge() !== undefined;
+  const hasEvent = gasEventData?.startDates.has(currentDay);
 
   const handleMouseEnter = (eventTarget: React.MouseEvent<HTMLElement>) => {
     if (hasEvent) {
