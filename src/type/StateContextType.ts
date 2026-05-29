@@ -88,16 +88,17 @@ export type DataRetrievalAction<T, U> =
   | { type: 'ERROR' };
 
 //---------------------- Withdrawals context -----------------------
-export interface WithdrawalRetrievalState
-  extends DataRetrievalState<Withdrawal, DateFilter> {
-  isLoading: boolean;
-  data: Withdrawal[];
-  filter: DateFilter;
+export interface WithdrawalRetrievalState extends DataRetrievalState<
+  Withdrawal,
+  DateFilter
+> {
   reasons: string[];
 }
 
-export interface WithdrawalRetrievalContextType
-  extends DataRetrievalContextType<Withdrawal, DateFilter> {
+export interface WithdrawalRetrievalContextType extends DataRetrievalContextType<
+  Withdrawal,
+  DateFilter
+> {
   state: WithdrawalRetrievalState;
   load: () => Promise<void>;
   filterBy: (filter: DateFilter) => Promise<void>;

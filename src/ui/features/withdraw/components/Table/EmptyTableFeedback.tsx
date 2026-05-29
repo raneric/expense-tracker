@@ -45,7 +45,7 @@ export default function EmptyTableFeedback() {
               }}
             />
 
-            <Typography variant="h5">⚠️ No Data Found⚠️ </Typography>
+            <Typography variant="h5">⚠️ No Data Found ⚠️ </Typography>
 
             <Typography
               variant="body1"
@@ -59,7 +59,6 @@ export default function EmptyTableFeedback() {
               startIcon={<RestartAlt />}
               onClick={resetFilter}
             >
-              {' '}
               Reset filter
             </Button>
           </Stack>

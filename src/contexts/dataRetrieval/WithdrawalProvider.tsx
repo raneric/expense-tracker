@@ -98,12 +98,11 @@ export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
     async (filter: DateFilter) => {
       try {
         dispatch({ type: 'FILTER', payload: filter });
-        void load();
       } catch (error) {
         handleError(error);
       }
     },
-    [handleError, load]
+    [handleError]
   );
 
   const resetFilter = useCallback(() => {
@@ -116,7 +115,7 @@ export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
    */
   useEffect(() => {
     void load();
-  }, [load]);
+  }, [load, state.filter]);
 
   const values = useMemo(
     () => ({
