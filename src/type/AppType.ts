@@ -75,9 +75,9 @@ export type RequestResult<T> =
 
 export type DialogHookState =
   | { type: 'closed' }
-  | { type: 'create'; reasonsList: string[] }
+  | { type: 'create' }
   | { type: 'filter' }
-  | { type: 'edit'; withdrawal: Withdrawal; reasonsList: string[] }
+  | { type: 'edit'; withdrawal: Withdrawal }
   | { type: 'delete'; withdrawal: Withdrawal };
 
 export type TablePaginationState = {

@@ -42,3 +42,18 @@ export function validateCredentials({
     throw new AuthError('Password is required');
   }
 }
+
+export function formatDateForInput(date: Date): string {
+  return date.toLocaleDateString('en-CA');
+}
+
+export function isFutureDate(date: Date): boolean {
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+
+  const selected = new Date(date);
+  selected.setHours(0, 0, 0, 0);
+
+  return selected > today;
+}

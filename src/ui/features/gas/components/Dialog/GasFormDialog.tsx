@@ -10,26 +10,15 @@ import { useCallback, useMemo, useState } from 'react';
 import type { GasFormDialogData } from '../../../../../type/AppType';
 import type { GasEventDialogProps } from '../../../../../type/PropsType';
 import DialogHeader from '../../../shared/Dialog/DialogHeader';
+import {
+  formatDateForInput,
+  isFutureDate,
+} from '../../../../../utils/validationUtilities';
 
 const INITIAL_FORM: GasFormDialogData = {
   date: new Date(),
   price: 0,
 };
-
-function formatDateForInput(date: Date): string {
-  return date.toLocaleDateString('en-CA');
-}
-
-function isFutureDate(date: Date): boolean {
-  const today = new Date();
-
-  today.setHours(0, 0, 0, 0);
-
-  const selected = new Date(date);
-  selected.setHours(0, 0, 0, 0);
-
-  return selected > today;
-}
 
 export default function GasFormDialog({
   isOpen,

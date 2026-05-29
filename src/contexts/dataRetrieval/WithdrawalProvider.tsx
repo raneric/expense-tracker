@@ -76,16 +76,16 @@ export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
     try {
       dispatch({ type: 'LOADING' });
 
-      const wthdrawals = await withdrawalRepository.getAll(constraints);
+      const withdrawals = await withdrawalRepository.getAll(constraints);
       const reasons = await withdrawalRepository.getReasonsList([
         userIdConstraint,
       ]);
 
       dispatch({
         type: 'LOADED',
-        payload: wthdrawals,
+        payload: withdrawals,
       });
-      dispatch({ type: 'LOAD_REASONS', payload: reasons });
+      dispatch({ type: 'LOAD_REASONS', payload: reasons.toSorted() });
     } catch (error) {
       handleError(error);
     }

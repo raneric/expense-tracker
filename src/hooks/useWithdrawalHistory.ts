@@ -30,20 +30,12 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
     [currentWithdrawals, withdrawals]
   );
 
-  const reasonsList = useMemo(() => {
-    const reasons: string[] = withdrawals
-      .flatMap((value) => value.reasons)
-      .filter((value) => value !== '')
-      .toSorted();
-    return [...new Set(reasons)];
-  }, [withdrawals]);
-
   const openCreateDialog = () => {
-    setDialog({ type: 'create', reasonsList });
+    setDialog({ type: 'create' });
   };
 
   const openEditDialog = (withdrawal: Withdrawal) => {
-    setDialog({ type: 'edit', withdrawal, reasonsList });
+    setDialog({ type: 'edit', withdrawal });
   };
 
   const openDeleteDialog = (withdrawal: Withdrawal) => {
