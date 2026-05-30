@@ -25,13 +25,19 @@ export default function ExpenseSparkLine({
   dataLabel,
   dataset,
   dimension,
+  total,
 }: ExpenseSparkLineProps) {
   const [weekIndex, setWeekIndex] = useState<null | number>(null);
 
-  const total: number =
-    dataset.length > 0
-      ? dataset.reduce((acc: number, value: number) => acc + value)
-      : 0;
+  let unfocusedTotal: number = 0;
+
+  if (total !== undefined) {
+    unfocusedTotal = total;
+  } else if (dataset.length > 0) {
+    unfocusedTotal = dataset.reduce(
+      (acc: number, value: number) => acc + value
+    );
+  }
 
   const settings: SparkLineChartProps = {
     data: dataset,
@@ -93,7 +99,7 @@ export default function ExpenseSparkLine({
           >
             {weekIndex !== null
               ? toLocalMgCurrency(dataset[weekIndex])
-              : toLocalMgCurrency(total)}
+              : toLocalMgCurrency(unfocusedTotal)}
           </Typography>
 
           <SparkLineChart

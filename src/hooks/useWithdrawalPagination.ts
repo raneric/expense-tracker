@@ -6,7 +6,7 @@ import type { TablePaginationState, Withdrawal } from '../type/AppType';
  */
 const defaultPaginationState: TablePaginationState = {
   page: 0,
-  rowsPerPage: 5,
+  rowsPerPage: 10,
 };
 
 /**

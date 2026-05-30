@@ -15,6 +15,7 @@ export interface ExpenseSparkLineProps {
   dataLabel: string;
   dataset: number[];
   dimension: Date[];
+  total?: number;
 }
 
 export interface WithdrawRowEventProps {

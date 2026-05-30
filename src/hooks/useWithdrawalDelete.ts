@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { useWithdrawalContext } from '../contexts/dataRetrieval/WithdrawalContext';
+import { useWithdrawalContext } from '../contexts/withdrawalsRetrieval/WithdrawalContext';
 import RepositoriesFactory from '../repositories/RepositoriesFactory';
 import { useSnackbarContext } from '../contexts/snackbar/SnackbarContext';
 

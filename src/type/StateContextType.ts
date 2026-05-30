@@ -4,6 +4,7 @@ import type {
   GasEvent,
   GasFormDialogData,
   LoginCredentials,
+  Saving,
   User,
   UserInfo,
   Withdrawal,
@@ -131,4 +132,10 @@ export interface GasEventDataRetrievalContextType {
   state: GasEventsDataRetrievalState;
   load: () => Promise<void>;
   submit: (data: GasFormDialogData) => Promise<boolean>;
+}
+
+//---------------------- Saving context -----------------------
+export interface SavingContextType
+  extends DataRetrievalContextType<Saving, DateFilter | null> {
+  state: DataRetrievalState<Saving, DateFilter | null>;
 }

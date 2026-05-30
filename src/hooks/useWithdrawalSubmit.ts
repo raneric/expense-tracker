@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useUserContext } from '../contexts/auth/UserContext';
 import type { Withdrawal } from '../type/AppType';
-import { useWithdrawalContext } from '../contexts/dataRetrieval/WithdrawalContext';
+import { useWithdrawalContext } from '../contexts/withdrawalsRetrieval/WithdrawalContext';
 import RepositoriesFactory from '../repositories/RepositoriesFactory';
 import { useSnackbarContext } from '../contexts/snackbar/SnackbarContext';
 

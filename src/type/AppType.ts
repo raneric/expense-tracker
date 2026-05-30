@@ -95,3 +95,10 @@ export type GasFormDialogData = {
   date: Date;
   price: number;
 };
+
+export interface Saving {
+  id: string;
+  amount: number;
+  month: Date;
+  ownerId: string;
+}

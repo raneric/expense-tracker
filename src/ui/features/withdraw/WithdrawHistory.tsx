@@ -1,7 +1,7 @@
 import { AccountBalanceWallet, FilterList } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
 import { Stack } from '@mui/material';
-import { useWithdrawalContext } from '../../../contexts/dataRetrieval/WithdrawalContext';
+import { useWithdrawalContext } from '../../../contexts/withdrawalsRetrieval/WithdrawalContext';
 import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
 import useWithdrawalPagination from '../../../hooks/useWithdrawalPagination';
 import useWithdrawalSubmit from '../../../hooks/useWithdrawalSubmit';

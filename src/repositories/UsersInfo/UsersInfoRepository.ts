@@ -25,7 +25,7 @@ export default class UsersInfoRepository
     return await this.dataProvider.getByUnique(unique, userInfoDataMapper);
   }
   async deleteByUnique(unique: string): Promise<void> {
-    await this.deleteByUnique(unique);
+    await this.dataProvider.deleteByUnique(unique);
   }
   async updateOne(data: UserInfo): Promise<void> {
     await this.dataProvider.updateOne(data.id, data);

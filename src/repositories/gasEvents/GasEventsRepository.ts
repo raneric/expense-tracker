@@ -6,10 +6,9 @@ import { type GasEvent } from '../../type/AppType';
 import { gasEventsDataMapper } from '../../utils/dataMappers';
 import type BaseRepository from '../BaseRepository';
 
-export default class GasEventsRepository implements BaseRepository<
-  GasEvent,
-  string
-> {
+export default class GasEventsRepository
+  implements BaseRepository<GasEvent, string>
+{
   private readonly dataProvider: DataProvider<GasEvent, string>;
   constructor() {
     this.dataProvider = new FirestoreDataProvider<GasEvent>(
@@ -26,10 +25,7 @@ export default class GasEventsRepository implements BaseRepository<
     return await this.dataProvider.getByUnique(unique, gasEventsDataMapper);
   }
   async deleteByUnique(unique: string): Promise<void> {
-    console.log(unique);
-    throw new Error(
-      'deleteByUnique from GasEventsRepository not yet implemented'
-    );
+    await this.dataProvider.deleteByUnique(unique);
   }
   async updateOne(data: GasEvent): Promise<void> {
     const id = data.id;

@@ -1,6 +1,7 @@
-import type { GasEvent, UserInfo, Withdrawal } from '../type/AppType';
+import type { GasEvent, Saving, UserInfo, Withdrawal } from '../type/AppType';
 import type BaseRepository from './BaseRepository';
 import GasEventsRepository from './gasEvents/GasEventsRepository';
+import SavingRepository from './saving/SavingRepository';
 import UsersInfoRepository from './UsersInfo/UsersInfoRepository';
 import MockWithdrawRepository from './Withdrawals/MockWithdrawRepository';
 import WithdrawRepository from './Withdrawals/WithdrawRepository';
@@ -9,6 +10,7 @@ export default class RepositoriesFactory {
   private static withdrawRepositoryInstance: BaseRepository<Withdrawal, string>;
   private static userInfoRepositoryInstance: BaseRepository<UserInfo, string>;
   private static gasEventsRepository: BaseRepository<GasEvent, string>;
+  private static savingRepositoryInstance: BaseRepository<Saving, string>;
 
   public static createWithdrawRepository(useMock: boolean = false) {
     if (!RepositoriesFactory.withdrawRepositoryInstance) {
@@ -36,5 +38,12 @@ export default class RepositoriesFactory {
       RepositoriesFactory.gasEventsRepository = new GasEventsRepository();
     }
     return RepositoriesFactory.gasEventsRepository;
+  }
+
+  public static createSavingRepository() {
+    if (!RepositoriesFactory.savingRepositoryInstance) {
+      RepositoriesFactory.savingRepositoryInstance = new SavingRepository();
+    }
+    return RepositoriesFactory.savingRepositoryInstance;
   }
 }

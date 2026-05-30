@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, TextField } from '@mui/material';
-import { useWithdrawalContext } from '../../../../../contexts/dataRetrieval/WithdrawalContext';
+import { useWithdrawalContext } from '../../../../../contexts/withdrawalsRetrieval/WithdrawalContext';
 import type { DialogProps } from '../../../../../type/PropsType';
 import DialogHeader from '../../../shared/Dialog/DialogHeader';
 import { formatDateInput } from '../../../../../utils/formatterUtilities';

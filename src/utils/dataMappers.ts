@@ -1,6 +1,12 @@
 import { type User as FirebaseUserData } from 'firebase/auth';
 import type { DocumentData } from 'firebase/firestore';
-import type { GasEvent, User, UserInfo, Withdrawal } from '../type/AppType';
+import type {
+  GasEvent,
+  Saving,
+  User,
+  UserInfo,
+  Withdrawal,
+} from '../type/AppType';
 
 export const withdrawalDataMapper = (doc: DocumentData): Withdrawal => ({
   ...doc.data(),
@@ -36,5 +42,14 @@ export const gasEventsDataMapper = (doc: DocumentData): GasEvent => {
     totalDays: doc.data().totalDays,
     type: doc.data().type,
     price: doc.data().price,
+  };
+};
+
+export const savingDataMapper = (doc: DocumentData): Saving => {
+  return {
+    id: doc.id,
+    amount: doc.data().amount,
+    month: doc.data().month.toDate(),
+    ownerId: doc.data().ownerId,
   };
 };

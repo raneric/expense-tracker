@@ -1,0 +1,44 @@
+import type { Saving } from '../../type/AppType';
+import type {
+  DataRetrievalAction,
+  DataRetrievalState,
+  DateFilter,
+} from '../../type/StateContextType';
+import { getDefaultDateFilterRange } from '../../utils/dataGeneratorUtilities';
+
+export const savingReducer = (
+  state: DataRetrievalState<Saving, DateFilter | null>,
+  action: DataRetrievalAction<Saving, DateFilter | null>
+) => {
+  switch (action.type) {
+    case 'LOADING':
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case 'FILTER':
+      return {
+        ...state,
+        isLoading: true,
+        filter: action.payload,
+      };
+    case 'LOADED':
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload,
+      };
+    case 'ERROR':
+      return {
+        ...state,
+        isLoading: false,
+      };
+    case 'RESET_FILTER':
+      return {
+        ...state,
+        filter: getDefaultDateFilterRange(),
+      };
+    default:
+      return state;
+  }
+};
