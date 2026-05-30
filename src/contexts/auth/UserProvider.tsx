@@ -1,11 +1,47 @@
-import type { FirebaseError } from 'firebase/app';
+/**
+ * User Authentication Provider Component
+ *
+ * Manages the global authentication state and user profile loading.
+ *
+ * Features:
+ * - Subscribes to Firebase authentication state changes (onAuthStateChanged)
+ * - Automatically initializes auth on app load
+ * - Loads user profile information asynchronously after login
+ * - Provides login() and logout() functions for authentication operations
+ * - Handles errors with user-friendly notifications via snackbar
+ *
+ * Context Value Structure:
+ * - state: AuthState - Contains user, profile, loading, error, and init status
+ * - dispatch: Dispatch - Reducer dispatcher for advanced state management
+ * - login(credentials): Promise<void> - Authenticates user with email and password
+ * - logout(): Promise<void> - Logs out current user and clears local storage
+ *
+ * Usage:
+ * ```tsx
+ * import { useUserContext } from '../contexts/auth/UserContext';
+ *
+ * function MyComponent() {
+ *   const { state, login, logout } = useUserContext();
+ *   if (!state.user) return <LoginForm onSubmit={login} />;
+ *   return <Dashboard user={state.user} profile={state.profile} />;
+ * }
+ * ```
+ *
+ * @component
+ * @param {PropsWithChildren} props - React children to be wrapped by this provider
+ * @returns {JSX.Element} Provider component wrapping children with UserContext
+ *
+ * @note Profile data loads asynchronously after user authentication (may cause layout shift)
+ * @note Uses Firebase Auth for real-time auth state subscription
+ * @note Authentication persists across page reloads via Firebase
+ */
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useMemo, useReducer, type PropsWithChildren } from 'react';
 import RepositoriesFactory from '../../repositories/RepositoriesFactory';
-import type { AuthError } from '../../services/Auth/AuthError';
 import AuthProviderFactory from '../../services/Auth/AuthProviderFactory';
 import type { LoginCredentials } from '../../type/AppType';
 import type { AuthState } from '../../type/StateContextType';
+import { getErrorMessage } from '../../utils/errorFunctions';
 import { clearStoredUser } from '../../utils/localStorageUtilities';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { authReducer } from './authReducer';
@@ -74,12 +110,13 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       await authProvider.signIn(credentials);
       show('Successfully logged in', 'success');
     } catch (error: unknown) {
+      const erroMessage = getErrorMessage(error);
       dispatch({
         type: 'LOGIN_FAILURE',
-        payload: (error as AuthError).message,
+        payload: erroMessage,
       });
 
-      show((error as AuthError).message, 'error');
+      show(erroMessage, 'error');
     }
   };
 
@@ -88,8 +125,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       await authProvider.logout();
       dispatch({ type: 'LOGOUT' });
       clearStoredUser();
-    } catch (error) {
-      show((error as FirebaseError).message, 'error');
+    } catch (error: unknown) {
+      show(getErrorMessage(error), 'error');
     }
   };
 

@@ -1,3 +1,46 @@
+/**
+ * Withdrawal Data Retrieval Provider Component
+ *
+ * Manages the global state for withdrawal data, filtering, and reasons list.
+ *
+ * Features:
+ * - Fetches withdrawals from the database with user-specific constraints
+ * - Maintains a list of unique withdrawal reasons for form autocomplete
+ * - Supports date range filtering (TODO: currently partial implementation)
+ * - Provides load() function to refresh withdrawal data
+ * - Handles loading and error states with automatic error notifications
+ * - Queries are optimized with Firestore constraints (userId, date range)
+ *
+ * Context Value Structure:
+ * - state: WithdrawalRetrievalState - Contains withdrawals, reasons, loading, error, and filters
+ * - load(): Promise<void> - Fetches all withdrawals and reasons for current user and filter
+ * - filterBy(filter: DateFilter): Promise<void> - Updates date filter (TODO: implement data reload)
+ * - resetFilter(): void - Resets filter to default date range and reloads data
+ *
+ * Usage:
+ * ```tsx
+ * import { useWithdrawalContext } from '../contexts/dataRetrieval/WithdrawalContext';
+ *
+ * function WithdrawalList() {
+ *   const { state, load, filterBy } = useWithdrawalContext();
+ *   if (state.isLoading) return <Skeleton />;
+ *   return (
+ *     <>
+ *       {state.data.map(w => <WithdrawalItem key={w.id} withdrawal={w} />)}
+ *     </>
+ *   );
+ * }
+ * ```
+ *
+ * @component
+ * @param {PropsWithChildren} props - React children to be wrapped by this provider
+ * @returns {JSX.Element} Provider component wrapping children with WithdrawalContext
+ *
+ * @note Data automatically reloads when user changes (via dependency injection)
+ * @note Data automatically reloads when filter changes (via effect)
+ * @note Filter dispatch exists but doesn't trigger data reload (TODO: fix in filterBy)
+ * @note Uses Firestore queries with constraints for efficient data fetching
+ */
 import { orderBy, where } from 'firebase/firestore';
 import {
   useCallback,
@@ -17,6 +60,7 @@ import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { WithdrawalContext } from './WithdrawalContext';
 import { withdrawalReducer } from './withdrawalReducer';
 import type WithdrawRepository from '../../repositories/Withdrawals/WithdrawRepository';
+import { getErrorMessage } from '../../utils/errorFunctions';
 
 const initialState: WithdrawalRetrievalState = {
   data: [],
@@ -60,10 +104,7 @@ export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
   const handleError = useCallback(
     (error: unknown) => {
       dispatch({ type: 'ERROR' });
-
-      const message =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-
+      const message = getErrorMessage(error);
       show(message, 'error');
     },
     [show]
@@ -86,7 +127,7 @@ export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
         payload: withdrawals,
       });
       dispatch({ type: 'LOAD_REASONS', payload: reasons.toSorted() });
-    } catch (error) {
+    } catch (error: unknown) {
       handleError(error);
     }
   }, [withdrawalRepository, handleError, constraints, userIdConstraint]);
@@ -98,7 +139,7 @@ export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
     async (filter: DateFilter) => {
       try {
         dispatch({ type: 'FILTER', payload: filter });
-      } catch (error) {
+      } catch (error: unknown) {
         handleError(error);
       }
     },

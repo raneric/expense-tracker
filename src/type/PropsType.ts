@@ -8,7 +8,7 @@ import type {
 import type { PropsWithChildren } from 'react';
 
 interface Submittable<T> {
-  onSubmit: (data: T) => void;
+  onSubmit: (data: T) => void | Promise<boolean>;
 }
 
 export interface ExpenseSparkLineProps {
@@ -42,7 +42,8 @@ export interface DialogProps {
 }
 
 export interface GasEventDialogProps
-  extends DialogProps, Submittable<GasFormDialogData> {}
+  extends DialogProps,
+    Submittable<GasFormDialogData> {}
 
 export interface FilterDialogProps extends DialogProps {
   onStartDateChange: () => void;

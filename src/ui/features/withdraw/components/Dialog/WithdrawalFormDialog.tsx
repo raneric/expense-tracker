@@ -46,6 +46,7 @@ export default function WithdrawalFormDialog({
   const [formData, setFormData] = useState<Withdrawal>(
     initialData ?? initialWithdrawal
   );
+  const [submitInProgress, setSubmitInProgress] = useState(false);
 
   const errors = useMemo(() => {
     return {
@@ -90,17 +91,19 @@ export default function WithdrawalFormDialog({
   }, []);
 
   const handleSubmit = useCallback(
-    (e: React.SubmitEvent<HTMLFormElement>) => {
+    async (e: React.SubmitEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       if (hasErrors) return;
 
-      onSubmit(formData);
-
-      resetForm();
-      onClose();
+      setSubmitInProgress(true);
+      const result = await onSubmit(formData);
+      setSubmitInProgress(false);
+      if (result) {
+        resetForm();
+      }
     },
-    [formData, hasErrors, onSubmit, onClose, resetForm]
+    [formData, hasErrors, onSubmit, resetForm]
   );
 
   return (
@@ -207,6 +210,7 @@ export default function WithdrawalFormDialog({
             </Button>
 
             <Button
+              loading={submitInProgress}
               variant="contained"
               type="submit"
               disabled={hasErrors}

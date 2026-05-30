@@ -1,4 +1,46 @@
-import dayjs from 'dayjs';
+/**
+ * Gas Events Data Retrieval Provider Component
+ *
+ * Manages the global state for gas event data and submission operations.
+ *
+ * Features:
+ * - Fetches gas events from the database for the current user
+ * - Manages gas event state transitions (current, previous, done)
+ * - Provides submit() function to handle gas event creation and state updates
+ * - Handles complex state transitions via useGasEventSubmit hook:
+ *   - Marks current event as 'previous'
+ *   - Marks any previous event as 'done'
+ *   - Creates new 'current' event with price and date
+ *   - Calculates total days between events
+ * - Handles loading and error states with automatic error notifications
+ *
+ * Context Value Structure:
+ * - state: DataRetrievalState<GasEvent> - Contains gas events, loading, and error states
+ * - load(): Promise<void> - Fetches all gas events for current user
+ * - submit(data: GasFormDialogData): Promise<boolean> - Submits new gas event and updates state transitions
+ *
+ * Usage:
+ * ```tsx
+ * import { useGasEventsContext } from '../contexts/gasEvents/GasEventsContext';
+ *
+ * function GasEventForm() {
+ *   const { state, submit } = useGasEventsContext();
+ *   const handleSubmit = async (data) => {
+ *     const success = await submit(data);
+ *     if (success) console.log('Gas event saved');
+ *   };
+ *   return <GasEventFormDialog onSubmit={handleSubmit} />;
+ * }
+ * ```
+ *
+ * @component
+ * @param {PropsWithChildren} props - React children to be wrapped by this provider
+ * @returns {JSX.Element} Provider component wrapping children with GasEventsContext
+ *
+ * @note All database updates during submit() are performed in parallel using Promise.all
+ * @note State transitions are immutable (uses spread operator, not mutations)
+ * @note Data automatically reloads when user changes
+ */
 import { where } from 'firebase/firestore';
 import {
   useCallback,
@@ -7,12 +49,14 @@ import {
   useReducer,
   type PropsWithChildren,
 } from 'react';
+import { useGasEventSubmit } from '../../hooks/useGasEventSubmit';
 import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import type { GasEvent, GasFormDialogData } from '../../type/AppType';
 import type {
   DataRetrievalState,
   GasEventDataRetrievalContextType,
 } from '../../type/StateContextType';
+import { getErrorMessage } from '../../utils/errorFunctions';
 import { useUserContext } from '../auth/UserContext';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { GasEventsContext } from './GasEventsContext';
@@ -27,7 +71,7 @@ export const GasEventsProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(gasEventsReducer, initialState);
   const { state: userState } = useUserContext();
   const { show } = useSnackbarContext();
-
+  const gasEventSubmit = useGasEventSubmit();
   const constraints = useMemo(
     () => [where('ownerId', '==', userState.user?.id)],
     [userState.user]
@@ -44,10 +88,7 @@ export const GasEventsProvider = ({ children }: PropsWithChildren) => {
   const handleError = useCallback(
     (error: unknown) => {
       dispatch({ type: 'ERROR' });
-
-      const message =
-        error instanceof Error ? error.message : 'An unexpected error occurred';
-
+      const message = getErrorMessage(error);
       show(message, 'error');
     },
     [show]
@@ -64,48 +105,16 @@ export const GasEventsProvider = ({ children }: PropsWithChildren) => {
         type: 'LOADED',
         payload: data,
       });
-    } catch (error) {
+    } catch (error: unknown) {
       handleError(error);
     }
   }, [gasEventsRepository, handleError, constraints]);
 
   const submit = useCallback(
     async (data: GasFormDialogData) => {
-      const previousGas = state.data.find((value) => value.type === 'previous');
-      const currentGas = state.data.find((value) => value.type === 'current');
-      try {
-        if (userState.user) {
-          const newGasEvent: GasEvent = {
-            startDate: data.date,
-            ownerId: userState.user?.id,
-            endDate: null,
-            type: 'current',
-            totalDays: 0,
-            price: data.price,
-          };
-          await gasEventsRepository.createOne(newGasEvent);
-        }
-
-        if (previousGas) {
-          previousGas.type = 'done';
-          await gasEventsRepository.updateOne(previousGas);
-        }
-
-        if (currentGas) {
-          currentGas.endDate = data.date;
-          currentGas.type = 'previous';
-          currentGas.totalDays = dayjs(currentGas.endDate).diff(
-            dayjs(currentGas.startDate),
-            'day'
-          );
-          await gasEventsRepository.updateOne(currentGas);
-        }
-        load();
-      } catch (error: unknown) {
-        show((error as Error).message, 'error');
-      }
+      return gasEventSubmit(data, state.data);
     },
-    [state.data, gasEventsRepository, show, userState.user, load]
+    [gasEventSubmit, state.data]
   );
 
   /**

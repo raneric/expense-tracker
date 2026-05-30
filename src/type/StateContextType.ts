@@ -88,17 +88,13 @@ export type DataRetrievalAction<T, U> =
   | { type: 'ERROR' };
 
 //---------------------- Withdrawals context -----------------------
-export interface WithdrawalRetrievalState extends DataRetrievalState<
-  Withdrawal,
-  DateFilter
-> {
+export interface WithdrawalRetrievalState
+  extends DataRetrievalState<Withdrawal, DateFilter> {
   reasons: string[];
 }
 
-export interface WithdrawalRetrievalContextType extends DataRetrievalContextType<
-  Withdrawal,
-  DateFilter
-> {
+export interface WithdrawalRetrievalContextType
+  extends DataRetrievalContextType<Withdrawal, DateFilter> {
   state: WithdrawalRetrievalState;
   load: () => Promise<void>;
   filterBy: (filter: DateFilter) => Promise<void>;
@@ -134,5 +130,5 @@ export type GasEventsDataRetrievalState = Omit<
 export interface GasEventDataRetrievalContextType {
   state: GasEventsDataRetrievalState;
   load: () => Promise<void>;
-  submit: (data: GasFormDialogData) => Promise<void>;
+  submit: (data: GasFormDialogData) => Promise<boolean>;
 }
