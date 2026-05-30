@@ -6,8 +6,8 @@ const SectionTitle = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: theme.spacing(2),
-  marginBottom: theme.spacing(2),
+  padding: theme.spacing(1, 2),
+  marginBottom: theme.spacing(1),
   borderRadius: theme.spacing(1),
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
@@ -24,7 +24,7 @@ function Tittle({
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       {icon}
       <Typography
-        variant="h6"
+        variant="subtitle1"
         sx={{ fontWeight: 'bold' }}
       >
         {displayText}
@@ -52,12 +52,12 @@ function ExpandedHelperInfo({ displayText }: { displayText: string }) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       <Typography
-        variant="body2"
+        variant="caption"
         sx={{ opacity: 0.88 }}
       >
         {displayText}
       </Typography>
-      <HelpTwoTone sx={{ fontSize: '1.8rem' }} />
+      <HelpTwoTone sx={{ fontSize: '1.2rem' }} />
     </Box>
   );
 }
