@@ -25,6 +25,7 @@ export function WithdrawalCharts({ current, forecast }: WithdrawalChartsProps) {
     <Stack
       direction={isDesktop ? 'row' : 'column'}
       spacing={2}
+      sx={{ alignSelf: 'center' }}
     >
       <ChartCard>
         <ExpenseSparkLine

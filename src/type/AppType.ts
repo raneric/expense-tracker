@@ -102,3 +102,8 @@ export interface Saving {
   month: Date;
   ownerId: string;
 }
+
+export interface WeeklyAmount {
+  label: string;
+  amount: number;
+}

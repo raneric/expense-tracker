@@ -6,15 +6,23 @@ import type {
   Withdrawal,
 } from './AppType';
 import type { PropsWithChildren } from 'react';
+import type { BarSeries } from '@mui/x-charts';
 
 interface Submittable<T> {
   onSubmit: (data: T) => void | Promise<boolean>;
 }
 
-export interface ExpenseSparkLineProps {
+export interface ComparisonChartProps<T> {
   dataLabel: string;
   dataset: number[];
-  dimension: Date[];
+  dimension: T[];
+}
+
+export interface BartChartProps<T> {
+  series: BarSeries[];
+  dimension: T[];
+}
+export interface ExpenseSparkLineProps extends ComparisonChartProps<Date> {
   total?: number;
 }
 
@@ -43,8 +51,7 @@ export interface DialogProps {
 }
 
 export interface GasEventDialogProps
-  extends DialogProps,
-    Submittable<GasFormDialogData> {}
+  extends DialogProps, Submittable<GasFormDialogData> {}
 
 export interface FilterDialogProps extends DialogProps {
   onStartDateChange: () => void;
