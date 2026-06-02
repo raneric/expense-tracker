@@ -7,6 +7,7 @@ import { useUserContext } from '../../../../../contexts/auth/UserContext';
 import { useMemo } from 'react';
 import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
 import { calculateSaving } from '../../../../../utils/computingFunction';
+import Colors from '../../../../Theming/Colors';
 
 export function WithdrawalCharts({ current, forecast }: WithdrawalChartsProps) {
   const theme = useTheme();
@@ -27,14 +28,22 @@ export function WithdrawalCharts({ current, forecast }: WithdrawalChartsProps) {
       spacing={2}
       sx={{ alignSelf: 'center' }}
     >
-      <ChartCard>
+      <ChartCard
+        sx={{
+          borderTop: `6px solid ${Colors.tint200}`,
+        }}
+      >
         <ExpenseSparkLine
           dimension={current.dimension}
           dataset={current.dataset}
           dataLabel="Withdrawal of today"
         />
       </ChartCard>
-      <ChartCard>
+      <ChartCard
+        sx={{
+          borderTop: `6px solid ${Colors.warningLight}`,
+        }}
+      >
         <ExpenseSparkLine
           dimension={forecast.dimension}
           dataset={forecast.dataset}
@@ -48,7 +57,7 @@ export function WithdrawalCharts({ current, forecast }: WithdrawalChartsProps) {
           spacing={1}
         >
           <InfoRow
-            label="📈 Saving forcasted"
+            label="📈 Saving forecasted"
             value={`${toLocalMgCurrency(forecastedSaving)}`}
           />
           <InfoRow

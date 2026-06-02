@@ -1,24 +1,27 @@
-import { AreaChart } from '@mui/icons-material';
-import { useMemo } from 'react';
+import { AreaChart, FilterList } from '@mui/icons-material';
+import { Box, Fab, Grid } from '@mui/material';
+import type { BarItem } from '@mui/x-charts/BarChart';
+import { useMemo, useState } from 'react';
 import { useWithdrawalContext } from '../../../contexts/withdrawalsRetrieval/WithdrawalContext';
 import { getWeeklyAmounts } from '../../../utils/computingFunction';
 import { toLocalMgCurrencyCompact } from '../../../utils/formatterUtilities';
+import Colors from '../../Theming/Colors';
 import {
   SectionTitle,
   Tittle,
   TittleHelperInfo,
 } from '../shared/SectionTitle/SectionTitle';
 import WeeklySpentChart from './components/WeeklySpentChart';
-import type { BarItem } from '@mui/x-charts/BarChart';
+import FilterDialog from '../shared/Dialog/FilterDialog';
 
 export default function Dashboard() {
   const { state } = useWithdrawalContext();
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { series, dimension } = useMemo(() => {
-    const data = state.data;
-    const weeklySpendingWithForecast = getWeeklyAmounts(data);
+    const withdrawals = state.data;
+    const weeklySpendingWithForecast = getWeeklyAmounts(withdrawals);
     const weeklySpendingWithoutForecast = getWeeklyAmounts(
-      data.filter((v) => !v.isForecast)
+      withdrawals.filter((withdrawal) => !withdrawal.isForecast)
     );
 
     const amountsWithForecast = weeklySpendingWithForecast.map(
@@ -52,6 +55,12 @@ export default function Dashboard() {
 
   return (
     <>
+      <FilterDialog
+        isOpen={isDialogOpen}
+        onClose={() => {
+          setIsDialogOpen(false);
+        }}
+      />
       <SectionTitle>
         <Tittle
           icon={<AreaChart />}
@@ -59,10 +68,39 @@ export default function Dashboard() {
         />
         <TittleHelperInfo displayText="Display charts related to withdrawals" />
       </SectionTitle>
-      <WeeklySpentChart
-        dimension={dimension}
-        series={series}
-      />
+      <Grid
+        container
+        spacing={2}
+      >
+        <Grid size={8}>
+          <WeeklySpentChart
+            dimension={dimension}
+            series={series}
+          />
+        </Grid>
+        <Grid size={4}>
+          <Box
+            sx={{
+              backgroundColor: Colors.tint50,
+              width: '100%',
+              height: '100%',
+            }}
+          />
+        </Grid>
+      </Grid>
+      <Fab
+        onClick={() => {
+          setIsDialogOpen(true);
+        }}
+        color="primary"
+        sx={{
+          position: 'fixed',
+          bottom: 24,
+          right: 24,
+        }}
+      >
+        <FilterList />
+      </Fab>
     </>
   );
 }

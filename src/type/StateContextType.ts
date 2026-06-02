@@ -89,13 +89,17 @@ export type DataRetrievalAction<T, U> =
   | { type: 'ERROR' };
 
 //---------------------- Withdrawals context -----------------------
-export interface WithdrawalRetrievalState
-  extends DataRetrievalState<Withdrawal, DateFilter> {
+export interface WithdrawalRetrievalState extends DataRetrievalState<
+  Withdrawal,
+  DateFilter
+> {
   reasons: string[];
 }
 
-export interface WithdrawalRetrievalContextType
-  extends DataRetrievalContextType<Withdrawal, DateFilter> {
+export interface WithdrawalRetrievalContextType extends DataRetrievalContextType<
+  Withdrawal,
+  DateFilter
+> {
   state: WithdrawalRetrievalState;
   load: () => Promise<void>;
   filterBy: (filter: DateFilter) => Promise<void>;
@@ -106,7 +110,13 @@ export type WithdrawalRetrievalAction =
   | DataRetrievalAction<Withdrawal, DateFilter>
   | { type: 'LOAD_REASONS'; payload: string[] };
 
-export type DateFilter = { startDate?: Date; endDate?: Date };
+export type FilterType = 'current' | 'previous' | 'custom';
+
+export type DateFilter = {
+  startDate?: Date;
+  endDate?: Date;
+  type: FilterType;
+};
 
 //---------------------- Drawer context -----------------------
 
@@ -135,7 +145,9 @@ export interface GasEventDataRetrievalContextType {
 }
 
 //---------------------- Saving context -----------------------
-export interface SavingContextType
-  extends DataRetrievalContextType<Saving, DateFilter | null> {
+export interface SavingContextType extends DataRetrievalContextType<
+  Saving,
+  DateFilter | null
+> {
   state: DataRetrievalState<Saving, DateFilter | null>;
 }

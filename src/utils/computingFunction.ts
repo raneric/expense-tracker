@@ -26,7 +26,7 @@ export function getWeeklyAmounts(withdrawals: Withdrawal[]): WeeklyAmount[] {
 
     if (!weeks.has(key)) {
       weeks.set(key, {
-        label: `${startOfWeek.format('DD')}-${endOfWeek.format('DD')}`,
+        label: `${endOfWeek.format('MMMM')} ${startOfWeek.format('DD')} to ${endOfWeek.format('DD')}`,
         amount: 0,
       });
     }

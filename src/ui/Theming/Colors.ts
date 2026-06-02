@@ -25,6 +25,7 @@ const Colors = {
   warningDark: '#e65100',
   warningContrastText: '#3e1701',
   onPrimary: '#001a2d',
+  divider: '#444d53',
 };
 
 export default Colors;

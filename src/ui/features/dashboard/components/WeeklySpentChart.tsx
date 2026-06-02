@@ -4,34 +4,34 @@ import type { BartChartProps } from '../../../../type/PropsType';
 import { toLocalMgCurrency } from '../../../../utils/formatterUtilities';
 import Colors from '../../../Theming/Colors';
 import AppDimensions from '../../../Theming/Dimensions';
+import { styled } from '@mui/material/styles';
+
+const WeeklySpentChartContainer = styled(Stack)(({ theme }) => ({
+  width: '100%',
+  height: 500,
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: AppDimensions.BorderRadius.small,
+  border: `1px solid ${theme.palette.divider}`,
+}));
+
+const ChartHeader = styled(Typography)(({ theme }) => ({
+  with: '100%',
+  textAlign: 'center',
+  color: Colors.tint900,
+  fontWeight: 'bold',
+  borderBottom: `1px solid ${theme.palette.divider}`,
+}));
 
 export default function WeeklySpentChart({
   series,
   dimension,
 }: BartChartProps<string>) {
   return (
-    <Stack
-      sx={{
-        maxWidth: '60%',
-        height: 500,
-        backgroundColor: 'background.paper',
-        borderRadius: AppDimensions.BorderRadius.small,
-      }}
+    <WeeklySpentChartContainer
       direction={'column'}
       spacing={2}
     >
-      <Typography
-        variant="h6"
-        sx={{
-          with: '100%',
-          textAlign: 'center',
-          color: Colors.tint900,
-          fontWeight: 'bold',
-          borderBottom: `1px solid ${Colors.tint50}`,
-        }}
-      >
-        Weekly spending
-      </Typography>
+      <ChartHeader variant="h6">Weekly spending</ChartHeader>
       <BarChart
         series={series}
         xAxis={[
@@ -56,6 +56,6 @@ export default function WeeklySpentChart({
           },
         ]}
       />
-    </Stack>
+    </WeeklySpentChartContainer>
   );
 }

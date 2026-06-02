@@ -105,5 +105,22 @@ export function getDefaultDateFilterRange(): DateFilter {
   return {
     startDate: startDate.startOf('day').toDate(),
     endDate: endDate.endOf('day').toDate(),
+    type: 'current',
+  };
+}
+
+export function getPreviousDateFilterRange(): DateFilter {
+  const currentRange = getDefaultDateFilterRange();
+
+  return {
+    startDate: dayjs(currentRange.startDate)
+      .subtract(1, 'month')
+      .startOf('day')
+      .toDate(),
+    endDate: dayjs(currentRange.endDate)
+      .subtract(1, 'month')
+      .endOf('day')
+      .toDate(),
+    type: 'previous',
   };
 }
