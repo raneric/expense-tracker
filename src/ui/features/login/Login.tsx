@@ -6,7 +6,7 @@ import LogoImage from '../../../assets/logo_v2.png';
 import { useUserContext } from '../../../contexts/auth/UserContext';
 import type { LoginCredentials } from '../../../type/AppType';
 import { AppRoutes } from '../../../utils/Const';
-import { validateInput } from '../../../utils/validationUtilities';
+import { EMAIL_REGEX, validateInput } from '../../../utils/validationUtilities';
 import Colors from '../../Theming/Colors';
 import { styled } from '@mui/material/styles';
 import { Logo } from '../shared/Logo/Logo';
@@ -43,12 +43,10 @@ export default function Login() {
    * @param e
    */
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const emailRegex: RegExp =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const email: string = e.target.value;
 
     validateInput(email, {
-      regex: emailRegex,
+      regex: EMAIL_REGEX,
       emptyMessage: "Email can't be empty",
       invalidMessage: "Email doesn't match pattern abcd@abd.com",
       setError: setEmailErrorMessage,

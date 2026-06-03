@@ -3,6 +3,7 @@ import { IconButton, TableCell, TableRow } from '@mui/material';
 import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
 import ReasonsCell from './ReasonsCell';
 import type { WithdrawTableRowProps } from '../../../../../type/PropsType';
+import { useCallback } from 'react';
 
 const forecastedStyle = { color: 'warning.main', fontWeight: 'bold' };
 
@@ -11,6 +12,16 @@ export default function WithdrawalTableRow({
   onRowEditClick,
   onRowDeleteClick,
 }: WithdrawTableRowProps) {
+  const handleEdit = useCallback(
+    () => onRowEditClick(withdrawal),
+    [withdrawal, onRowEditClick]
+  );
+
+  const handleDelete = useCallback(
+    () => onRowDeleteClick(withdrawal),
+    [withdrawal, onRowDeleteClick]
+  );
+
   return (
     <>
       <TableRow
@@ -37,10 +48,10 @@ export default function WithdrawalTableRow({
           sx={withdrawal.isForecast ? { ...forecastedStyle, width: 200 } : {}}
           align="right"
         >
-          <IconButton onClick={() => onRowEditClick(withdrawal)}>
+          <IconButton onClick={handleEdit}>
             <Edit />
           </IconButton>
-          <IconButton onClick={() => onRowDeleteClick(withdrawal)}>
+          <IconButton onClick={handleDelete}>
             <DeleteForever />
           </IconButton>
         </TableCell>

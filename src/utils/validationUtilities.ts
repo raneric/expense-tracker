@@ -1,6 +1,8 @@
 import { AuthError } from '../services/Auth/AuthError';
 import type { LoginCredentials, ValidatorConfig } from '../type/AppType';
 
+export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 export function validateInput(value: string, config: ValidatorConfig<string>) {
   const { regex, emptyMessage, invalidMessage, setError, setValid, setData } =
     config;

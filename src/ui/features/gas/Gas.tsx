@@ -30,12 +30,7 @@ export default function Gas() {
         sx={{ alignItems: 'center' }}
       >
         <GasEventsProvider>
-          <Calendar
-            onDayCellClick={(date: string) => {
-              console.log(date);
-              setIsEditDialogOpen(true);
-            }}
-          />
+          <Calendar />
           <GasStatus />
         </GasEventsProvider>
       </Stack>

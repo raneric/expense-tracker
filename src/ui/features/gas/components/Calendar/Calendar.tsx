@@ -19,7 +19,7 @@ import CustomCardHeader from '../../../shared/CustomCardHeader/CustomCardHeader'
 export default function Calendar({
   onDayCellClick,
 }: {
-  onDayCellClick: (date: string) => void;
+  onDayCellClick?: (date: string) => void;
 }) {
   const { state } = useGasEventsContext();
   const gasEventData = useMemo(
@@ -35,7 +35,9 @@ export default function Calendar({
         }}
       >
         <CustomCardHeader
-          displayText={`Forecast date: ${formatStringDate(gasEventData.forecastedDate!) ?? 'N/A'}`}
+          displayText={`Forecast date: ${
+            formatStringDate(gasEventData.forecastedDate!) ?? 'N/A'
+          }`}
         />
         <DateCalendar
           slots={{ day: DayCell }}
