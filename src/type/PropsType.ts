@@ -40,6 +40,10 @@ export interface WithdrawTableBodyProps extends WithdrawRowEventProps {
   withdrawals: Withdrawal[];
 }
 
+export interface WithdrawalListProps {
+  withdrawals: Withdrawal[];
+}
+
 export interface WithdrawTableRowProps extends WithdrawRowEventProps {
   withdrawal: Withdrawal;
 }

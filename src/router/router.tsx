@@ -5,7 +5,7 @@ import Gas from '../ui/features/gas/Gas';
 import Login from '../ui/features/login/Login';
 import Main from '../ui/features/Main';
 import Profile from '../ui/features/profile/Profile';
-import WithdrawalHistory from '../ui/features/withdraw/WithdrawHistory';
+import WithdrawalHistory from '../ui/features/withdraw/WithdrawalHistory';
 import { AppRoutes } from '../utils/Const';
 import { dashboardLoader } from './loaders/dashboardLoader';
 const router = createBrowserRouter([

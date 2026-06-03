@@ -6,7 +6,7 @@ import type { WithdrawTableRowProps } from '../../../../../type/PropsType';
 
 const forecastedStyle = { color: 'warning.main', fontWeight: 'bold' };
 
-export default function WithdrawTableRow({
+export default function WithdrawalTableRow({
   withdrawal,
   onRowEditClick,
   onRowDeleteClick,

@@ -16,7 +16,7 @@ import type { WithdrawTableProps } from '../../../../../type/PropsType';
  * @param props.onRowDeleteClick - A callback function that is called when the delete button is clicked for a row. It receives the ID of the corresponding withdrawal as an argument.
  * @returns A React component that renders a table of withdrawals with pagination, edit, and delete functionality.
  */
-export default function WithdrawTable({
+export default function WithdrawalTable({
   tablePaginationState,
   onPageChange,
   onRowPerPageChange,

@@ -23,7 +23,7 @@ const CellContent = styled(Box)(({ theme }) => ({
   gap: theme.spacing(1),
 }));
 
-export default function WithdrawTableHeader() {
+export default function WithdrawalTableHeader() {
   return (
     <TableHead>
       <TableRow>

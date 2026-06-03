@@ -1,6 +1,6 @@
 import { AccountBalanceWallet, FilterList } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
-import { Stack } from '@mui/material';
+import { Stack, useMediaQuery, useTheme } from '@mui/material';
 import { useWithdrawalContext } from '../../../contexts/withdrawalsRetrieval/WithdrawalContext';
 import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
 import useWithdrawalPagination from '../../../hooks/useWithdrawalPagination';
@@ -9,9 +9,11 @@ import type { SpeedDialActionElement } from '../../../type/PropsType';
 import { initialWithdrawal } from '../../../utils/Const';
 import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
 import AppSpeedDial from '../shared/SpeedDial/AppSpeedDial';
-import WithdrawTable from './components/Table/WithdrawTable';
-import WithdrawTableBody from './components/Table/WithdrawTableBody';
-import WithdrawTableHeader from './components/Table/WithdrawTableHeader';
+import WithdrawalList from './components/List/WithdrawalList';
+import ListSkeleton from './components/List/ListSkeleton';
+import WithdrawalTable from './components/Table/WithdrawalTable';
+import WithdrawalTableBody from './components/Table/WithdrawalTableBody';
+import WithdrawalTableHeader from './components/Table/WithdrawalTableHeader';
 
 import useWithdrawalDelete from '../../../hooks/useWithdrawalDelete';
 import {
@@ -30,6 +32,8 @@ import FilterDialog from '../shared/Dialog/FilterDialog';
  * @returns A React component that renders the withdrawal history section of the application.
  */
 export default function WithdrawalHistory() {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const { state: withdrawalState } = useWithdrawalContext();
 
   const {
@@ -78,25 +82,31 @@ export default function WithdrawalHistory() {
         forecast={charts.forecast}
       />
 
-      <WithdrawTable
-        tablePaginationState={pagination}
-        onPageChange={onPageChange}
-        onRowPerPageChange={onRowsPerPageChange}
-      >
-        <WithdrawTableHeader />
-        {withdrawalState.isLoading ? (
-          <SkeletonTableBody
-            rowPerPage={pagination.rowsPerPage}
-            columnNumber={5}
-          />
-        ) : (
-          <WithdrawTableBody
-            withdrawals={currentPage}
-            onRowDeleteClick={openDeleteDialog}
-            onRowEditClick={openEditDialog}
-          />
-        )}
-      </WithdrawTable>
+      {isDesktop ? (
+        <WithdrawalTable
+          tablePaginationState={pagination}
+          onPageChange={onPageChange}
+          onRowPerPageChange={onRowsPerPageChange}
+        >
+          <WithdrawalTableHeader />
+          {withdrawalState.isLoading ? (
+            <SkeletonTableBody
+              rowPerPage={pagination.rowsPerPage}
+              columnNumber={5}
+            />
+          ) : (
+            <WithdrawalTableBody
+              withdrawals={currentPage}
+              onRowDeleteClick={openDeleteDialog}
+              onRowEditClick={openEditDialog}
+            />
+          )}
+        </WithdrawalTable>
+      ) : withdrawalState.isLoading ? (
+        <ListSkeleton rows={pagination.rowsPerPage} />
+      ) : (
+        <WithdrawalList withdrawals={withdrawalState.data} />
+      )}
 
       <WithdrawalFormDialog
         key={isEdit ? `edit-${dialog.withdrawal.id}` : 'create'}

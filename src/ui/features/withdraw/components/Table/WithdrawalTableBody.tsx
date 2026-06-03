@@ -2,9 +2,9 @@ import { TableBody } from '@mui/material';
 import type { Withdrawal } from '../../../../../type/AppType';
 import type { WithdrawTableBodyProps } from '../../../../../type/PropsType';
 import EmptyTableFeedback from './EmptyTableFeedback';
-import WithdrawTableRow from './WithdrawTableRow';
+import WithdrawalTableRow from './WithdrawalTableRow';
 
-export default function WithdrawTableBody({
+export default function WithdrawalTableBody({
   withdrawals,
   onRowEditClick,
   onRowDeleteClick,
@@ -13,7 +13,7 @@ export default function WithdrawTableBody({
     <TableBody>
       {withdrawals.length > 0 ? (
         withdrawals.map((withdrawal: Withdrawal) => (
-          <WithdrawTableRow
+          <WithdrawalTableRow
             key={withdrawal.id}
             withdrawal={withdrawal}
             onRowDeleteClick={() => onRowDeleteClick(withdrawal)}
