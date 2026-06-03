@@ -1,5 +1,12 @@
 import { AreaChart, FilterList } from '@mui/icons-material';
-import { CardContent, Fab, Grid, Stack } from '@mui/material';
+import {
+  CardContent,
+  Fab,
+  Grid,
+  Stack,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import type { BarItem } from '@mui/x-charts/BarChart';
 import { useMemo } from 'react';
 import { useSavingContext } from '../../../contexts/saving/SavingContext';
@@ -23,6 +30,8 @@ import WeeklySpentChart from './components/WeeklySpentChart';
 
 export default function Dashboard() {
   const { state } = useWithdrawalContext();
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
   const { dialog, charts, closeDialog, openFilterDialog } =
     useWithdrawalHistory(state.data);
@@ -54,7 +63,7 @@ export default function Dashboard() {
         label: 'No forecast',
         id: 'noFc',
         barLabel: (item: BarItem) =>
-          `${toLocalMgCurrencyCompact(item.value as number)}`,
+          `${isDesktop ? toLocalMgCurrencyCompact(item.value as number) : ''}`,
         color: Colors.tint300,
       },
       {
@@ -62,7 +71,7 @@ export default function Dashboard() {
         label: 'With forecast',
         id: 'withFc',
         barLabel: (item: BarItem) =>
-          `${toLocalMgCurrencyCompact(item.value as number)}`,
+          `${isDesktop ? toLocalMgCurrencyCompact(item.value as number) : ''}`,
       },
     ];
 
@@ -71,7 +80,7 @@ export default function Dashboard() {
     );
 
     return { spendingSeries, spendingDimensions };
-  }, [state.data]);
+  }, [state.data, isDesktop]);
 
   return (
     <>
@@ -90,21 +99,21 @@ export default function Dashboard() {
         container
         spacing={1}
       >
-        <Grid size={{ lg: 12, xl: 7 }}>
+        <Grid size={{ xs: 12, md: 12, lg: 12, xl: 7 }}>
           <WeeklySpentChart
             dimension={spendingDimensions}
             series={spendingSeries}
           />
         </Grid>
 
-        <Grid size={{ lg: 12, xl: 5 }}>
+        <Grid size={{ xs: 12, md: 12, lg: 12, xl: 5 }}>
           <Stack
             direction={'column'}
             spacing={2}
           >
             <Stack
               spacing={2}
-              direction={'row'}
+              direction={isDesktop ? 'row' : 'column'}
             >
               <Stack
                 direction={'column'}

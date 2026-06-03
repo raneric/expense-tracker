@@ -1,16 +1,18 @@
-import { Stack, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Stack, Typography, useMediaQuery } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 import { BarChart, type BarSeries } from '@mui/x-charts/BarChart';
 import type { ChartSeriesProps } from '../../../../type/PropsType';
-import { toLocalMgCurrency } from '../../../../utils/formatterUtilities';
+import {
+  toLocalMgCurrency,
+  toLocalMgCurrencyCompact,
+} from '../../../../utils/formatterUtilities';
 import Colors from '../../../Theming/Colors';
 import AppDimensions from '../../../Theming/Dimensions';
 
 const WeeklySpentChartContainer = styled(Stack)(({ theme }) => ({
   width: '100%',
-  minHeight: '60vh',
+  minHeight: theme.breakpoints.up('md') ? '50vh' : '60vh',
   height: '100%',
-  padding: theme.spacing(1.5),
   backgroundColor: theme.palette.background.paper,
   borderRadius: AppDimensions.BorderRadius.small,
   border: `1px solid ${theme.palette.divider}`,
@@ -27,6 +29,8 @@ export default function WeeklySpentChart({
   series,
   dimension,
 }: ChartSeriesProps<BarSeries, string>) {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   return (
     <WeeklySpentChartContainer
       direction={'column'}
@@ -49,8 +53,9 @@ export default function WeeklySpentChart({
         ]}
         yAxis={[
           {
-            width: 100,
-            valueFormatter: (value: number) => `${toLocalMgCurrency(value)}`,
+            width: 60,
+            valueFormatter: (value: number) =>
+              `${isDesktop ? toLocalMgCurrency(value) : toLocalMgCurrencyCompact(value)}`,
             tickLabelStyle: {
               fontSize: 14,
               fill: Colors.tint900,

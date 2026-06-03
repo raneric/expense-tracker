@@ -5,13 +5,19 @@ import {
   type LineSeries,
 } from '@mui/x-charts/LineChart';
 import type { ChartSeriesProps } from '../../../../type/PropsType';
-import { toLocalMgCurrency } from '../../../../utils/formatterUtilities';
+import {
+  toLocalMgCurrency,
+  toLocalMgCurrencyCompact,
+} from '../../../../utils/formatterUtilities';
 import Colors from '../../../Theming/Colors';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 export default function SavingChart({
   series,
   dimension,
 }: ChartSeriesProps<LineSeries, string>) {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   return (
     <Box sx={{ width: '100%', height: 400 }}>
       <LineChart
@@ -32,7 +38,8 @@ export default function SavingChart({
         yAxis={[
           {
             width: 80,
-            valueFormatter: (value: number) => `${toLocalMgCurrency(value)}`,
+            valueFormatter: (value: number) =>
+              `${isDesktop ? toLocalMgCurrency(value) : toLocalMgCurrencyCompact(value)}`,
             min: 0,
             tickLabelStyle: {
               fontSize: 14,

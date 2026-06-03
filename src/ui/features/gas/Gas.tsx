@@ -1,5 +1,5 @@
 import { CalendarMonth } from '@mui/icons-material';
-import { Stack } from '@mui/material';
+import { Stack, useMediaQuery, useTheme } from '@mui/material';
 import Calendar from './components/Calendar/Calendar';
 import GasStatus from './components/GasDetails/GasStatus';
 import { GasEventsProvider } from '../../../contexts/gasEvents/GasEventsProvider';
@@ -9,6 +9,9 @@ import { useState } from 'react';
 
 export default function Gas() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
     <>
       <EditFormDialog
@@ -22,8 +25,9 @@ export default function Gas() {
         />
       </SectionTitle>
       <Stack
-        direction="row"
+        direction={isDesktop ? 'row' : 'column'}
         spacing={2}
+        sx={{ alignItems: 'center' }}
       >
         <GasEventsProvider>
           <Calendar
