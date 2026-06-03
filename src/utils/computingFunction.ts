@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { WeeklyAmount, Withdrawal } from '../type/AppType';
+import type { PeriodicAmount, Withdrawal } from '../type/AppType';
 import isoWeek from 'dayjs/plugin/isoWeek';
 dayjs.extend(isoWeek);
 
@@ -12,8 +12,8 @@ export const calculateSaving = (
   return salary && total ? salary - total : 0;
 };
 
-export function getWeeklyAmounts(withdrawals: Withdrawal[]): WeeklyAmount[] {
-  const weeks = new Map<string, WeeklyAmount>();
+export function getWeeklyAmounts(withdrawals: Withdrawal[]): PeriodicAmount[] {
+  const weeks = new Map<string, PeriodicAmount>();
 
   withdrawals.forEach((withdrawal) => {
     const date = dayjs(withdrawal.date);

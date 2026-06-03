@@ -1,6 +1,6 @@
 import { Stack, Typography } from '@mui/material';
-import { BarChart } from '@mui/x-charts/BarChart';
-import type { BartChartProps } from '../../../../type/PropsType';
+import { BarChart, type BarSeries } from '@mui/x-charts/BarChart';
+import type { ChartSeriesProps } from '../../../../type/PropsType';
 import { toLocalMgCurrency } from '../../../../utils/formatterUtilities';
 import Colors from '../../../Theming/Colors';
 import AppDimensions from '../../../Theming/Dimensions';
@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles';
 
 const WeeklySpentChartContainer = styled(Stack)(({ theme }) => ({
   width: '100%',
-  height: 500,
+  height: '100%',
   backgroundColor: theme.palette.background.paper,
   borderRadius: AppDimensions.BorderRadius.small,
   border: `1px solid ${theme.palette.divider}`,
@@ -17,23 +17,24 @@ const WeeklySpentChartContainer = styled(Stack)(({ theme }) => ({
 const ChartHeader = styled(Typography)(({ theme }) => ({
   with: '100%',
   textAlign: 'center',
-  color: Colors.tint900,
+  color: theme.palette.primary.contrastText,
   fontWeight: 'bold',
-  borderBottom: `1px solid ${theme.palette.divider}`,
 }));
 
 export default function WeeklySpentChart({
   series,
   dimension,
-}: BartChartProps<string>) {
+}: ChartSeriesProps<BarSeries, string>) {
   return (
     <WeeklySpentChartContainer
       direction={'column'}
       spacing={2}
+      sx={{ width: '100%', height: '100%' }}
     >
       <ChartHeader variant="h6">Weekly spending</ChartHeader>
       <BarChart
         series={series}
+        grid={{ horizontal: true }}
         xAxis={[
           {
             data: dimension,

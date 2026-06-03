@@ -103,7 +103,7 @@ export interface Saving {
   ownerId: string;
 }
 
-export interface WeeklyAmount {
+export interface PeriodicAmount {
   label: string;
   amount: number;
 }

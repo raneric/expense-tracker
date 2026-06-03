@@ -36,7 +36,7 @@ export function WithdrawalCharts({ current, forecast }: WithdrawalChartsProps) {
         <ExpenseSparkLine
           dimension={current.dimension}
           dataset={current.dataset}
-          dataLabel="Withdrawal of today"
+          dataLabel="Withdrawals up to today"
         />
       </ChartCard>
       <ChartCard

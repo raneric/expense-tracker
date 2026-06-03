@@ -1,23 +1,40 @@
 import { AreaChart, FilterList } from '@mui/icons-material';
-import { Box, Fab, Grid } from '@mui/material';
+import { CardContent, Fab, Grid, Stack } from '@mui/material';
 import type { BarItem } from '@mui/x-charts/BarChart';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useSavingContext } from '../../../contexts/saving/SavingContext';
 import { useWithdrawalContext } from '../../../contexts/withdrawalsRetrieval/WithdrawalContext';
+import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
 import { getWeeklyAmounts } from '../../../utils/computingFunction';
+import { generateSavingSeries } from '../../../utils/dataGeneratorUtilities';
 import { toLocalMgCurrencyCompact } from '../../../utils/formatterUtilities';
 import Colors from '../../Theming/Colors';
+import ChartCard from '../shared/ChartCard/ChartCard';
+import FilterDialog from '../shared/Dialog/FilterDialog';
 import {
   SectionTitle,
   Tittle,
   TittleHelperInfo,
 } from '../shared/SectionTitle/SectionTitle';
+import ExpenseSparkLine from '../withdraw/components/Chart/ExpenseSparkline';
+import ExpensePieChart from './components/ExpensePieChart';
+import SavingChart from './components/SavingChart';
 import WeeklySpentChart from './components/WeeklySpentChart';
-import FilterDialog from '../shared/Dialog/FilterDialog';
 
 export default function Dashboard() {
   const { state } = useWithdrawalContext();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { series, dimension } = useMemo(() => {
+
+  const { dialog, charts, closeDialog, openFilterDialog } =
+    useWithdrawalHistory(state.data);
+
+  const { state: savingSate } = useSavingContext();
+
+  const { series: savingSeries, dimensions: savingDimensions } = useMemo(
+    () => generateSavingSeries(savingSate.data),
+    [savingSate.data]
+  );
+
+  const { spendingSeries, spendingDimensions } = useMemo(() => {
     const withdrawals = state.data;
     const weeklySpendingWithForecast = getWeeklyAmounts(withdrawals);
     const weeklySpendingWithoutForecast = getWeeklyAmounts(
@@ -31,13 +48,14 @@ export default function Dashboard() {
       ? weeklySpendingWithoutForecast.map((w) => w.amount ?? 0)
       : weeklySpendingWithForecast.map(() => 0);
 
-    const series = [
+    const spendingSeries = [
       {
         data: amountsNoForecast,
         label: 'No forecast',
         id: 'noFc',
         barLabel: (item: BarItem) =>
           `${toLocalMgCurrencyCompact(item.value as number)}`,
+        color: Colors.tint300,
       },
       {
         data: amountsWithForecast,
@@ -48,18 +66,18 @@ export default function Dashboard() {
       },
     ];
 
-    const dimension = weeklySpendingWithForecast.map((w) => w.label ?? '');
+    const spendingDimensions = weeklySpendingWithForecast.map(
+      (w) => w.label ?? ''
+    );
 
-    return { series, dimension };
+    return { spendingSeries, spendingDimensions };
   }, [state.data]);
 
   return (
     <>
       <FilterDialog
-        isOpen={isDialogOpen}
-        onClose={() => {
-          setIsDialogOpen(false);
-        }}
+        isOpen={dialog.type === 'filter'}
+        onClose={closeDialog}
       />
       <SectionTitle>
         <Tittle
@@ -70,28 +88,69 @@ export default function Dashboard() {
       </SectionTitle>
       <Grid
         container
-        spacing={2}
+        spacing={1}
+        sx={{ px: 2, pb: 10 }}
       >
-        <Grid size={8}>
+        <Grid size={7}>
           <WeeklySpentChart
-            dimension={dimension}
-            series={series}
+            dimension={spendingDimensions}
+            series={spendingSeries}
           />
         </Grid>
-        <Grid size={4}>
-          <Box
-            sx={{
-              backgroundColor: Colors.tint50,
-              width: '100%',
-              height: '100%',
-            }}
-          />
+
+        <Grid size={{ xs: 12, lg: 5 }}>
+          <Stack
+            direction={'column'}
+            spacing={2}
+          >
+            <Stack
+              spacing={2}
+              direction={'row'}
+            >
+              <Stack
+                direction={'column'}
+                spacing={2}
+              >
+                <ChartCard
+                  sx={{
+                    borderTop: `6px solid ${Colors.tint200}`,
+                  }}
+                >
+                  <ExpenseSparkLine
+                    dimension={charts.current.dimension}
+                    dataset={charts.current.dataset}
+                    dataLabel="Withdrawals up to today"
+                  />
+                </ChartCard>
+                <ChartCard
+                  sx={{
+                    borderTop: `6px solid ${Colors.warningLight}`,
+                  }}
+                >
+                  <ExpenseSparkLine
+                    dimension={charts.forecast.dimension}
+                    dataset={charts.forecast.dataset}
+                    dataLabel="Forecast"
+                  />
+                </ChartCard>
+              </Stack>
+              <ChartCard sx={{ width: '100%' }}>
+                <CardContent>
+                  <ExpensePieChart />
+                </CardContent>
+              </ChartCard>
+            </Stack>
+            <ChartCard>
+              <SavingChart
+                series={savingSeries}
+                dimension={savingDimensions}
+              />
+            </ChartCard>
+          </Stack>
         </Grid>
       </Grid>
       <Fab
-        onClick={() => {
-          setIsDialogOpen(true);
-        }}
+        onClick={openFilterDialog}
         color="primary"
         sx={{
           position: 'fixed',

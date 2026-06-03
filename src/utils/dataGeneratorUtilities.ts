@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { GasEvent, GasStatusInfo } from '../type/AppType';
+import type { GasEvent, GasStatusInfo, Saving } from '../type/AppType';
 import type { GasEventData } from '../type/PropsType';
 import type { DateFilter } from '../type/StateContextType';
 
@@ -123,4 +123,19 @@ export function getPreviousDateFilterRange(): DateFilter {
       .toDate(),
     type: 'previous',
   };
+}
+
+export function generateSavingSeries(saving: Saving[]) {
+  const dimensions = saving.map((value) => dayjs(value.month).format('MMMM'));
+  const seriesData = saving.map((value) => value.amount);
+
+  const series = [
+    {
+      data: seriesData,
+      label: 'Monthly saving',
+      id: 'svs',
+      showMark: true,
+    },
+  ];
+  return { series, dimensions };
 }

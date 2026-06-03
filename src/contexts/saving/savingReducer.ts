@@ -4,7 +4,6 @@ import type {
   DataRetrievalState,
   DateFilter,
 } from '../../type/StateContextType';
-import { getDefaultDateFilterRange } from '../../utils/dataGeneratorUtilities';
 
 export const savingReducer = (
   state: DataRetrievalState<Saving, DateFilter | null>,
@@ -36,7 +35,7 @@ export const savingReducer = (
     case 'RESET_FILTER':
       return {
         ...state,
-        filter: getDefaultDateFilterRange(),
+        filter: null,
       };
     default:
       return state;

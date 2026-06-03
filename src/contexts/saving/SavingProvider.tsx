@@ -15,7 +15,7 @@ import { useUserContext } from '../auth/UserContext';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { SavingContext } from './SavingContext';
 import { savingReducer } from './savingReducer';
-import { where } from 'firebase/firestore';
+import { orderBy, where } from 'firebase/firestore';
 import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import type SavingRepository from '../../repositories/saving/SavingRepository';
 
@@ -38,8 +38,8 @@ export const SavingProvider = ({ children }: PropsWithChildren) => {
     []
   );
 
-  const userIdConstraint = useMemo(
-    () => where('ownerId', '==', userState.user?.id),
+  const defaultConstraints = useMemo(
+    () => [where('ownerId', '==', userState.user?.id), orderBy('month', 'asc')],
     [userState.user]
   );
 
@@ -60,12 +60,12 @@ export const SavingProvider = ({ children }: PropsWithChildren) => {
    */
   const load = useCallback(async () => {
     try {
-      const savings = await savingRepository.getAll([userIdConstraint]);
+      const savings = await savingRepository.getAll(defaultConstraints);
       dispatch({ type: 'LOADED', payload: savings });
     } catch (error) {
       handleError(error);
     }
-  }, [savingRepository, userIdConstraint, handleError]);
+  }, [savingRepository, defaultConstraints, handleError]);
 
   /**
    * Future filtering support

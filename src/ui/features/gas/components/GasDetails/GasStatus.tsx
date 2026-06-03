@@ -1,11 +1,4 @@
-import {
-  Box,
-  CardContent,
-  Divider,
-  IconButton,
-  Paper,
-  Stack,
-} from '@mui/material';
+import { Box, CardContent, Divider, IconButton, Stack } from '@mui/material';
 import { Gauge } from '@mui/x-charts';
 
 import { useMemo, useState } from 'react';
@@ -21,6 +14,7 @@ import { generateGasStatusInfo } from '../../../../../utils/dataGeneratorUtiliti
 import { formatStringDate } from '../../../../../utils/formatterUtilities';
 import Colors from '../../../../Theming/Colors';
 import AppDimensions from '../../../../Theming/Dimensions';
+import CustomPaper from '../../../shared/Container/CustomPaper';
 import CustomCardHeader from '../../../shared/CustomCardHeader/CustomCardHeader';
 import InfoRow from '../../../shared/InfoRow/InfoRow';
 import GasFormDialog from '../Dialog/GasFormDialog';
@@ -32,7 +26,6 @@ export default function GasStatus() {
     () => generateGasStatusInfo(state.data),
     [state.data]
   );
-
   const hasData = gasStatusInfo !== null;
 
   const handleConfirm = (data: GasFormDialogData) => {
@@ -47,9 +40,11 @@ export default function GasStatus() {
         onClose={() => setIsDialogOpen(false)}
         onSubmit={handleConfirm}
       />
-      <Paper
-        elevation={1}
-        sx={{ borderRadius: 2, minWidth: '40em' }}
+      <CustomPaper
+        sx={{
+          borderRadius: 2,
+          minWidth: '40em',
+        }}
       >
         <CustomCardHeader displayText="Current Gas Bottle Status" />
         {hasData && (
@@ -136,7 +131,7 @@ export default function GasStatus() {
             </Stack>
           </CardContent>
         )}
-      </Paper>
+      </CustomPaper>
     </>
   );
 }

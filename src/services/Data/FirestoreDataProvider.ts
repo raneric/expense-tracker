@@ -16,9 +16,8 @@ import { firestoreDb } from '../../config/firebase';
 import type DataProvider from './DataProvider';
 
 export default class FirestoreDataProvider<
-  T extends WithFieldValue<DocumentData>
-> implements DataProvider<T, string>
-{
+  T extends WithFieldValue<DocumentData>,
+> implements DataProvider<T, string> {
   private docsCollection: string;
 
   constructor(docsCollection: string) {

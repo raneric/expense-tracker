@@ -1,12 +1,11 @@
 import { type PickerDayProps } from '@mui/x-date-pickers';
+import type { PropsWithChildren } from 'react';
 import type {
   GasEvent,
   GasFormDialogData,
   TablePaginationState,
   Withdrawal,
 } from './AppType';
-import type { PropsWithChildren } from 'react';
-import type { BarSeries } from '@mui/x-charts';
 
 interface Submittable<T> {
   onSubmit: (data: T) => void | Promise<boolean>;
@@ -18,9 +17,9 @@ export interface ComparisonChartProps<T> {
   dimension: T[];
 }
 
-export interface BartChartProps<T> {
-  series: BarSeries[];
-  dimension: T[];
+export interface ChartSeriesProps<T, U> {
+  series: T[];
+  dimension: U[];
 }
 export interface ExpenseSparkLineProps extends ComparisonChartProps<Date> {
   total?: number;

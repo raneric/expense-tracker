@@ -1,5 +1,5 @@
 import { EditSquare } from '@mui/icons-material';
-import { Badge, Button, Paper, Popover, Typography } from '@mui/material';
+import { Badge, Button, Popover, Typography } from '@mui/material';
 import {
   DateCalendar,
   LocalizationProvider,
@@ -13,6 +13,7 @@ import type { CalendarDayProps } from '../../../../../type/PropsType';
 import { generateGasEventData } from '../../../../../utils/dataGeneratorUtilities';
 import { formatStringDate } from '../../../../../utils/formatterUtilities';
 import Colors from '../../../../Theming/Colors';
+import CustomPaper from '../../../shared/Container/CustomPaper';
 import CustomCardHeader from '../../../shared/CustomCardHeader/CustomCardHeader';
 
 export default function Calendar({
@@ -25,11 +26,9 @@ export default function Calendar({
     () => generateGasEventData(state.data),
     [state.data]
   );
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Paper
-        elevation={1}
+      <CustomPaper
         sx={{
           width: 320,
           borderRadius: 3,
@@ -45,7 +44,7 @@ export default function Calendar({
             day: { gasEventData, onDayCellClick } as CalendarDayProps,
           }}
         />
-      </Paper>
+      </CustomPaper>
     </LocalizationProvider>
   );
 }
