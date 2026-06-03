@@ -13,7 +13,7 @@ export default function SavingChart({
   dimension,
 }: ChartSeriesProps<LineSeries, string>) {
   return (
-    <Box sx={{ width: '100%', height: 260 }}>
+    <Box sx={{ width: '100%', height: 400 }}>
       <LineChart
         grid={{ horizontal: true }}
         series={series}

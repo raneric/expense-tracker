@@ -89,16 +89,15 @@ export default function Dashboard() {
       <Grid
         container
         spacing={1}
-        sx={{ px: 2, pb: 10 }}
       >
-        <Grid size={7}>
+        <Grid size={{ lg: 12, xl: 7 }}>
           <WeeklySpentChart
             dimension={spendingDimensions}
             series={spendingSeries}
           />
         </Grid>
 
-        <Grid size={{ xs: 12, lg: 5 }}>
+        <Grid size={{ lg: 12, xl: 5 }}>
           <Stack
             direction={'column'}
             spacing={2}
@@ -134,7 +133,7 @@ export default function Dashboard() {
                   />
                 </ChartCard>
               </Stack>
-              <ChartCard sx={{ width: '100%' }}>
+              <ChartCard sx={{ width: { xl: '100%' } }}>
                 <CardContent>
                   <ExpensePieChart />
                 </CardContent>
