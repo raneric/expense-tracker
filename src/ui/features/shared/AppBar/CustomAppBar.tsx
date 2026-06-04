@@ -7,17 +7,16 @@ import {
   IconButton,
   Stack,
   Toolbar,
-  useMediaQuery,
-  useTheme,
 } from '@mui/material';
 import { useUserContext } from '../../../../contexts/auth/UserContext';
 import { useDrawerContext } from '../../../../contexts/drawer/DrawerContext';
+import { useResponsive } from '../../../../hooks/useResponsive';
 import Colors from '../../../Theming/Colors';
 
 export default function CustomAppBar() {
   const { logout, state } = useUserContext();
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+
+  const { isDesktop } = useResponsive();
   const { state: drawerState, toggle } = useDrawerContext();
 
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {

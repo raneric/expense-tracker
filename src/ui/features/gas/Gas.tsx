@@ -1,16 +1,17 @@
 import { CalendarMonth } from '@mui/icons-material';
-import { Stack, useMediaQuery, useTheme } from '@mui/material';
-import Calendar from './components/Calendar/Calendar';
-import GasStatus from './components/GasDetails/GasStatus';
-import { GasEventsProvider } from '../../../contexts/gasEvents/GasEventsProvider';
-import { SectionTitle, Tittle } from '../shared/SectionTitle/SectionTitle';
-import EditFormDialog from './components/Dialog/EditFormDialog';
+import { Stack } from '@mui/material';
 import { useState } from 'react';
+import { GasEventsProvider } from '../../../contexts/gasEvents/GasEventsProvider';
+import { useResponsive } from '../../../hooks/useResponsive';
+import { SectionTitle, Tittle } from '../shared/SectionTitle/SectionTitle';
+import Calendar from './components/Calendar/Calendar';
+import EditFormDialog from './components/Dialog/EditFormDialog';
+import GasStatus from './components/GasDetails/GasStatus';
 
 export default function Gas() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+
+  const { isDesktop } = useResponsive();
 
   return (
     <>

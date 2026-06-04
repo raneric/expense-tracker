@@ -3,12 +3,12 @@ import type { Withdrawal } from '../../../../../type/AppType';
 import type { WithdrawTableBodyProps } from '../../../../../type/PropsType';
 import EmptyTableFeedback from './EmptyTableFeedback';
 import WithdrawalTableRow from './WithdrawalTableRow';
+import { useWithdrawalActions } from '../../../../../contexts/WithdrawalActions/WithdrawalActionsContext';
 
 export default function WithdrawalTableBody({
   withdrawals,
-  onRowEditClick,
-  onRowDeleteClick,
 }: WithdrawTableBodyProps) {
+  const { onEdit, onDelete } = useWithdrawalActions();
   return (
     <TableBody>
       {withdrawals.length > 0 ? (
@@ -16,8 +16,8 @@ export default function WithdrawalTableBody({
           <WithdrawalTableRow
             key={withdrawal.id}
             withdrawal={withdrawal}
-            onRowDeleteClick={() => onRowDeleteClick(withdrawal)}
-            onRowEditClick={() => onRowEditClick(withdrawal)}
+            onRowDeleteClick={() => onDelete(withdrawal)}
+            onRowEditClick={() => onEdit(withdrawal)}
           />
         ))
       ) : (

@@ -1,16 +1,10 @@
 import { AreaChart, FilterList } from '@mui/icons-material';
-import {
-  CardContent,
-  Fab,
-  Grid,
-  Stack,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { CardContent, Fab, Grid, Stack } from '@mui/material';
 import type { BarItem } from '@mui/x-charts/BarChart';
 import { useMemo } from 'react';
 import { useSavingContext } from '../../../contexts/saving/SavingContext';
 import { useWithdrawalContext } from '../../../contexts/withdrawalsRetrieval/WithdrawalContext';
+import { useResponsive } from '../../../hooks/useResponsive';
 import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
 import { getWeeklyAmounts } from '../../../utils/computingFunction';
 import { generateSavingSeries } from '../../../utils/dataGeneratorUtilities';
@@ -30,8 +24,7 @@ import WeeklySpentChart from './components/WeeklySpentChart';
 
 export default function Dashboard() {
   const { state } = useWithdrawalContext();
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const { isDesktop } = useResponsive();
 
   const { dialog, charts, closeDialog, openFilterDialog } =
     useWithdrawalHistory(state.data);

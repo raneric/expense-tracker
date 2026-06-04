@@ -1,17 +1,17 @@
-import { Stack, useMediaQuery, useTheme } from '@mui/material';
+import { Stack } from '@mui/material';
+import { useMemo } from 'react';
+import { useUserContext } from '../../../../../contexts/auth/UserContext';
+import { useResponsive } from '../../../../../hooks/useResponsive';
 import type { WithdrawalChartsProps } from '../../../../../type/PropsType';
+import { calculateSaving } from '../../../../../utils/computingFunction';
+import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
+import Colors from '../../../../Theming/Colors';
 import ChartCard from '../../../shared/ChartCard/ChartCard';
 import InfoRow from '../../../shared/InfoRow/InfoRow';
 import ExpenseSparkLine from './ExpenseSparkline';
-import { useUserContext } from '../../../../../contexts/auth/UserContext';
-import { useMemo } from 'react';
-import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
-import { calculateSaving } from '../../../../../utils/computingFunction';
-import Colors from '../../../../Theming/Colors';
 
 export function WithdrawalCharts({ current, forecast }: WithdrawalChartsProps) {
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const { isDesktop } = useResponsive();
   const { state } = useUserContext();
 
   const forecastedSaving = useMemo(() => {

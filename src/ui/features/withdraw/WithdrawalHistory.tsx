@@ -1,6 +1,6 @@
 import { AccountBalanceWallet, FilterList } from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
-import { Stack, useMediaQuery, useTheme } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useWithdrawalContext } from '../../../contexts/withdrawalsRetrieval/WithdrawalContext';
 import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
 import useWithdrawalPagination from '../../../hooks/useWithdrawalPagination';
@@ -9,13 +9,16 @@ import type { SpeedDialActionElement } from '../../../type/PropsType';
 import { initialWithdrawal } from '../../../utils/Const';
 import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
 import AppSpeedDial from '../shared/SpeedDial/AppSpeedDial';
-import WithdrawalList from './components/List/WithdrawalList';
 import ListSkeleton from './components/List/ListSkeleton';
+import WithdrawalList from './components/List/WithdrawalList';
 import WithdrawalTable from './components/Table/WithdrawalTable';
 import WithdrawalTableBody from './components/Table/WithdrawalTableBody';
 import WithdrawalTableHeader from './components/Table/WithdrawalTableHeader';
 
+import { useResponsive } from '../../../hooks/useResponsive';
 import useWithdrawalDelete from '../../../hooks/useWithdrawalDelete';
+import ConfirmationDialog from '../shared/Dialog/ConfirmationDialog';
+import FilterDialog from '../shared/Dialog/FilterDialog';
 import {
   SectionTitle,
   Tittle,
@@ -24,16 +27,14 @@ import {
 import SkeletonTableBody from '../shared/Table/SkeletonTableBody';
 import { WithdrawalCharts } from './components/Chart/WithdrawalCharts';
 import WithdrawalFormDialog from './components/Dialog/WithdrawalFormDialog';
-import ConfirmationDialog from '../shared/Dialog/ConfirmationDialog';
-import FilterDialog from '../shared/Dialog/FilterDialog';
+import { WithdrawalActionsProvider } from '../../../contexts/WithdrawalActions/WithdrawalActionsProvider';
 
 /**
  * The WithdrawalHistory component is responsible for displaying the user's withdrawal history. It includes a section title, two sparkline charts (one for current withdrawals and one for forecasted withdrawals), a table of withdrawal transactions, and a form dialog for adding or editing withdrawals. The component uses the useLoaderData hook to fetch withdrawal data and manages the state for the form dialog and selected withdrawal row.
  * @returns A React component that renders the withdrawal history section of the application.
  */
 export default function WithdrawalHistory() {
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const { isDesktop } = useResponsive();
   const { state: withdrawalState } = useWithdrawalContext();
 
   const {
@@ -46,9 +47,9 @@ export default function WithdrawalHistory() {
     openFilterDialog,
   } = useWithdrawalHistory(withdrawalState.data);
 
-  const handleUpdateSubmit = useWithdrawalSubmit(closeDialog);
+  const { submitHandler, submitInProgress } = useWithdrawalSubmit(closeDialog);
 
-  const handleDelete = useWithdrawalDelete(closeDialog);
+  const { onDelete, deletionInProgress } = useWithdrawalDelete(closeDialog);
 
   const { pagination, currentPage, onPageChange, onRowsPerPageChange } =
     useWithdrawalPagination(withdrawalState.data);
@@ -95,11 +96,12 @@ export default function WithdrawalHistory() {
               columnNumber={5}
             />
           ) : (
-            <WithdrawalTableBody
-              withdrawals={currentPage}
-              onRowDeleteClick={openDeleteDialog}
-              onRowEditClick={openEditDialog}
-            />
+            <WithdrawalActionsProvider
+              onEdit={openEditDialog}
+              onDelete={openDeleteDialog}
+            >
+              <WithdrawalTableBody withdrawals={currentPage} />
+            </WithdrawalActionsProvider>
           )}
         </WithdrawalTable>
       ) : withdrawalState.isLoading ? (
@@ -114,7 +116,8 @@ export default function WithdrawalHistory() {
         initialData={formInitialData}
         reasonsList={withdrawalState.reasons}
         onClose={closeDialog}
-        onSubmit={handleUpdateSubmit}
+        onSubmit={submitHandler}
+        submitInProgress={submitInProgress}
       />
 
       <FilterDialog
@@ -126,9 +129,10 @@ export default function WithdrawalHistory() {
         isOpen={isDelete}
         onClose={closeDialog}
         onCancel={closeDialog}
+        isConfirmationInProgress={deletionInProgress}
         onConfirm={() => {
           if (isDelete) {
-            handleDelete(dialog.withdrawal.id!);
+            onDelete(dialog.withdrawal.id!);
           }
         }}
         message={
@@ -139,7 +143,6 @@ export default function WithdrawalHistory() {
             : ''
         }
       />
-
       <AppSpeedDial elements={speedDialAction} />
     </Stack>
   );

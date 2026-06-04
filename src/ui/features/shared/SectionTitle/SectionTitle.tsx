@@ -1,6 +1,7 @@
 import { HelpTwoTone } from '@mui/icons-material';
-import { Box, Tooltip, Typography, useMediaQuery } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
+import { Box, Tooltip, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useResponsive } from '../../../../hooks/useResponsive';
 
 const SectionTitle = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -34,8 +35,7 @@ function Tittle({
 }
 
 function TittleHelperInfo({ displayText }: { displayText: string }) {
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const { isDesktop } = useResponsive();
 
   return (
     <>

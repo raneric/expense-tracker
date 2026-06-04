@@ -18,18 +18,12 @@ import type { Withdrawal } from '../../../../../type/AppType';
 import type { WithdrawalDialogFormProps } from '../../../../../type/PropsType';
 import { initialWithdrawal } from '../../../../../utils/Const';
 import DialogHeader from '../../../shared/Dialog/DialogHeader';
+import {
+  formatDateForInput,
+  isFutureDate,
+} from '../../../../../utils/validationUtilities';
 
 const INITIAL_WITHDRAWAL: Withdrawal = initialWithdrawal;
-
-function formatDateForInput(date: Date): string {
-  return date.toLocaleDateString('en-CA');
-}
-
-function isFutureDate(date: Date): boolean {
-  const today = new Date();
-  const selected = new Date(date);
-  return selected > today;
-}
 
 /**
  * A form for adding or editing withdrawal information.
@@ -42,11 +36,11 @@ export default function WithdrawalFormDialog({
   reasonsList,
   onClose,
   onSubmit,
+  submitInProgress,
 }: WithdrawalDialogFormProps) {
   const [formData, setFormData] = useState<Withdrawal>(
     initialData ?? initialWithdrawal
   );
-  const [submitInProgress, setSubmitInProgress] = useState(false);
 
   const errors = useMemo(() => {
     return {
@@ -96,9 +90,8 @@ export default function WithdrawalFormDialog({
 
       if (hasErrors) return;
 
-      setSubmitInProgress(true);
       const result = await onSubmit(formData);
-      setSubmitInProgress(false);
+
       if (result) {
         resetForm();
       }

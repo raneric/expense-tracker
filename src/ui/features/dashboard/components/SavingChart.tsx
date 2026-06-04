@@ -4,20 +4,19 @@ import {
   lineClasses,
   type LineSeries,
 } from '@mui/x-charts/LineChart';
+import { useResponsive } from '../../../../hooks/useResponsive';
 import type { ChartSeriesProps } from '../../../../type/PropsType';
 import {
   toLocalMgCurrency,
   toLocalMgCurrencyCompact,
 } from '../../../../utils/formatterUtilities';
 import Colors from '../../../Theming/Colors';
-import { useMediaQuery, useTheme } from '@mui/material';
 
 export default function SavingChart({
   series,
   dimension,
 }: ChartSeriesProps<LineSeries, string>) {
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const { isDesktop } = useResponsive();
   return (
     <Box sx={{ width: '100%', height: 400 }}>
       <LineChart

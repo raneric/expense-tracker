@@ -7,12 +7,11 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  useMediaQuery,
-  useTheme,
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LogoImage from '../../../../assets/logo_v2.png';
 import { useDrawerContext } from '../../../../contexts/drawer/DrawerContext';
+import { useResponsive } from '../../../../hooks/useResponsive';
 import { AppRoutes, RouteList } from '../../../../utils/Const';
 import { Logo } from '../Logo/Logo';
 
@@ -31,8 +30,7 @@ export default function AppDrawer() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const { isDesktop } = useResponsive();
 
   const { state, hide } = useDrawerContext();
 

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useUserContext } from '../contexts/auth/UserContext';
 import type { Withdrawal } from '../type/AppType';
 import { useWithdrawalContext } from '../contexts/withdrawalsRetrieval/WithdrawalContext';
@@ -37,6 +37,7 @@ const isNewWithdrawal = (withdrawal: Withdrawal) =>
  * @throws Catches errors and displays them via snackbar, returns false instead of throwing
  */
 export default function useWithdrawalSubmit(closeDialog: () => void) {
+  const [submitInProgress, setSubmitInProgress] = useState(false);
   const { state } = useUserContext();
   const { load } = useWithdrawalContext();
   const { show } = useSnackbarContext();
@@ -67,9 +68,10 @@ export default function useWithdrawalSubmit(closeDialog: () => void) {
     [state.user]
   );
 
-  return useCallback(
+  const submitHandler = useCallback(
     async (withdrawal: Withdrawal) => {
       try {
+        setSubmitInProgress(true);
         const isNew = isNewWithdrawal(withdrawal);
         const enrichedWithdrawal = isNew
           ? enrichWithdrawal(withdrawal)
@@ -87,12 +89,19 @@ export default function useWithdrawalSubmit(closeDialog: () => void) {
           await withdrawalRepository.updateOne(enrichedWithdrawal);
           await handleSuccess('Successfully updated');
         }
+        setSubmitInProgress(false);
         return true;
       } catch (error: unknown) {
         show((error as Error).message, 'error');
+        setSubmitInProgress(false);
         return false;
       }
     },
     [state.user, withdrawalRepository, enrichWithdrawal, handleSuccess, show]
   );
+
+  return {
+    submitHandler,
+    submitInProgress,
+  };
 }

@@ -151,3 +151,9 @@ export interface SavingContextType extends DataRetrievalContextType<
 > {
   state: DataRetrievalState<Saving, DateFilter | null>;
 }
+
+//---------------------- Saving context -----------------------
+export interface WithdrawalActionsContextType {
+  onEdit: (withdrawal: Withdrawal) => void;
+  onDelete: (withdrawal: Withdrawal) => void;
+}

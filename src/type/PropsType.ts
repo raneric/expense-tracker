@@ -36,7 +36,7 @@ export type WithdrawTableProps = PropsWithChildren<{
   onRowPerPageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }>;
 
-export interface WithdrawTableBodyProps extends WithdrawRowEventProps {
+export interface WithdrawTableBodyProps {
   withdrawals: Withdrawal[];
 }
 
@@ -65,6 +65,7 @@ export interface FeedbackDialogProps extends DialogProps {
   message: string;
   onConfirm: () => void;
   onCancel: () => void;
+  isConfirmationInProgress: boolean;
 }
 
 export interface DialogFormProps<T> extends DialogProps, Submittable<T> {
@@ -73,6 +74,7 @@ export interface DialogFormProps<T> extends DialogProps, Submittable<T> {
 
 export interface WithdrawalDialogFormProps extends DialogFormProps<Withdrawal> {
   reasonsList: string[];
+  submitInProgress: boolean;
 }
 
 export interface DimensionalChartProps<T, U> {

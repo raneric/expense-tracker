@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useWithdrawalContext } from '../contexts/withdrawalsRetrieval/WithdrawalContext';
 import RepositoriesFactory from '../repositories/RepositoriesFactory';
 import { useSnackbarContext } from '../contexts/snackbar/SnackbarContext';
@@ -20,6 +20,7 @@ import { useSnackbarContext } from '../contexts/snackbar/SnackbarContext';
  * @throws Will catch and display errors via snackbar notification
  */
 export default function useWithdrawalDelete(closeDialog: () => void) {
+  const [deletionInProgress, setDeletionInProgress] = useState(false);
   const { load } = useWithdrawalContext();
   const { show } = useSnackbarContext();
 
@@ -27,18 +28,24 @@ export default function useWithdrawalDelete(closeDialog: () => void) {
     () => RepositoriesFactory.createWithdrawRepository(),
     []
   );
-
-  return useCallback(
+  const onDelete = useCallback(
     async (id: string) => {
       try {
+        setDeletionInProgress(true);
         await withdrawalRepository.deleteByUnique(id);
         show('Successfully deleted', 'success');
         await load();
+        setDeletionInProgress(false);
         closeDialog();
       } catch (error: unknown) {
         show((error as Error).message, 'error');
+        setDeletionInProgress(false);
       }
     },
     [closeDialog, withdrawalRepository, load, show]
   );
+  return {
+    deletionInProgress,
+    onDelete,
+  };
 }

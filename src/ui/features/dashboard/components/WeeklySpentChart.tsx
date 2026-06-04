@@ -1,6 +1,7 @@
-import { Stack, Typography, useMediaQuery } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
+import { Stack, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { BarChart, type BarSeries } from '@mui/x-charts/BarChart';
+import { useResponsive } from '../../../../hooks/useResponsive';
 import type { ChartSeriesProps } from '../../../../type/PropsType';
 import {
   toLocalMgCurrency,
@@ -29,8 +30,7 @@ export default function WeeklySpentChart({
   series,
   dimension,
 }: ChartSeriesProps<BarSeries, string>) {
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const { isDesktop } = useResponsive();
   return (
     <WeeklySpentChartContainer
       direction={'column'}

@@ -13,6 +13,7 @@ export default function ConfirmationDialog({
   message,
   onConfirm,
   onCancel,
+  isConfirmationInProgress,
 }: FeedbackDialogProps) {
   return (
     <Dialog
@@ -36,6 +37,7 @@ export default function ConfirmationDialog({
           Cancel
         </Button>
         <Button
+          loading={isConfirmationInProgress}
           variant="contained"
           color="error"
           onClick={onConfirm}
