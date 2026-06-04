@@ -32,6 +32,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Run Unit Tests
+        run: npx vitest run --reporter=verbose
+
       - name: Build Vite App
         run: npm run build
         env:

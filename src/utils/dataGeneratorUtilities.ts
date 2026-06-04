@@ -133,7 +133,7 @@ export function generateSavingSeries(saving: Saving[]) {
     {
       data: seriesData,
       label: 'Monthly saving',
-      id: 'svs',
+      id: 'ms',
       showMark: true,
     },
   ];

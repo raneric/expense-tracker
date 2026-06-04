@@ -1,5 +1,3 @@
-import { HistoryToggleOff } from '@mui/icons-material';
-
 import {
   Autocomplete,
   Box,
@@ -106,12 +104,10 @@ export default function WithdrawalFormDialog({
     >
       <DialogHeader>
         <span>Withdrawal info</span>
-
         <Fade in={formData.isForecast}>
           <Chip
             color="secondary"
-            icon={<HistoryToggleOff />}
-            label="Forecast"
+            label="🕑 Forecast"
           />
         </Fade>
       </DialogHeader>

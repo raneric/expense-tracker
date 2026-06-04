@@ -5,11 +5,11 @@ import { Navigate } from 'react-router-dom';
 import LogoImage from '../../../assets/logo_v2.png';
 import { useUserContext } from '../../../contexts/auth/UserContext';
 import type { LoginCredentials } from '../../../type/AppType';
-import { AppRoutes } from '../../../utils/Const';
 import { EMAIL_REGEX, validateInput } from '../../../utils/validationUtilities';
 import Colors from '../../Theming/Colors';
 import { styled } from '@mui/material/styles';
 import { Logo } from '../shared/Logo/Logo';
+import { AppRoutes } from '../../../router/routes';
 
 const LoginContainer = styled(Box)(({ theme }) => ({
   minHeight: '100vh',

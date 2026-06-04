@@ -5,7 +5,6 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-import { rows } from '../../../../../utils/Const';
 import type { WithdrawTableProps } from '../../../../../type/PropsType';
 
 /**
@@ -29,7 +28,7 @@ export default function WithdrawalTable({
       </TableContainer>
       <TablePagination
         component="div"
-        count={rows.length}
+        count={tablePaginationState.page * tablePaginationState.rowsPerPage}
         page={tablePaginationState.page}
         onPageChange={onPageChange}
         rowsPerPage={tablePaginationState.rowsPerPage}

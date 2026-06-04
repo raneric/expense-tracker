@@ -1,4 +1,4 @@
-import type { AppRoutes } from '../utils/Const';
+import type { AppRoutes } from '../router/routes';
 
 type RoutePath = (typeof AppRoutes)[keyof typeof AppRoutes];
 

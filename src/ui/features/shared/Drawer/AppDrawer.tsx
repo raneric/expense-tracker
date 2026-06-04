@@ -12,8 +12,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import LogoImage from '../../../../assets/logo_v2.png';
 import { useDrawerContext } from '../../../../contexts/drawer/DrawerContext';
 import { useResponsive } from '../../../../hooks/useResponsive';
-import { AppRoutes, RouteList } from '../../../../utils/Const';
 import { Logo } from '../Logo/Logo';
+import { AppRoutes, RouteList } from '../../../../router/routes';
 
 const activeItemStyle = {
   '&.Mui-selected': {

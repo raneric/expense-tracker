@@ -3,13 +3,13 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useUserContext } from '../../contexts/auth/UserContext';
 import { WithdrawalProvider } from '../../contexts/withdrawalsRetrieval/WithdrawalProvider';
 import { DrawerProvider } from '../../contexts/drawer/DrawerProvider';
-import { AppRoutes } from '../../utils/Const';
 import AppDrawer from './shared/Drawer/AppDrawer';
 import SplashScreen from './shared/SplashScreen/SplashScreen';
 import LogoImage from '../../assets/logo_v2.png';
 import CustomAppBar from './shared/AppBar/CustomAppBar';
 import { Logo } from './shared/Logo/Logo';
 import { SavingProvider } from '../../contexts/saving/SavingProvider';
+import { AppRoutes } from '../../router/routes';
 
 export default function Main() {
   const { state } = useUserContext();

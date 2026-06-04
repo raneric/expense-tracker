@@ -1,12 +1,12 @@
 import { PieChart } from '@mui/x-charts/PieChart';
-import { desktopOS, valueFormatter } from '../../../../utils/Const';
+import { fakePieChartData, valueFormatter } from '../../../../utils/Const';
 
 export default function ExpensePieChart() {
   return (
     <PieChart
       series={[
         {
-          data: desktopOS,
+          data: fakePieChartData,
           highlightScope: { fade: 'global', highlight: 'item' },
           faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
           valueFormatter,

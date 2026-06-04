@@ -3,7 +3,6 @@ import type BaseRepository from './BaseRepository';
 import GasEventsRepository from './gasEvents/GasEventsRepository';
 import SavingRepository from './saving/SavingRepository';
 import UsersInfoRepository from './UsersInfo/UsersInfoRepository';
-import MockWithdrawRepository from './Withdrawals/MockWithdrawRepository';
 import WithdrawRepository from './Withdrawals/WithdrawRepository';
 
 export default class RepositoriesFactory {
@@ -12,15 +11,9 @@ export default class RepositoriesFactory {
   private static gasEventsRepository: BaseRepository<GasEvent, string>;
   private static savingRepositoryInstance: BaseRepository<Saving, string>;
 
-  public static createWithdrawRepository(useMock: boolean = false) {
+  public static createWithdrawRepository() {
     if (!RepositoriesFactory.withdrawRepositoryInstance) {
-      if (useMock) {
-        RepositoriesFactory.withdrawRepositoryInstance =
-          new MockWithdrawRepository();
-      } else {
-        RepositoriesFactory.withdrawRepositoryInstance =
-          new WithdrawRepository();
-      }
+      RepositoriesFactory.withdrawRepositoryInstance = new WithdrawRepository();
     }
     return RepositoriesFactory.withdrawRepositoryInstance;
   }

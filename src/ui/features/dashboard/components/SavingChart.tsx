@@ -50,7 +50,7 @@ export default function SavingChart({
           [`.${lineClasses.line}, .${lineClasses.mark}`]: {
             strokeWidth: 1,
           },
-          [`.${lineClasses.line}[data-series="svs"]`]: {
+          [`.${lineClasses.line}[data-series="ms"]`]: {
             strokeDasharray: '5 5',
           },
           [`.${lineClasses.mark}:not([data-highlighted="true"])`]: {

@@ -1,6 +1,6 @@
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
-import { AppRoutes, RouteList } from '../../../../utils/Const';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { AppRoutes, RouteList } from '../../../../router/routes';
 
 export default function MobileNavigation() {
   const navigate = useNavigate();

@@ -1,13 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Error from '../ui/features/shared/error/Error';
 import Dashboard from '../ui/features/dashboard/Dashboard';
 import Gas from '../ui/features/gas/Gas';
 import Login from '../ui/features/login/Login';
 import Main from '../ui/features/Main';
 import Profile from '../ui/features/profile/Profile';
+import Error from '../ui/features/shared/error/Error';
 import WithdrawalHistory from '../ui/features/withdraw/WithdrawalHistory';
-import { AppRoutes } from '../utils/Const';
-import { dashboardLoader } from './loaders/dashboardLoader';
+import { AppRoutes } from './routes';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -21,7 +20,6 @@ const router = createBrowserRouter([
       {
         element: <Dashboard />,
         path: AppRoutes.DASHBOARD,
-        loader: dashboardLoader,
       },
       {
         element: <WithdrawalHistory />,

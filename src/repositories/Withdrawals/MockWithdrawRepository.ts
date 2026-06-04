@@ -1,7 +1,7 @@
 import type { QueryConstraint } from 'firebase/firestore';
 import type { Withdrawal } from '../../type/AppType';
-import { rows } from '../../utils/Const';
 import type BaseRepository from '../BaseRepository';
+import { rows } from '../../test/MockData';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

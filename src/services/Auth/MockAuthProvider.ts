@@ -1,8 +1,8 @@
 import type { LoginCredentials } from '../../type/AppType';
 import { clearStoredUser } from '../../utils/localStorageUtilities';
-import { users } from '../../utils/Const';
 import type AuthProvider from './AuthProvider';
 import { validateCredentials } from '../../utils/validationUtilities';
+import { users } from '../../test/MockData';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
