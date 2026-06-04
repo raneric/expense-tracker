@@ -3,10 +3,28 @@ import type { GasEvent, GasStatusInfo, Saving } from '../type/AppType';
 import type { GasEventData } from '../type/PropsType';
 import type { DateFilter } from '../type/StateContextType';
 
+/**
+ * Generates a display string showing the number of days used
+ * against the maximum forecasted days.
+ *
+ * Example: "12 / 30 Days"
+ */
 const generateRateMessage = (value: number, valueMax: number) => {
   return `${value} / ${valueMax} Days`;
 };
 
+/**
+ * Extracts gas event metadata used for calendar highlighting
+ * and forecasting.
+ *
+ * - Collects all gas event start dates.
+ * - Finds the current and previous gas events.
+ * - Forecasts the expected end date of the current gas event
+ *   using the duration of the previous gas event.
+ *
+ * @param gasEvents List of gas events.
+ * @returns Start dates set and forecasted replacement date.
+ */
 export function generateGasEventData(gasEvents: GasEvent[]): GasEventData {
   const startDates = new Set<string>();
 
@@ -39,6 +57,19 @@ export function generateGasEventData(gasEvents: GasEvent[]): GasEventData {
   };
 }
 
+/**
+ * Generates status information for the current gas bottle usage.
+ *
+ * Uses the previous gas event duration as a forecast baseline
+ * and calculates:
+ * - Days used so far
+ * - Forecasted replacement date
+ * - Whether usage has exceeded the forecast
+ * - Gauge display text
+ *
+ * @param gasEvents List containing current and previous gas events.
+ * @returns Gas status information or null if required events are missing.
+ */
 export function generateGasStatusInfo(
   gasEvents: GasEvent[]
 ): GasStatusInfo | null {
@@ -56,6 +87,7 @@ export function generateGasStatusInfo(
 
   if (previous && current) {
     const inUseUpToNow = dayjs().diff(dayjs(current?.startDate), 'days');
+
     const isOverForecast =
       previous?.totalDays !== undefined && inUseUpToNow > previous?.totalDays;
 
@@ -85,10 +117,28 @@ export function generateGasStatusInfo(
   }
 }
 
+/**
+ * Calculates how many days have passed since the provided date.
+ *
+ * @param value Date string representing the start date.
+ * @returns Number of days in use.
+ */
 export function calculateInUseDays(value: string) {
   return dayjs().diff(dayjs(value), 'days');
 }
 
+/**
+ * Returns the current gas tracking period.
+ *
+ * The billing/usage cycle runs from the 28th of one month
+ * through the 27th of the next month.
+ *
+ * Examples:
+ * - If today is Feb 10 → Jan 28 to Feb 27
+ * - If today is Feb 28 → Feb 28 to Mar 27
+ *
+ * @returns Current date filter range.
+ */
 export function getDefaultDateFilterRange(): DateFilter {
   const today = dayjs();
 
@@ -109,6 +159,12 @@ export function getDefaultDateFilterRange(): DateFilter {
   };
 }
 
+/**
+ * Returns the date filter range immediately preceding
+ * the current gas tracking period.
+ *
+ * @returns Previous date filter range.
+ */
 export function getPreviousDateFilterRange(): DateFilter {
   const currentRange = getDefaultDateFilterRange();
 
@@ -125,6 +181,16 @@ export function getPreviousDateFilterRange(): DateFilter {
   };
 }
 
+/**
+ * Converts saving records into chart-ready data.
+ *
+ * Creates:
+ * - Month names for the chart axis (dimensions)
+ * - Saving amounts for the chart series
+ *
+ * @param saving Monthly saving records.
+ * @returns Chart dimensions and series configuration.
+ */
 export function generateSavingSeries(saving: Saving[]) {
   const dimensions = saving.map((value) => dayjs(value.month).format('MMMM'));
   const seriesData = saving.map((value) => value.amount);
@@ -137,5 +203,6 @@ export function generateSavingSeries(saving: Saving[]) {
       showMark: true,
     },
   ];
+
   return { series, dimensions };
 }

@@ -1,8 +1,7 @@
-import type { LoginCredentials } from '../../type/AppType';
-import { clearStoredUser } from '../../utils/localStorageUtilities';
-import type AuthProvider from './AuthProvider';
-import { validateCredentials } from '../../utils/validationUtilities';
 import { users } from '../../test/MockData';
+import type { LoginCredentials } from '../../type/AppType';
+import { validateCredentials } from '../../utils/validationUtilities';
+import type AuthProvider from './AuthProvider';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -13,7 +12,5 @@ export default class MockAuthProvider implements AuthProvider {
     return users[0];
   }
 
-  async logout() {
-    clearStoredUser();
-  }
+  async logout() {}
 }

@@ -42,7 +42,6 @@ import AuthProviderFactory from '../../services/Auth/AuthProviderFactory';
 import type { LoginCredentials } from '../../type/AppType';
 import type { AuthState } from '../../type/StateContextType';
 import { getErrorMessage } from '../../utils/errorFunctions';
-import { clearStoredUser } from '../../utils/localStorageUtilities';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { authReducer } from './authReducer';
 import { UserContext } from './UserContext';
@@ -124,7 +123,6 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     try {
       await authProvider.logout();
       dispatch({ type: 'LOGOUT' });
-      clearStoredUser();
     } catch (error: unknown) {
       show(getErrorMessage(error), 'error');
     }

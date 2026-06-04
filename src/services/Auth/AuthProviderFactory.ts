@@ -1,16 +1,12 @@
 import type AuthProvider from './AuthProvider';
 import FirebaseAuthProvider from './FirebaseAuthProvider';
-import MockAuthProvider from './MockAuthProvider';
 
 export default class AuthProviderFactory {
   private static authProviderInstance: AuthProvider;
 
-  public static createAuthService(useMock: boolean = false) {
+  public static createAuthService() {
     if (!AuthProviderFactory.authProviderInstance) {
-      const provider = useMock
-        ? new MockAuthProvider()
-        : new FirebaseAuthProvider();
-      AuthProviderFactory.authProviderInstance = provider;
+      AuthProviderFactory.authProviderInstance = new FirebaseAuthProvider();
     }
     return AuthProviderFactory.authProviderInstance;
   }
