@@ -1,4 +1,4 @@
-import { Box, CardContent, IconButton, Stack } from '@mui/material';
+import { Box, CardContent, IconButton, Skeleton, Stack } from '@mui/material';
 import { Gauge } from '@mui/x-charts';
 
 import { useMemo, useState } from 'react';
@@ -18,6 +18,8 @@ import CustomPaper from '../../../shared/Container/CustomPaper';
 import CustomCardHeader from '../../../shared/CustomCardHeader/CustomCardHeader';
 import InfoRow from '../../../shared/InfoRow/InfoRow';
 import GasFormDialog from '../Dialog/GasFormDialog';
+
+const skeletonTextSx = { fontSize: '2rem', width: '100%' };
 
 export default function GasStatus() {
   const { state, submit } = useGasEventsContext();
@@ -46,7 +48,7 @@ export default function GasStatus() {
         }}
       >
         <CustomCardHeader displayText="Current Gas Bottle Status" />
-        {hasData && (
+        {hasData ? (
           <CardContent sx={{ position: 'relative' }}>
             <Stack
               sx={{
@@ -112,6 +114,33 @@ export default function GasStatus() {
               </IconButton>
             </Stack>
           </CardContent>
+        ) : (
+          <Stack
+            sx={{
+              alignItems: 'center',
+              width: '20em',
+              px: 2,
+            }}
+            spacing={1}
+          >
+            <Skeleton
+              variant="text"
+              sx={skeletonTextSx}
+            />
+            <Skeleton
+              variant="text"
+              sx={skeletonTextSx}
+            />
+            <Skeleton
+              variant="text"
+              sx={skeletonTextSx}
+            />
+            <Skeleton
+              variant="circular"
+              width={150}
+              height={150}
+            />
+          </Stack>
         )}
       </CustomPaper>
     </>

@@ -1,15 +1,10 @@
 import { AreaChart, FilterList } from '@mui/icons-material';
-import { Fab, Grid, Stack } from '@mui/material';
-import type { BarItem } from '@mui/x-charts/BarChart';
-import { useMemo } from 'react';
+import { Fab, Grid } from '@mui/material';
+import { useUserContext } from '../../../contexts/auth/UserContext';
 import { useSavingContext } from '../../../contexts/saving/SavingContext';
 import { useWithdrawalContext } from '../../../contexts/withdrawalsRetrieval/WithdrawalContext';
-import { useResponsive } from '../../../hooks/useResponsive';
+import { useDashboardMetrics } from '../../../hooks/useDashboardMetrics';
 import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
-import { getWeeklyAmounts } from '../../../utils/computingFunction';
-import { generateSavingSeries } from '../../../utils/dataGeneratorUtilities';
-import { toLocalMgCurrencyCompact } from '../../../utils/formatterUtilities';
-import Colors from '../../Theming/Colors';
 import ChartCard from '../shared/ChartCard/ChartCard';
 import FilterDialog from '../shared/Dialog/FilterDialog';
 import {
@@ -17,63 +12,38 @@ import {
   Tittle,
   TittleHelperInfo,
 } from '../shared/SectionTitle/SectionTitle';
-import ExpenseSparkLine from '../withdraw/components/Chart/ExpenseSparkline';
 import BalanceInfo from './components/BalanceInfo';
 import SavingChart from './components/SavingChart';
 import WeeklySpentChart from './components/WeeklySpentChart';
 
 export default function Dashboard() {
-  const { state } = useWithdrawalContext();
-  const { isDesktop } = useResponsive();
+  const { state: withdrawalState } = useWithdrawalContext();
 
   const { dialog, charts, closeDialog, openFilterDialog } =
-    useWithdrawalHistory(state.data);
+    useWithdrawalHistory(withdrawalState.data);
 
   const { state: savingSate } = useSavingContext();
 
-  const { series: savingSeries, dimensions: savingDimensions } = useMemo(
-    () => generateSavingSeries(savingSate.data),
-    [savingSate.data]
-  );
+  const { state: userState } = useUserContext();
 
-  const { spendingSeries, spendingDimensions } = useMemo(() => {
-    const withdrawals = state.data;
-    const weeklySpendingWithForecast = getWeeklyAmounts(withdrawals);
-    const weeklySpendingWithoutForecast = getWeeklyAmounts(
-      withdrawals.filter((withdrawal) => !withdrawal.isForecast)
-    );
-
-    const amountsWithForecast = weeklySpendingWithForecast.map(
-      (w) => w.amount ?? 0
-    );
-    const amountsNoForecast = weeklySpendingWithoutForecast
-      ? weeklySpendingWithoutForecast.map((w) => w.amount ?? 0)
-      : weeklySpendingWithForecast.map(() => 0);
-
-    const spendingSeries = [
-      {
-        data: amountsNoForecast,
-        label: 'No forecast',
-        id: 'noFc',
-        barLabel: (item: BarItem) =>
-          `${isDesktop ? toLocalMgCurrencyCompact(item.value as number) : ''}`,
-        color: Colors.tint300,
-      },
-      {
-        data: amountsWithForecast,
-        label: 'With forecast',
-        id: 'withFc',
-        barLabel: (item: BarItem) =>
-          `${isDesktop ? toLocalMgCurrencyCompact(item.value as number) : ''}`,
-      },
-    ];
-
-    const spendingDimensions = weeklySpendingWithForecast.map(
-      (w) => w.label ?? ''
-    );
-
-    return { spendingSeries, spendingDimensions };
-  }, [state.data, isDesktop]);
+  const {
+    currentWithdrawals,
+    forecastedWithdrawals,
+    previousMonthSaving,
+    currentBalance,
+    forecastedSaving,
+    spendingSeries,
+    spendingDimensions,
+    savingSeries,
+    savingDimensions,
+    twoMontAgoSaving,
+  } = useDashboardMetrics({
+    withdrawals: withdrawalState.data,
+    savings: savingSate.data,
+    currentWithdrawalsDataset: charts.current.dataset,
+    forecastWithdrawalsDataset: charts.forecast.dataset,
+    salary: userState.profile?.salary,
+  });
 
   return (
     <>
@@ -92,60 +62,30 @@ export default function Dashboard() {
         container
         spacing={1}
       >
-        <Grid size={{ xs: 12, md: 12, lg: 12, xl: 7 }}>
+        <Grid size={{ xs: 12, md: 12, lg: 8, xl: 8 }}>
           <WeeklySpentChart
             dimension={spendingDimensions}
             series={spendingSeries}
           />
         </Grid>
 
-        <Grid size={{ xs: 12, md: 12, lg: 12, xl: 5 }}>
-          <Stack
-            direction={'column'}
-            spacing={2}
-          >
-            <Stack
-              spacing={2}
-              direction={isDesktop ? 'row' : 'column'}
-            >
-              <Stack
-                direction={'column'}
-                spacing={2}
-              >
-                <ChartCard
-                  sx={{
-                    borderTop: `6px solid ${Colors.tint200}`,
-                  }}
-                >
-                  <ExpenseSparkLine
-                    dimension={charts.current.dimension}
-                    dataset={charts.current.dataset}
-                    dataLabel="Withdrawals up to today"
-                  />
-                </ChartCard>
-                <ChartCard
-                  sx={{
-                    borderTop: `6px solid ${Colors.warningLight}`,
-                  }}
-                >
-                  <ExpenseSparkLine
-                    dimension={charts.forecast.dimension}
-                    dataset={charts.forecast.dataset}
-                    dataLabel="Forecast"
-                  />
-                </ChartCard>
-              </Stack>
-              <ChartCard sx={{ width: { xl: '100%' } }}>
-                <BalanceInfo />
-              </ChartCard>
-            </Stack>
-            <ChartCard>
-              <SavingChart
-                series={savingSeries}
-                dimension={savingDimensions}
-              />
-            </ChartCard>
-          </Stack>
+        <Grid size={{ xs: 12, md: 12, lg: 4, xl: 4 }}>
+          <BalanceInfo
+            currentWithdrawals={currentWithdrawals}
+            forecastedWithdrawals={forecastedWithdrawals}
+            previousMonthSaving={previousMonthSaving}
+            forecastedSaving={forecastedSaving}
+            currentBalance={currentBalance}
+            twoMontAgoSaving={twoMontAgoSaving}
+          />
+        </Grid>
+        <Grid size={12}>
+          <ChartCard>
+            <SavingChart
+              series={savingSeries}
+              dimension={savingDimensions}
+            />
+          </ChartCard>
         </Grid>
       </Grid>
       <Fab

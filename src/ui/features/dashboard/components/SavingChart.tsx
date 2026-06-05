@@ -17,8 +17,9 @@ export default function SavingChart({
   dimension,
 }: ChartSeriesProps<LineSeries, string>) {
   const { isDesktop } = useResponsive();
+
   return (
-    <Box sx={{ width: '100%', height: 400 }}>
+    <Box sx={{ width: '100%', height: 500 }}>
       <LineChart
         grid={{ horizontal: true }}
         series={series}

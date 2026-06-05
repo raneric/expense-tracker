@@ -3,6 +3,7 @@ import type { PropsWithChildren } from 'react';
 import type {
   GasEvent,
   GasFormDialogData,
+  Saving,
   TablePaginationState,
   Withdrawal,
 } from './AppType';
@@ -116,4 +117,12 @@ export interface SpeedDialProps {
 export interface WithdrawalChartsProps {
   current: DimensionalChartProps<number, Date>;
   forecast: DimensionalChartProps<number, Date>;
+}
+
+export interface UseDashboardMetricsProps {
+  withdrawals: Withdrawal[];
+  savings: Saving[];
+  salary: number | undefined;
+  currentWithdrawalsDataset: number[];
+  forecastWithdrawalsDataset: number[];
 }

@@ -108,3 +108,21 @@ export interface PeriodicAmount {
   label: string;
   amount: number;
 }
+
+export type MetricItemProps = {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  color: string;
+  trendingUp: boolean;
+  rate?: string;
+};
+
+export interface BalanceInfoProps {
+  currentWithdrawals: number;
+  forecastedWithdrawals: number;
+  forecastedSaving: number;
+  previousMonthSaving: number;
+  currentBalance: number;
+  twoMontAgoSaving: number;
+}

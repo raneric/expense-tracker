@@ -38,3 +38,14 @@ export function getWeeklyAmounts(withdrawals: Withdrawal[]): PeriodicAmount[] {
     .sort(([a], [b]) => dayjs(a).valueOf() - dayjs(b).valueOf())
     .map(([, value]) => value);
 }
+
+export function calculateTrendRate(previous: number, current: number): string {
+  if (previous === 0) {
+    if (current === 0) return '0.00%';
+    return '+100.00%';
+  }
+
+  const trend = ((current - previous) / previous) * 100;
+
+  return `${trend >= 0 ? '+' : ''}${trend.toFixed(2)}%`;
+}
