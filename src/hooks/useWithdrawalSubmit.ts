@@ -4,6 +4,7 @@ import type { Withdrawal } from '../type/AppType';
 import { useWithdrawalContext } from '../contexts/withdrawalsRetrieval/WithdrawalContext';
 import RepositoriesFactory from '../repositories/RepositoriesFactory';
 import { useSnackbarContext } from '../contexts/snackbar/SnackbarContext';
+import { toLocalMgCurrency } from '../utils/formatterUtilities';
 
 /**
  * Determines if a withdrawal is new (not yet persisted to database).
@@ -100,8 +101,33 @@ export default function useWithdrawalSubmit(closeDialog: () => void) {
     [state.user, withdrawalRepository, enrichWithdrawal, handleSuccess, show]
   );
 
+  const validateForecast = useCallback(
+    async (withdrawal: Withdrawal) => {
+      try {
+        setSubmitInProgress(true);
+        await withdrawalRepository.updateOne({
+          ...withdrawal,
+          isForecast: false,
+        });
+        await handleSuccess(
+          `Forecast with ${toLocalMgCurrency(
+            withdrawal.amount
+          )} on ${withdrawal.date.toDateString()} marked as done `
+        );
+        setSubmitInProgress(false);
+        return true;
+      } catch (error: unknown) {
+        show((error as Error).message, 'error');
+        setSubmitInProgress(false);
+        return false;
+      }
+    },
+    [withdrawalRepository, handleSuccess, show]
+  );
+
   return {
     submitHandler,
+    validateForecast,
     submitInProgress,
   };
 }

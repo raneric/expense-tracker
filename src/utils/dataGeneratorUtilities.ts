@@ -1,7 +1,13 @@
 import dayjs from 'dayjs';
-import type { GasEvent, GasStatusInfo, Saving } from '../type/AppType';
+import type {
+  DialogHookState,
+  GasEvent,
+  GasStatusInfo,
+  Saving,
+} from '../type/AppType';
 import type { GasEventData } from '../type/PropsType';
 import type { DateFilter } from '../type/StateContextType';
+import { toLocalMgCurrency } from './formatterUtilities';
 
 /**
  * Generates a display string showing the number of days used
@@ -205,4 +211,24 @@ export function generateSavingSeries(saving: Saving[]) {
   ];
 
   return { series, dimensions };
+}
+
+export function getConfirmationMessage(dialog: DialogHookState) {
+  let confirmationMessage = '';
+
+  switch (dialog.type) {
+    case 'delete':
+      confirmationMessage = `Delete withdrawal of ${toLocalMgCurrency(
+        dialog.withdrawal.amount
+      )} on ${dialog.withdrawal.date.toDateString()}?`;
+      break;
+    case 'forecast':
+      confirmationMessage = `Are you sure to validate ${toLocalMgCurrency(
+        dialog.withdrawal.amount
+      )} on ${dialog.withdrawal.date.toDateString()}?`;
+      break;
+    default:
+      break;
+  }
+  return confirmationMessage;
 }

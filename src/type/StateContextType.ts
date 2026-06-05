@@ -9,6 +9,7 @@ import type {
   UserInfo,
   Withdrawal,
 } from './AppType';
+import type { PropsWithChildren } from 'react';
 
 // ------------------ Auth Context ----------------------------
 export type UserAction =
@@ -156,4 +157,8 @@ export interface SavingContextType extends DataRetrievalContextType<
 export interface WithdrawalActionsContextType {
   onEdit: (withdrawal: Withdrawal) => void;
   onDelete: (withdrawal: Withdrawal) => void;
+  onForecastValidated: (withdrawal: Withdrawal) => void;
 }
+
+export interface WithdrawalActionsProviderType
+  extends WithdrawalActionsContextType, PropsWithChildren {}

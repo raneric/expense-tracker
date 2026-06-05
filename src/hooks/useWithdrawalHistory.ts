@@ -74,6 +74,11 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
     setDialog({ type: 'closed' });
   };
 
+  const openForecastValidationDialog = (withdrawal: Withdrawal) => {
+    console.log('called');
+    setDialog({ type: 'forecast', withdrawal });
+  };
+
   return {
     dialog,
     charts,
@@ -82,5 +87,6 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
     openDeleteDialog,
     closeDialog,
     openFilterDialog,
+    openForecastValidationDialog,
   };
 }

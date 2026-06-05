@@ -1,5 +1,5 @@
 import { AreaChart, FilterList } from '@mui/icons-material';
-import { CardContent, Fab, Grid, Stack } from '@mui/material';
+import { Fab, Grid, Stack } from '@mui/material';
 import type { BarItem } from '@mui/x-charts/BarChart';
 import { useMemo } from 'react';
 import { useSavingContext } from '../../../contexts/saving/SavingContext';
@@ -18,7 +18,7 @@ import {
   TittleHelperInfo,
 } from '../shared/SectionTitle/SectionTitle';
 import ExpenseSparkLine from '../withdraw/components/Chart/ExpenseSparkline';
-import ExpensePieChart from './components/ExpensePieChart';
+import BalanceInfo from './components/BalanceInfo';
 import SavingChart from './components/SavingChart';
 import WeeklySpentChart from './components/WeeklySpentChart';
 
@@ -136,9 +136,7 @@ export default function Dashboard() {
                 </ChartCard>
               </Stack>
               <ChartCard sx={{ width: { xl: '100%' } }}>
-                <CardContent>
-                  <ExpensePieChart />
-                </CardContent>
+                <BalanceInfo />
               </ChartCard>
             </Stack>
             <ChartCard>

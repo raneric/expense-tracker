@@ -78,7 +78,8 @@ export type DialogHookState =
   | { type: 'create' }
   | { type: 'filter' }
   | { type: 'edit'; withdrawal: Withdrawal }
-  | { type: 'delete'; withdrawal: Withdrawal };
+  | { type: 'delete'; withdrawal: Withdrawal }
+  | { type: 'forecast'; withdrawal: Withdrawal };
 
 export type TablePaginationState = {
   page: number;

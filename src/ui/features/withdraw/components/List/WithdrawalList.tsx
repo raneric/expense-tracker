@@ -6,10 +6,10 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import type { WithdrawalListProps } from '../../../../../type/PropsType';
 import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
+import type { WithdrawalsDataProps } from '../../../../../type/PropsType';
 
-export default function WithdrawalList({ withdrawals }: WithdrawalListProps) {
+export default function WithdrawalList({ withdrawals }: WithdrawalsDataProps) {
   if (withdrawals.length === 0) {
     return (
       <Card variant="outlined">

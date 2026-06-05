@@ -36,15 +36,11 @@ export type WithdrawTableProps = PropsWithChildren<{
   onRowPerPageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }>;
 
-export interface WithdrawTableBodyProps {
+export interface WithdrawalsDataProps {
   withdrawals: Withdrawal[];
 }
 
-export interface WithdrawalListProps {
-  withdrawals: Withdrawal[];
-}
-
-export interface WithdrawTableRowProps extends WithdrawRowEventProps {
+export interface WithdrawTableRowProps {
   withdrawal: Withdrawal;
 }
 

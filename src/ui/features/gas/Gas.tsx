@@ -28,7 +28,7 @@ export default function Gas() {
       <Stack
         direction={isDesktop ? 'row' : 'column'}
         spacing={2}
-        sx={{ alignItems: 'center' }}
+        sx={!isDesktop ? { alignItems: 'center' } : {}}
       >
         <GasEventsProvider>
           <Calendar />

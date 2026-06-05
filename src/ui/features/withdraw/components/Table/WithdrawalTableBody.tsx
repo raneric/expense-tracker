@@ -1,14 +1,12 @@
 import { TableBody } from '@mui/material';
 import type { Withdrawal } from '../../../../../type/AppType';
-import type { WithdrawTableBodyProps } from '../../../../../type/PropsType';
+import type { WithdrawalsDataProps } from '../../../../../type/PropsType';
 import EmptyTableFeedback from './EmptyTableFeedback';
 import WithdrawalTableRow from './WithdrawalTableRow';
-import { useWithdrawalActions } from '../../../../../contexts/WithdrawalActions/WithdrawalActionsContext';
 
 export default function WithdrawalTableBody({
   withdrawals,
-}: WithdrawTableBodyProps) {
-  const { onEdit, onDelete } = useWithdrawalActions();
+}: WithdrawalsDataProps) {
   return (
     <TableBody>
       {withdrawals.length > 0 ? (
@@ -16,8 +14,6 @@ export default function WithdrawalTableBody({
           <WithdrawalTableRow
             key={withdrawal.id}
             withdrawal={withdrawal}
-            onRowDeleteClick={() => onDelete(withdrawal)}
-            onRowEditClick={() => onEdit(withdrawal)}
           />
         ))
       ) : (

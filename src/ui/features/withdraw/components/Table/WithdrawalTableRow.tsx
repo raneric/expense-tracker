@@ -1,27 +1,16 @@
-import { DeleteForever, Edit } from '@mui/icons-material';
-import { IconButton, TableCell, TableRow } from '@mui/material';
+import { CheckCircleTwoTone, DeleteForever, Edit } from '@mui/icons-material';
+import { IconButton, TableCell, TableRow, Tooltip } from '@mui/material';
+import { useWithdrawalActions } from '../../../../../contexts/WithdrawalActions/WithdrawalActionsContext';
+import type { WithdrawTableRowProps } from '../../../../../type/PropsType';
 import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
 import ReasonsCell from './ReasonsCell';
-import type { WithdrawTableRowProps } from '../../../../../type/PropsType';
-import { useCallback } from 'react';
 
 const forecastedStyle = { color: 'warning.main', fontWeight: 'bold' };
 
 export default function WithdrawalTableRow({
   withdrawal,
-  onRowEditClick,
-  onRowDeleteClick,
 }: WithdrawTableRowProps) {
-  const handleEdit = useCallback(
-    () => onRowEditClick(withdrawal),
-    [withdrawal, onRowEditClick]
-  );
-
-  const handleDelete = useCallback(
-    () => onRowDeleteClick(withdrawal),
-    [withdrawal, onRowDeleteClick]
-  );
-
+  const { onEdit, onDelete, onForecastValidated } = useWithdrawalActions();
   return (
     <>
       <TableRow
@@ -48,12 +37,26 @@ export default function WithdrawalTableRow({
           sx={withdrawal.isForecast ? { ...forecastedStyle, width: 200 } : {}}
           align="right"
         >
-          <IconButton onClick={handleEdit}>
-            <Edit />
-          </IconButton>
-          <IconButton onClick={handleDelete}>
-            <DeleteForever />
-          </IconButton>
+          {withdrawal.isForecast && (
+            <Tooltip title="Validate forecast">
+              <IconButton>
+                <CheckCircleTwoTone
+                  color="warning"
+                  onClick={() => onForecastValidated(withdrawal)}
+                />
+              </IconButton>
+            </Tooltip>
+          )}
+          <Tooltip title="Edit">
+            <IconButton onClick={() => onEdit(withdrawal)}>
+              <Edit />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton onClick={() => onDelete(withdrawal)}>
+              <DeleteForever />
+            </IconButton>
+          </Tooltip>
         </TableCell>
       </TableRow>
     </>
