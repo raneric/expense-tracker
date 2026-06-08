@@ -7,14 +7,21 @@ import { withdrawalDataMapper } from '../../utils/dataMappers';
 import type BaseRepository from '../BaseRepository';
 import { removeDuplicateValues } from '../../utils/validationUtilities';
 
-export default class WithdrawRepository
-  implements BaseRepository<Withdrawal, string>
-{
-  private readonly dataProvider: DataProvider<Withdrawal, string>;
+export default class WithdrawRepository implements BaseRepository<
+  Withdrawal,
+  string,
+  QueryConstraint
+> {
+  private readonly dataProvider: DataProvider<
+    Withdrawal,
+    string,
+    QueryConstraint
+  >;
 
   constructor() {
     this.dataProvider = new FirestoreDataProvider<Withdrawal>(
-      COLLECTIONS.withdrawals
+      COLLECTIONS.withdrawals,
+      withdrawalDataMapper
     );
   }
 
@@ -23,17 +30,11 @@ export default class WithdrawRepository
       ? constraints
       : [orderBy('date', 'desc')];
 
-    return await this.dataProvider.getAll(
-      withdrawalDataMapper,
-      queryConstraint
-    );
+    return await this.dataProvider.getAll(queryConstraint);
   }
 
   async getReasonsList(constraints: QueryConstraint[]): Promise<string[]> {
-    const withdrawals = await this.dataProvider.getAll(
-      withdrawalDataMapper,
-      constraints
-    );
+    const withdrawals = await this.dataProvider.getAll(constraints);
     const reasons = withdrawals.flatMap((withdrawal) => withdrawal.reasons);
     return removeDuplicateValues<string>(reasons);
   }
@@ -43,7 +44,7 @@ export default class WithdrawRepository
   }
 
   async getByUnique(unique: string): Promise<Withdrawal> {
-    return await this.dataProvider.getByUnique(unique, withdrawalDataMapper);
+    return await this.dataProvider.getByUnique(unique);
   }
 
   async deleteByUnique(unique: string): Promise<void> {

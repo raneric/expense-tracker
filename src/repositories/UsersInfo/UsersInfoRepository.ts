@@ -4,25 +4,33 @@ import FirestoreDataProvider from '../../services/Data/FirestoreDataProvider';
 import type DataProvider from '../../services/Data/DataProvider';
 import { userInfoDataMapper } from '../../utils/dataMappers';
 import type { UserInfo } from '../../type/AppType';
+import type { QueryConstraint } from 'firebase/firestore';
 
-export default class UsersInfoRepository
-  implements BaseRepository<UserInfo, string>
-{
-  private readonly dataProvider: DataProvider<UserInfo, string>;
+export default class UsersInfoRepository implements BaseRepository<
+  UserInfo,
+  string,
+  QueryConstraint
+> {
+  private readonly dataProvider: DataProvider<
+    UserInfo,
+    string,
+    QueryConstraint
+  >;
 
   constructor() {
     this.dataProvider = new FirestoreDataProvider<UserInfo>(
-      COLLECTIONS.userInfo
+      COLLECTIONS.userInfo,
+      userInfoDataMapper
     );
   }
   async getAll(): Promise<UserInfo[]> {
-    return await this.dataProvider.getAll(userInfoDataMapper);
+    return await this.dataProvider.getAll();
   }
   async createOne(data: UserInfo): Promise<void> {
     await this.dataProvider.createOne(data);
   }
   async getByUnique(unique: string): Promise<UserInfo> {
-    return await this.dataProvider.getByUnique(unique, userInfoDataMapper);
+    return await this.dataProvider.getByUnique(unique);
   }
   async deleteByUnique(unique: string): Promise<void> {
     await this.dataProvider.deleteByUnique(unique);

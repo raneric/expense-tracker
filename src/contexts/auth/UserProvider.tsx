@@ -37,7 +37,6 @@
  */
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useMemo, useReducer, type PropsWithChildren } from 'react';
-import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import AuthProviderFactory from '../../services/Auth/AuthProviderFactory';
 import type { LoginCredentials } from '../../type/AppType';
 import type { AuthState } from '../../type/StateContextType';
@@ -45,6 +44,8 @@ import { getErrorMessage } from '../../utils/errorFunctions';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { authReducer } from './authReducer';
 import { UserContext } from './UserContext';
+import { RepositoryRegistry } from '../../repositories/RepositoryRegistry';
+import { REPOSITORY_LIST } from '../../utils/Const';
 
 const initialState: AuthState = {
   user: null,
@@ -63,7 +64,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   );
 
   const userInfoRepo = useMemo(
-    () => RepositoriesFactory.createUserInfoRepository(),
+    () => RepositoryRegistry.get(REPOSITORY_LIST.UserInfo),
     []
   );
 

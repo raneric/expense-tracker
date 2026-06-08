@@ -126,3 +126,17 @@ export interface BalanceInfoProps {
   currentBalance: number;
   twoMontAgoSaving: number;
 }
+
+export interface DataMapper<T, U> {
+  (input: T): U;
+}
+
+export const REPOSITORY_LIST = {
+  Withdraw: 'withdraw',
+  UserInfo: 'userInfo',
+  GasEvent: 'gasEvent',
+  Saving: 'saving',
+};
+
+export type RepositoryType =
+  (typeof REPOSITORY_LIST)[keyof typeof REPOSITORY_LIST];

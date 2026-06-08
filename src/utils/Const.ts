@@ -9,7 +9,12 @@ export const UserReducerActions = {
 
 export const HIDDEN_AMOUNT = '** *** *** Ar';
 
-// -------------- Temporary Fake Data ----------------------
+export const REPOSITORY_LIST = {
+  Withdraw: 'withdraw',
+  UserInfo: 'userInfo',
+  GasEvent: 'gasEvent',
+  Saving: 'saving',
+};
 
 export const initialWithdrawal: Withdrawal = {
   reasons: [],
@@ -18,28 +23,5 @@ export const initialWithdrawal: Withdrawal = {
   location: '',
   isForecast: false,
 };
-
-export const fakePieChartData = [
-  {
-    label: 'Rent',
-    value: 72.72,
-  },
-  {
-    label: 'Food',
-    value: 16.38,
-  },
-  {
-    label: 'Internet fee',
-    value: 3.83,
-  },
-  {
-    label: 'JIRAMA',
-    value: 2.42,
-  },
-  {
-    label: 'Other',
-    value: 4.65,
-  },
-];
 
 export const valueFormatter = (item: { value: number }) => `${item.value}%`;

@@ -1,6 +1,7 @@
 import { type User as FirebaseUserData } from 'firebase/auth';
 import type { DocumentData } from 'firebase/firestore';
 import type {
+  DataMapper,
   GasEvent,
   Saving,
   User,
@@ -8,18 +9,24 @@ import type {
   Withdrawal,
 } from '../type/AppType';
 
-export const withdrawalDataMapper = (doc: DocumentData): Withdrawal => ({
+export const withdrawalDataMapper: DataMapper<DocumentData, Withdrawal> = (
+  doc: DocumentData
+): Withdrawal => ({
   ...doc.data(),
   date: doc.data().date.toDate(),
   id: doc.id,
 });
 
-export const mapFirebaseUser = (firebaseUser: FirebaseUserData): User => ({
+export const mapFirebaseUser: DataMapper<FirebaseUserData, User> = (
+  firebaseUser: FirebaseUserData
+): User => ({
   id: firebaseUser.uid,
   email: firebaseUser.email!,
 });
 
-export const userInfoDataMapper = (doc: DocumentData): UserInfo => ({
+export const userInfoDataMapper: DataMapper<DocumentData, UserInfo> = (
+  doc: DocumentData
+): UserInfo => ({
   id: doc.id,
   firstName: doc.data().first_name,
   lastName: doc.data().last_name,
@@ -28,7 +35,9 @@ export const userInfoDataMapper = (doc: DocumentData): UserInfo => ({
   salary: doc.data().salary,
 });
 
-export const gasEventsDataMapper = (doc: DocumentData): GasEvent => {
+export const gasEventsDataMapper: DataMapper<DocumentData, GasEvent> = (
+  doc: DocumentData
+): GasEvent => {
   const startDateAsDayjs = doc.data().startDate.toDate();
   const endDateAsDayjs = doc.data().endDate
     ? doc.data().endDate.toDate()
@@ -45,7 +54,9 @@ export const gasEventsDataMapper = (doc: DocumentData): GasEvent => {
   };
 };
 
-export const savingDataMapper = (doc: DocumentData): Saving => {
+export const savingDataMapper: DataMapper<DocumentData, Saving> = (
+  doc: DocumentData
+): Saving => {
   return {
     id: doc.id,
     amount: doc.data().amount,

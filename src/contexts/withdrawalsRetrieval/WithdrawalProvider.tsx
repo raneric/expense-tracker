@@ -49,7 +49,6 @@ import {
   useReducer,
   type PropsWithChildren,
 } from 'react';
-import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import type {
   DateFilter,
   WithdrawalRetrievalState,
@@ -61,6 +60,8 @@ import { WithdrawalContext } from './WithdrawalContext';
 import { withdrawalReducer } from './withdrawalReducer';
 import type WithdrawRepository from '../../repositories/Withdrawals/WithdrawRepository';
 import { getErrorMessage } from '../../utils/errorFunctions';
+import { RepositoryRegistry } from '../../repositories/RepositoryRegistry';
+import { REPOSITORY_LIST } from '../../utils/Const';
 
 const initialState: WithdrawalRetrievalState = {
   data: [],
@@ -79,7 +80,8 @@ export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
    * Repository instance
    */
   const withdrawalRepository = useMemo(
-    () => RepositoriesFactory.createWithdrawRepository() as WithdrawRepository,
+    () =>
+      RepositoryRegistry.get(REPOSITORY_LIST.Withdraw) as WithdrawRepository,
     []
   );
 

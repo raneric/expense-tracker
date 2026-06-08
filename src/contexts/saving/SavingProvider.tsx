@@ -16,8 +16,9 @@ import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { SavingContext } from './SavingContext';
 import { savingReducer } from './savingReducer';
 import { orderBy, where } from 'firebase/firestore';
-import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import type SavingRepository from '../../repositories/saving/SavingRepository';
+import { RepositoryRegistry } from '../../repositories/RepositoryRegistry';
+import { REPOSITORY_LIST } from '../../utils/Const';
 
 const initialState: DataRetrievalState<Saving, DateFilter | null> = {
   data: [],
@@ -34,7 +35,7 @@ export const SavingProvider = ({ children }: PropsWithChildren) => {
    * Repository instance
    */
   const savingRepository = useMemo(
-    () => RepositoriesFactory.createSavingRepository() as SavingRepository,
+    () => RepositoryRegistry.get(REPOSITORY_LIST.Saving) as SavingRepository,
     []
   );
 

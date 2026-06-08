@@ -1,7 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useWithdrawalContext } from '../contexts/withdrawalsRetrieval/WithdrawalContext';
-import RepositoriesFactory from '../repositories/RepositoriesFactory';
 import { useSnackbarContext } from '../contexts/snackbar/SnackbarContext';
+import { RepositoryRegistry } from '../repositories/RepositoryRegistry';
+import { REPOSITORY_LIST } from '../utils/Const';
 
 /**
  * Custom hook for handling withdrawal deletion operations.
@@ -25,9 +26,10 @@ export default function useWithdrawalDelete(closeDialog: () => void) {
   const { show } = useSnackbarContext();
 
   const withdrawalRepository = useMemo(
-    () => RepositoriesFactory.createWithdrawRepository(),
+    () => RepositoryRegistry.get(REPOSITORY_LIST.Withdraw),
     []
   );
+
   const onDelete = useCallback(
     async (id: string) => {
       try {

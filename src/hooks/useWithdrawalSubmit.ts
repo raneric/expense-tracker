@@ -1,10 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useUserContext } from '../contexts/auth/UserContext';
-import type { Withdrawal } from '../type/AppType';
-import { useWithdrawalContext } from '../contexts/withdrawalsRetrieval/WithdrawalContext';
-import RepositoriesFactory from '../repositories/RepositoriesFactory';
 import { useSnackbarContext } from '../contexts/snackbar/SnackbarContext';
+import { useWithdrawalContext } from '../contexts/withdrawalsRetrieval/WithdrawalContext';
+import { RepositoryRegistry } from '../repositories/RepositoryRegistry';
+import { type Withdrawal } from '../type/AppType';
 import { toLocalMgCurrency } from '../utils/formatterUtilities';
+import { REPOSITORY_LIST } from '../utils/Const';
 
 /**
  * Determines if a withdrawal is new (not yet persisted to database).
@@ -44,7 +45,7 @@ export default function useWithdrawalSubmit(closeDialog: () => void) {
   const { show } = useSnackbarContext();
 
   const withdrawalRepository = useMemo(
-    () => RepositoriesFactory.createWithdrawRepository(),
+    () => RepositoryRegistry.get(REPOSITORY_LIST.Withdraw),
     []
   );
 

@@ -7,7 +7,8 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default class MockWithdrawRepository implements BaseRepository<
   Withdrawal,
-  string
+  string,
+  QueryConstraint
 > {
   async getAll(constraints?: QueryConstraint[]): Promise<Withdrawal[]> {
     console.log(constraints);

@@ -17,11 +17,11 @@ vi.mock('../../contexts/snackbar/SnackbarContext', () => ({
   useSnackbarContext: () => ({ show }),
 }));
 
-vi.mock('../../repositories/RepositoriesFactory', () => ({
-  default: {
-    createWithdrawRepository: () => ({
+vi.mock('../../repositories/RepositoryRegistry', () => ({
+  RepositoryRegistry: {
+    get: vi.fn(() => ({
       deleteByUnique,
-    }),
+    })),
   },
 }));
 

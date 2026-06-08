@@ -50,7 +50,6 @@ import {
   type PropsWithChildren,
 } from 'react';
 import { useGasEventSubmit } from '../../hooks/useGasEventSubmit';
-import RepositoriesFactory from '../../repositories/RepositoriesFactory';
 import type { GasEvent, GasFormDialogData } from '../../type/AppType';
 import type {
   DataRetrievalState,
@@ -61,6 +60,8 @@ import { useUserContext } from '../auth/UserContext';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
 import { GasEventsContext } from './GasEventsContext';
 import { gasEventsReducer } from './gasEventsReducer';
+import { RepositoryRegistry } from '../../repositories/RepositoryRegistry';
+import { REPOSITORY_LIST } from '../../utils/Const';
 
 const initialState: Omit<DataRetrievalState<GasEvent, undefined>, 'filter'> = {
   data: [],
@@ -78,7 +79,7 @@ export const GasEventsProvider = ({ children }: PropsWithChildren) => {
   );
 
   const gasEventsRepository = useMemo(
-    () => RepositoriesFactory.createGasEventRepository(),
+    () => RepositoryRegistry.get(REPOSITORY_LIST.GasEvent),
     []
   );
 
