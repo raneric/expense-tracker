@@ -7,6 +7,8 @@ export const UserReducerActions = {
   LOGOUT: 'LOGOUT',
 };
 
+export const HIDDEN_AMOUNT = '** *** *** Ar';
+
 // -------------- Temporary Fake Data ----------------------
 
 export const initialWithdrawal: Withdrawal = {

@@ -3,14 +3,19 @@ import {
   HistoryToggleOff,
   Savings,
   SyncAlt,
+  Visibility,
+  VisibilityOff,
 } from '@mui/icons-material';
-import { Divider, Stack, Typography } from '@mui/material';
+import { Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
+import useTemporaryVisibility from '../../../../hooks/useTemporaryVisibility';
+import type { BalanceInfoProps } from '../../../../type/AppType';
+import { calculateTrendRate } from '../../../../utils/computingFunction';
+import { HIDDEN_AMOUNT } from '../../../../utils/Const';
 import { toLocalMgCurrency } from '../../../../utils/formatterUtilities';
 import ChartCard from '../../shared/ChartCard/ChartCard';
 import MainMetrics from './MainMetrics';
 import SecondaryMetrics from './SecondaryMetrics';
-import type { BalanceInfoProps } from '../../../../type/AppType';
-import { calculateTrendRate } from '../../../../utils/computingFunction';
+import { useCallback } from 'react';
 
 export default function BalanceInfo({
   currentWithdrawals,
@@ -20,19 +25,38 @@ export default function BalanceInfo({
   currentBalance,
   twoMontAgoSaving,
 }: BalanceInfoProps) {
+  const { visible: shouldDisplay, toggleVisibility } = useTemporaryVisibility();
+
+  const displayAmount = useCallback(
+    (amount: number) =>
+      shouldDisplay ? toLocalMgCurrency(amount) : HIDDEN_AMOUNT,
+    [shouldDisplay]
+  );
+
   return (
     <ChartCard sx={{ width: '100%' }}>
-      <Typography
-        variant="h6"
+      <Stack
+        direction={'row'}
         sx={{
-          fontWeight: 600,
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        Financial Overview
-      </Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 600,
+          }}
+        >
+          Financial Overview
+        </Typography>
+        <IconButton onClick={toggleVisibility}>
+          {shouldDisplay ? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </Stack>
       <Divider sx={{ mb: 3 }} />
       <MainMetrics
-        value={toLocalMgCurrency(currentBalance)}
+        value={displayAmount(currentBalance)}
         icon={
           <AccountBalance
             sx={{
@@ -42,61 +66,52 @@ export default function BalanceInfo({
         }
         label="Current Balance"
       />
-
-      <Stack
-        direction={{
-          xs: 'column',
-          sm: 'row',
-        }}
+      <Grid
+        sx={{ mt: 3 }}
+        container
         spacing={2}
-        sx={{
-          mt: 3,
-        }}
       >
-        <SecondaryMetrics
-          icon={<Savings color="success" />}
-          label="Previous month saving"
-          value={toLocalMgCurrency(previousMonthSaving)}
-          color="success.main"
-          trendingUp={true}
-          rate={calculateTrendRate(twoMontAgoSaving, previousMonthSaving)}
-        />
-        <SecondaryMetrics
-          icon={<Savings color="success" />}
-          label="Forecasted saving"
-          value={toLocalMgCurrency(forecastedSaving)}
-          color="success.main"
-          trendingUp={forecastedSaving > previousMonthSaving}
-          rate={calculateTrendRate(previousMonthSaving, forecastedSaving)}
-        />
-      </Stack>
-      <Stack
-        direction={{
-          xs: 'column',
-          sm: 'row',
-        }}
-        spacing={2}
-        sx={{
-          mt: 3,
-        }}
-      >
-        <SecondaryMetrics
-          icon={<SyncAlt color="success" />}
-          label="Withdrawals up to today"
-          value={toLocalMgCurrency(currentWithdrawals)}
-          color="success.main"
-          trendingUp={true}
-          rate={'N/A'}
-        />
-        <SecondaryMetrics
-          icon={<HistoryToggleOff color="success" />}
-          label="Forecasted withdrawals"
-          value={toLocalMgCurrency(forecastedWithdrawals)}
-          color="success.main"
-          trendingUp={false}
-          rate={'N/A'}
-        />
-      </Stack>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <SecondaryMetrics
+            icon={<Savings color="success" />}
+            label="Previous month saving"
+            value={displayAmount(previousMonthSaving)}
+            color="success.main"
+            trendingUp={true}
+            rate={calculateTrendRate(twoMontAgoSaving, previousMonthSaving)}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <SecondaryMetrics
+            icon={<Savings color="success" />}
+            label="Forecasted saving"
+            value={displayAmount(forecastedSaving)}
+            color="success.main"
+            trendingUp={forecastedSaving > previousMonthSaving}
+            rate={calculateTrendRate(previousMonthSaving, forecastedSaving)}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <SecondaryMetrics
+            icon={<SyncAlt color="success" />}
+            label="Withdrawals up to today"
+            value={displayAmount(currentWithdrawals)}
+            color="success.main"
+            trendingUp={true}
+            rate={'N/A'}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <SecondaryMetrics
+            icon={<HistoryToggleOff color="success" />}
+            label="Forecasted withdrawals"
+            value={displayAmount(forecastedWithdrawals)}
+            color="success.main"
+            trendingUp={false}
+            rate={'N/A'}
+          />
+        </Grid>
+      </Grid>
     </ChartCard>
   );
 }
