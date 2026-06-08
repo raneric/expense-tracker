@@ -12,9 +12,9 @@ import {
   Tittle,
   TittleHelperInfo,
 } from '../shared/SectionTitle/SectionTitle';
-import BalanceInfo from './components/BalanceInfo';
-import SavingChart from './components/SavingChart';
-import WeeklySpentChart from './components/WeeklySpentChart';
+import BalanceInfo from './components/Charts/BalanceInfo';
+import SavingChart from './components/Charts/SavingChart';
+import WeeklySpentChart from './components/Charts/WeeklySpentChart';
 
 export default function Dashboard() {
   const { state: withdrawalState } = useWithdrawalContext();

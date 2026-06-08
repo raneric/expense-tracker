@@ -4,13 +4,13 @@ import {
   lineClasses,
   type LineSeries,
 } from '@mui/x-charts/LineChart';
-import { useResponsive } from '../../../../hooks/useResponsive';
-import type { ChartSeriesProps } from '../../../../type/PropsType';
+import type { ChartSeriesProps } from '../../../../../type/PropsType';
+import { useResponsive } from '../../../../../hooks/useResponsive';
+import Colors from '../../../../Theming/Colors';
 import {
   toLocalMgCurrency,
   toLocalMgCurrencyCompact,
-} from '../../../../utils/formatterUtilities';
-import Colors from '../../../Theming/Colors';
+} from '../../../../../utils/formatterUtilities';
 
 export default function SavingChart({
   series,

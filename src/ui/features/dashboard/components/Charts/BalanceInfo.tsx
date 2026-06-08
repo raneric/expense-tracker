@@ -7,15 +7,15 @@ import {
   VisibilityOff,
 } from '@mui/icons-material';
 import { Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
-import useTemporaryVisibility from '../../../../hooks/useTemporaryVisibility';
-import type { BalanceInfoProps } from '../../../../type/AppType';
-import { calculateTrendRate } from '../../../../utils/computingFunction';
-import { HIDDEN_AMOUNT } from '../../../../utils/Const';
-import { toLocalMgCurrency } from '../../../../utils/formatterUtilities';
-import ChartCard from '../../shared/ChartCard/ChartCard';
 import MainMetrics from './MainMetrics';
 import SecondaryMetrics from './SecondaryMetrics';
 import { useCallback } from 'react';
+import type { BalanceInfoProps } from '../../../../../type/AppType';
+import useTemporaryVisibility from '../../../../../hooks/useTemporaryVisibility';
+import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
+import { HIDDEN_AMOUNT } from '../../../../../utils/Const';
+import ChartCard from '../../../shared/ChartCard/ChartCard';
+import { calculateTrendRate } from '../../../../../utils/computingFunction';
 
 export default function BalanceInfo({
   currentWithdrawals,
@@ -34,7 +34,7 @@ export default function BalanceInfo({
   );
 
   return (
-    <ChartCard sx={{ width: '100%' }}>
+    <ChartCard sx={{ width: '100%', height: '100%' }}>
       <Stack
         direction={'row'}
         sx={{
@@ -77,7 +77,7 @@ export default function BalanceInfo({
             label="Previous month saving"
             value={displayAmount(previousMonthSaving)}
             color="success.main"
-            trendingUp={true}
+            trendingUp={twoMontAgoSaving < previousMonthSaving}
             rate={calculateTrendRate(twoMontAgoSaving, previousMonthSaving)}
           />
         </Grid>
@@ -87,7 +87,7 @@ export default function BalanceInfo({
             label="Forecasted saving"
             value={displayAmount(forecastedSaving)}
             color="success.main"
-            trendingUp={forecastedSaving > previousMonthSaving}
+            trendingUp={previousMonthSaving < forecastedSaving}
             rate={calculateTrendRate(previousMonthSaving, forecastedSaving)}
           />
         </Grid>
@@ -97,7 +97,7 @@ export default function BalanceInfo({
             label="Withdrawals up to today"
             value={displayAmount(currentWithdrawals)}
             color="success.main"
-            trendingUp={true}
+            trendingUp={false}
             rate={'N/A'}
           />
         </Grid>

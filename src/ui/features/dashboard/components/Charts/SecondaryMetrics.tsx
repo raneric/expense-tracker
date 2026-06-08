@@ -1,6 +1,6 @@
 import { TrendingDown, TrendingUp } from '@mui/icons-material';
 import { Box, Stack, Typography } from '@mui/material';
-import type { MetricItemProps } from '../../../../type/AppType';
+import type { MetricItemProps } from '../../../../../type/AppType';
 
 export default function SecondaryMetrics({
   icon,

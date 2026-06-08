@@ -1,14 +1,14 @@
 import { Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { BarChart, type BarSeries } from '@mui/x-charts/BarChart';
-import { useResponsive } from '../../../../hooks/useResponsive';
-import type { ChartSeriesProps } from '../../../../type/PropsType';
+import AppDimensions from '../../../../Theming/Dimensions';
+import { useResponsive } from '../../../../../hooks/useResponsive';
+import type { ChartSeriesProps } from '../../../../../type/PropsType';
+import Colors from '../../../../Theming/Colors';
 import {
   toLocalMgCurrency,
   toLocalMgCurrencyCompact,
-} from '../../../../utils/formatterUtilities';
-import Colors from '../../../Theming/Colors';
-import AppDimensions from '../../../Theming/Dimensions';
+} from '../../../../../utils/formatterUtilities';
 
 const WeeklySpentChartContainer = styled(Stack)(({ theme }) => ({
   width: '100%',
