@@ -1,15 +1,14 @@
 import { LoginTwoTone } from '@mui/icons-material';
 import { Box, Button, Paper, TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import LogoImage from '../../../assets/logo_v2.png';
 import { useUserContext } from '../../../contexts/auth/UserContext';
+import { AppRoutes } from '../../../router/routes';
 import type { LoginCredentials } from '../../../type/AppType';
 import { EMAIL_REGEX, validateInput } from '../../../utils/validationUtilities';
-import Colors from '../../Theming/Colors';
-import { styled } from '@mui/material/styles';
 import { Logo } from '../shared/Logo/Logo';
-import { AppRoutes } from '../../../router/routes';
 
 const LoginContainer = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
@@ -17,6 +16,15 @@ const LoginContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   padding: theme.spacing(2),
+  background: `
+    linear-gradient(
+      145deg,
+      #01579b 0%,
+      #0277bd 30%,
+      #039be5 65%,
+      #4fc3f7 100%
+    )
+  `,
 }));
 
 export default function Login() {
@@ -83,7 +91,9 @@ export default function Login() {
           maxWidth: 400,
           p: 4,
           borderRadius: 3,
-          border: `1px solid ${Colors.lightBorder}`,
+          backdropFilter: 'blur(16px)',
+          background: 'rgba(233, 232, 232, 0.90)',
+          border: '1px solid rgba(255,255,255,0.18)',
         }}
       >
         <Logo src={LogoImage} />
@@ -107,6 +117,7 @@ export default function Login() {
             onChange={handleEmailChange}
             fullWidth
           />
+
           <TextField
             id="password"
             name="password"
