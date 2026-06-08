@@ -11,6 +11,8 @@ export default class MockAuthProvider implements AuthProvider {
     await delay(1000);
     return users[0];
   }
-
+  async reauthenticate(credentials: LoginCredentials) {
+    console.log(credentials);
+  }
   async logout() {}
 }

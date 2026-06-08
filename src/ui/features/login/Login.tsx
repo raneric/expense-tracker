@@ -68,21 +68,22 @@ export default function Login() {
    * Handles the form submission by calling the login function from the user context.
    * @param e
    */
-  const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     const userAuth: LoginCredentials = { email, password };
-    await login(userAuth);
+    login(userAuth);
   };
 
   return (
     <LoginContainer>
       <Paper
-        elevation={6}
+        elevation={0}
         sx={{
           width: '100%',
           maxWidth: 400,
           p: 4,
           borderRadius: 3,
+          border: `1px solid ${Colors.lightBorder}`,
         }}
       >
         <Logo src={LogoImage} />
@@ -116,15 +117,10 @@ export default function Login() {
             fullWidth
           />
           <Button
-            sx={{
-              backgroundColor: Colors.tint900,
-              color: Colors.tint200,
-              fontWeight: 'bold',
-            }}
             loading={state.loading}
             loadingPosition="start"
             type="submit"
-            variant="contained"
+            variant="text"
             size="large"
             fullWidth
             endIcon={<LoginTwoTone />}

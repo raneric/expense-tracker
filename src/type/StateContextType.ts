@@ -18,13 +18,15 @@ export type UserAction =
   | { type: 'LOGIN_FAILURE'; payload: string }
   | { type: 'LOGOUT' }
   | { type: 'AUTH_INITIALIZED'; payload: User | null }
-  | { type: 'LOAD_PROFILE'; payload: UserInfo | null };
+  | { type: 'LOAD_PROFILE'; payload: UserInfo | null }
+  | { type: 'LOADING_DONE' };
 
 export interface UserContextType {
   state: AuthState;
   dispatch: React.Dispatch<UserAction>;
   login: (user: LoginCredentials) => void;
   logout: () => void;
+  reauthenticate: (password: string) => Promise<boolean>;
 }
 
 export interface AuthState {

@@ -91,11 +91,10 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     if (!state.user) return;
 
     const load = async () => {
-      const data = await userInfoRepo.getByUnique(state.user!.id);
-
+      const userInfo = await userInfoRepo.getByUnique(state.user!.id);
       dispatch({
         type: 'LOAD_PROFILE',
-        payload: data,
+        payload: userInfo,
       });
     };
 
@@ -104,18 +103,17 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
 
   const login = async (credentials: LoginCredentials) => {
     dispatch({ type: 'LOGIN_START' });
-
     try {
       await authProvider.signIn(credentials);
       show('Successfully logged in', 'success');
     } catch (error: unknown) {
-      const erroMessage = getErrorMessage(error);
+      const errorMessage = getErrorMessage(error);
       dispatch({
         type: 'LOGIN_FAILURE',
-        payload: erroMessage,
+        payload: errorMessage,
       });
 
-      show(erroMessage, 'error');
+      show(errorMessage, 'error');
     }
   };
 
@@ -128,8 +126,29 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const reauthenticate = async (password: string) => {
+    if (state.user) {
+      dispatch({ type: 'LOGIN_START' });
+      const userCredentials = { email: state.user.email, password };
+      try {
+        await authProvider.reauthenticate(userCredentials);
+        return true;
+      } catch (error: unknown) {
+        dispatch({
+          type: 'LOADING_DONE',
+        });
+        show(getErrorMessage(error), 'error');
+      }
+    } else {
+      show("User can't be null", 'error');
+    }
+    return false;
+  };
+
   return (
-    <UserContext.Provider value={{ state, dispatch, login, logout }}>
+    <UserContext.Provider
+      value={{ state, dispatch, login, logout, reauthenticate }}
+    >
       {children}
     </UserContext.Provider>
   );

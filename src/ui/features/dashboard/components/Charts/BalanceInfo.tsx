@@ -16,6 +16,7 @@ import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
 import { HIDDEN_AMOUNT } from '../../../../../utils/Const';
 import ChartCard from '../../../shared/ChartCard/ChartCard';
 import { calculateTrendRate } from '../../../../../utils/computingFunction';
+import PasswordConfirmationDialog from '../Dialog/PasswordConfirmationDialog';
 
 export default function BalanceInfo({
   currentWithdrawals,
@@ -25,93 +26,102 @@ export default function BalanceInfo({
   currentBalance,
   twoMontAgoSaving,
 }: BalanceInfoProps) {
-  const { visible: shouldDisplay, toggleVisibility } = useTemporaryVisibility();
+  const { sensitiveDataVisibility, passwordDialog, hide, confirmPassword } =
+    useTemporaryVisibility();
 
   const displayAmount = useCallback(
     (amount: number) =>
-      shouldDisplay ? toLocalMgCurrency(amount) : HIDDEN_AMOUNT,
-    [shouldDisplay]
+      sensitiveDataVisibility ? toLocalMgCurrency(amount) : HIDDEN_AMOUNT,
+    [sensitiveDataVisibility]
   );
 
   return (
-    <ChartCard sx={{ width: '100%', height: '100%' }}>
-      <Stack
-        direction={'row'}
-        sx={{
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Typography
-          variant="h6"
+    <>
+      <PasswordConfirmationDialog
+        isOpen={passwordDialog}
+        onClose={hide}
+        onSubmit={confirmPassword}
+        initialData=""
+      />
+      <ChartCard sx={{ width: '100%', height: '100%' }}>
+        <Stack
+          direction={'row'}
           sx={{
-            fontWeight: 600,
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          Financial Overview
-        </Typography>
-        <IconButton onClick={toggleVisibility}>
-          {shouldDisplay ? <VisibilityOff /> : <Visibility />}
-        </IconButton>
-      </Stack>
-      <Divider sx={{ mb: 3 }} />
-      <MainMetrics
-        value={displayAmount(currentBalance)}
-        icon={
-          <AccountBalance
+          <Typography
+            variant="h6"
             sx={{
-              fontSize: 42,
+              fontWeight: 600,
             }}
-          />
-        }
-        label="Current Balance"
-      />
-      <Grid
-        sx={{ mt: 3 }}
-        container
-        spacing={2}
-      >
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <SecondaryMetrics
-            icon={<Savings color="success" />}
-            label="Previous month saving"
-            value={displayAmount(previousMonthSaving)}
-            color="success.main"
-            trendingUp={twoMontAgoSaving < previousMonthSaving}
-            rate={calculateTrendRate(twoMontAgoSaving, previousMonthSaving)}
-          />
+          >
+            Financial Overview
+          </Typography>
+          <IconButton onClick={hide}>
+            {sensitiveDataVisibility ? <VisibilityOff /> : <Visibility />}
+          </IconButton>
+        </Stack>
+        <Divider sx={{ mb: 3 }} />
+        <MainMetrics
+          value={displayAmount(currentBalance)}
+          icon={
+            <AccountBalance
+              sx={{
+                fontSize: 42,
+              }}
+            />
+          }
+          label="Current Balance"
+        />
+        <Grid
+          sx={{ mt: 3 }}
+          container
+          spacing={2}
+        >
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <SecondaryMetrics
+              icon={<Savings color="success" />}
+              label="Previous month saving"
+              value={toLocalMgCurrency(previousMonthSaving)}
+              color="success.main"
+              trendingUp={twoMontAgoSaving < previousMonthSaving}
+              rate={calculateTrendRate(twoMontAgoSaving, previousMonthSaving)}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <SecondaryMetrics
+              icon={<Savings color="success" />}
+              label="Forecasted saving"
+              value={toLocalMgCurrency(forecastedSaving)}
+              color="success.main"
+              trendingUp={previousMonthSaving < forecastedSaving}
+              rate={calculateTrendRate(previousMonthSaving, forecastedSaving)}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <SecondaryMetrics
+              icon={<SyncAlt color="success" />}
+              label="Withdrawals up to today"
+              value={toLocalMgCurrency(currentWithdrawals)}
+              color="success.main"
+              trendingUp={false}
+              rate={'N/A'}
+            />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <SecondaryMetrics
+              icon={<HistoryToggleOff color="success" />}
+              label="Forecasted withdrawals"
+              value={toLocalMgCurrency(forecastedWithdrawals)}
+              color="success.main"
+              trendingUp={false}
+              rate={'N/A'}
+            />
+          </Grid>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <SecondaryMetrics
-            icon={<Savings color="success" />}
-            label="Forecasted saving"
-            value={displayAmount(forecastedSaving)}
-            color="success.main"
-            trendingUp={previousMonthSaving < forecastedSaving}
-            rate={calculateTrendRate(previousMonthSaving, forecastedSaving)}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <SecondaryMetrics
-            icon={<SyncAlt color="success" />}
-            label="Withdrawals up to today"
-            value={displayAmount(currentWithdrawals)}
-            color="success.main"
-            trendingUp={false}
-            rate={'N/A'}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <SecondaryMetrics
-            icon={<HistoryToggleOff color="success" />}
-            label="Forecasted withdrawals"
-            value={displayAmount(forecastedWithdrawals)}
-            color="success.main"
-            trendingUp={false}
-            rate={'N/A'}
-          />
-        </Grid>
-      </Grid>
-    </ChartCard>
+      </ChartCard>
+    </>
   );
 }

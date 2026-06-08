@@ -1,5 +1,10 @@
 import type { FirebaseError } from 'firebase/app';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from 'firebase/auth';
 import { firebaseAuth } from '../../config/firebase';
 import type { LoginCredentials } from '../../type/AppType';
 import { validateCredentials } from '../../utils/validationUtilities';
@@ -22,6 +27,26 @@ export default class FirebaseAuthProvider implements AuthProvider {
     try {
       await signOut(firebaseAuth);
     } catch (error: unknown) {
+      throw new AuthError((error as FirebaseError).message, undefined);
+    }
+  }
+
+  async reauthenticate(credentials: LoginCredentials) {
+    if (!firebaseAuth.currentUser) {
+      throw new AuthError("User can't be null");
+    }
+
+    const authCredentials = EmailAuthProvider.credential(
+      credentials.email,
+      credentials.password
+    );
+
+    try {
+      await reauthenticateWithCredential(
+        firebaseAuth.currentUser,
+        authCredentials
+      );
+    } catch (error) {
       throw new AuthError((error as FirebaseError).message, undefined);
     }
   }

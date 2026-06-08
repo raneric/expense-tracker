@@ -41,12 +41,18 @@ export const authReducer = (
         ...state,
         user: action.payload,
         isInit: false,
+        loading: false,
       };
     case 'LOAD_PROFILE':
       return {
         ...state,
         profile: action.payload,
         isInit: false,
+      };
+    case 'LOADING_DONE':
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return state;

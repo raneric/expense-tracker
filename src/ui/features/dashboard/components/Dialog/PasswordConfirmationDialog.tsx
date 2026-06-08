@@ -7,21 +7,38 @@ import {
   Typography,
 } from '@mui/material';
 import type { DialogFormProps } from '../../../../../type/PropsType';
-import type { LoginCredentials } from '../../../../../type/AppType';
 import DialogHeader from '../../../shared/Dialog/DialogHeader';
+import { useCallback, useState } from 'react';
+import { useUserContext } from '../../../../../contexts/auth/UserContext';
 
 export default function PasswordConfirmationDialog({
   isOpen,
+  onSubmit,
   onClose,
-  initialData,
-}: DialogFormProps<LoginCredentials>) {
+}: DialogFormProps<string>) {
+  const [password, setPassword] = useState('');
+  const [hasError, setHasError] = useState(false);
+  const [helperText, setHelperText] = useState('');
+  const { state } = useUserContext();
+
+  const handleConfirm = useCallback(async () => {
+    console.log('called');
+
+    const validationResult = await onSubmit(password);
+    setPassword('');
+    if (!validationResult) {
+      setHasError(true);
+      setHelperText('Invalid password');
+    }
+  }, [password, onSubmit]);
+
   return (
     <Dialog
       open={isOpen}
       onClose={onClose}
     >
       <DialogHeader>
-        <Typography>Confirm password for {initialData.email}</Typography>
+        <Typography>Sensitive data! Please enter your password</Typography>
       </DialogHeader>
       <DialogContent
         sx={{
@@ -36,8 +53,13 @@ export default function PasswordConfirmationDialog({
           name="password"
           type="password"
           label="Password"
+          helperText={helperText}
+          error={hasError}
+          value={password}
           variant="standard"
-          onChange={() => {}}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
           fullWidth
         />
         <Stack
@@ -46,7 +68,7 @@ export default function PasswordConfirmationDialog({
         >
           <Button
             variant="contained"
-            onClick={() => {}}
+            onClick={onClose}
             color="error"
             fullWidth
           >
@@ -54,8 +76,8 @@ export default function PasswordConfirmationDialog({
           </Button>
 
           <Button
-            loading={false}
-            onClick={() => {}}
+            loading={state.loading}
+            onClick={() => handleConfirm()}
             variant="contained"
             disabled={false}
             fullWidth
