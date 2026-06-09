@@ -3,7 +3,7 @@ import { Box, Button, Paper, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import LogoImage from '../../../assets/logo_v2.png';
+import LogoImage from '../../../assets/logo_v2_xs.png';
 import { useUserContext } from '../../../contexts/auth/UserContext';
 import { AppRoutes } from '../../../router/routes';
 import type { LoginCredentials } from '../../../type/AppType';

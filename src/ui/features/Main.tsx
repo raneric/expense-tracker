@@ -5,7 +5,7 @@ import { WithdrawalProvider } from '../../contexts/withdrawalsRetrieval/Withdraw
 import { DrawerProvider } from '../../contexts/drawer/DrawerProvider';
 import AppDrawer from './shared/Drawer/AppDrawer';
 import SplashScreen from './shared/SplashScreen/SplashScreen';
-import LogoImage from '../../assets/logo_v2.png';
+import LogoImage from '../../assets/logo_v2_xs.png';
 import CustomAppBar from './shared/AppBar/CustomAppBar';
 import { Logo } from './shared/Logo/Logo';
 import { SavingProvider } from '../../contexts/saving/SavingProvider';
