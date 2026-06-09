@@ -1,0 +1,34 @@
+name: auto-deps-check
+run-name: Scheduled dependency vulnerability check
+on:
+  schedule:
+    - cron: '0 12 * * 1,3,5,0' #Run At 12:00 AM on Monday, Wednesday, Friday, and Sunday
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  checkout-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+  check-api-deps-vulnerability:
+    uses: ./.github/workflows/vulnerabilities-checker.yml
+    with:
+      working-directory: '.'
+      source: 'auto-check'
+
+  auto-update-api-deps-if-vulnerability-found:
+    uses: ./.github/workflows/auto-deps-update.yml
+    needs: check-api-deps-vulnerability
+    if: needs.check-api-deps-vulnerability.outputs.has_vulnerability == 'true'
+    secrets:
+      PAT: ${{ secrets.PAT_SECRET }}
+    with:
+      working-dir: '.'
+      should-run-unit-test: true

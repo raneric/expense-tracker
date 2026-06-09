@@ -1,0 +1,76 @@
+name: auto-deps-update
+run-name: Login to a container registry, build and push image
+on:
+  workflow_call:
+    inputs:
+      working-dir:
+        required: true
+        type: string
+      should-run-unit-test:
+        required: false
+        type: boolean
+        default: false
+      node-version:
+        required: false
+        type: string
+        default: '24'
+    secrets:
+      PAT:
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-deps:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Run update
+        working-directory: ${{ inputs.working-dir }}
+        run: |
+          npm audit fix || true
+      - name: Check for changes
+        working-directory: ${{ inputs.working-dir }}
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "is_deps_updated=false" >> $GITHUB_OUTPUT
+          else
+            echo "is_deps_updated=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run unit test
+        working-directory: ${{ inputs.working-dir }}
+        if: inputs.should-run-unit-test == true && steps.changes.outputs.is_deps_updated == 'true'
+        run: |
+          npm install
+          npm test
+
+      - name: Run build
+        working-directory: ${{ inputs.working-dir }}
+        if: steps.changes.outputs.is_deps_updated == 'true'
+        run: |
+          npm run build
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.is_deps_updated == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.PAT }}
+          branch: auto-dep-fix
+          base: main
+          title: 'Auto dependency fix'
+          body: 'Automated npm audit fix'
+          commit-message: 'chore: auto fix vulnerabilities'

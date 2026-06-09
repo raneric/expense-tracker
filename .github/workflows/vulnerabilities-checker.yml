@@ -1,0 +1,77 @@
+name: npm-audit-job
+run-name: Execute npm audit and upload artifact if vulnerability found
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        required: true
+        type: string
+      node-version:
+        required: false
+        type: string
+        default: '24'
+      audit-level:
+        required: false
+        type: string
+        default: 'high'
+      source:
+        required: true
+        type: string
+    outputs:
+      has_vulnerability:
+        description: 'npm audit report vulnerability'
+        value: ${{ jobs.npm-audit.outputs.vulnerability_test_result }}
+jobs:
+  npm-audit:
+    name: Run npm audit
+    runs-on: ubuntu-latest
+    outputs:
+      vulnerability_test_result: ${{ steps.check.outputs.vulnerabilities }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Run npm audit and save report
+        working-directory: ${{ inputs.working-directory }}
+        id: audit-reporting
+        run: |
+          TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
+          # Audit file name based of source, working-directory  and timestamp
+          AUDIT_FILE="${{ inputs.source }}-audit-${{ inputs.working-directory }}-${TIMESTAMP}.json"
+          npm audit --json --audit-level=${{ inputs.audit-level }} > $AUDIT_FILE || true
+          echo "Audit report saved to $AUDIT_FILE"
+          echo "audit-file=$AUDIT_FILE" >> $GITHUB_OUTPUT
+
+      - name: Check for vulnerabilities
+        id: check
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          total=$(jq '.metadata.vulnerabilities.total' ${{ steps.audit-reporting.outputs.audit-file }})
+          echo "Total vulnerabilities found: $total"
+
+          if [ "$total" -gt 0 ]; then
+            echo "vulnerabilities=true" >> $GITHUB_OUTPUT
+          else
+            echo "vulnerabilities=false" >> $GITHUB_OUTPUT
+          fi
+          echo $GITHUB_OUTPUT
+
+      - name: Upload audit report
+        if: steps.check.outputs.vulnerabilities == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-report-${{ inputs.working-directory }}
+          path: ${{ inputs.working-directory }}/${{ steps.audit-reporting.outputs.audit-file }}
+
+      - name: Fail if vulnerabilities found
+        if: steps.check.outputs.vulnerabilities == 'true' && inputs.source != 'auto-check'
+        run: |
+          echo "❌ Vulnerabilities found."
+          exit 1
