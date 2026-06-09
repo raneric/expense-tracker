@@ -17,16 +17,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-  check-api-deps-vulnerability:
+  check-dependencies-vulnerability:
     uses: ./.github/workflows/vulnerabilities-checker.yml
     with:
       working-directory: '.'
       source: 'auto-check'
 
-  auto-update-api-deps-if-vulnerability-found:
+  auto-update-dependencies-if-vulnerability-found:
     uses: ./.github/workflows/auto-deps-update.yml
-    needs: check-api-deps-vulnerability
-    if: needs.check-api-deps-vulnerability.outputs.has_vulnerability == 'true'
+    needs: check-dependencies-vulnerability
+    if: needs.check-dependencies-vulnerability.outputs.has_vulnerability == 'true'
     secrets:
       PAT: ${{ secrets.PAT_SECRET }}
     with:

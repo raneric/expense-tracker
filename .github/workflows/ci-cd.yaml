@@ -10,14 +10,40 @@ on:
       - main
 
 jobs:
-  deploy:
+  check-dependencies-vulnerability:
     # Run when:
     # - manually triggered
     # - OR commit message ends with "cd:auto"
     if: >
       github.event_name == 'workflow_dispatch' ||
       endsWith(github.event.head_commit.message, 'cd:auto')
+    uses: ./.github/workflows/vulnerabilities-checker.yml
+    with:
+      working-directory: '.'
+      source: 'ci-cd'
 
+  unit-test:
+    needs: check-dependencies-vulnerability
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: install dep
+        run: |
+          npm install
+
+      - name: run-test
+        run: |
+          npx vitest run --reporter=verbose
+
+  deploy:
+    needs: unit-test
     runs-on: ubuntu-latest
 
     steps:
@@ -31,9 +57,6 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-
-      - name: Run Unit Tests
-        run: npx vitest run --reporter=verbose
 
       - name: Build Vite App
         run: npm run build
