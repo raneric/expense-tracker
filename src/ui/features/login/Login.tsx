@@ -8,6 +8,7 @@ import { useUserContext } from '../../../contexts/auth/UserContext';
 import { AppRoutes } from '../../../router/routes';
 import type { LoginCredentials } from '../../../type/AppType';
 import { EMAIL_REGEX, validateInput } from '../../../utils/validationUtilities';
+import Colors from '../../Theming/Colors';
 import { Logo } from '../shared/Logo/Logo';
 
 const LoginContainer = styled(Box)(({ theme }) => ({
@@ -17,14 +18,11 @@ const LoginContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   padding: theme.spacing(2),
   background: `
-    linear-gradient(
-      145deg,
-      #01579b 0%,
-      #0277bd 30%,
-      #039be5 65%,
-      #4fc3f7 100%
-    )
-  `,
+  radial-gradient(circle at 15% 20%, rgba(3, 169, 244, 0.35) 0%, transparent 35%),
+  radial-gradient(circle at 80% 30%, rgba(38, 198, 218, 0.25) 0%, transparent 40%),
+  radial-gradient(circle at 50% 90%, rgba(129, 212, 250, 0.30) 0%, transparent 45%),
+  linear-gradient(145deg, #01579b 0%, #0277bd 40%, #039be5 70%, #4fc3f7 100%)
+`,
 }));
 
 export default function Login() {
@@ -46,13 +44,7 @@ export default function Login() {
     );
   }
 
-  /**
-   * Validates the email input against a regex pattern and updates the error message and validity state accordingly.
-   * @param e
-   */
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const email: string = e.target.value;
-
+  const validateEmail = (email: string) => {
     validateInput(email, {
       regex: EMAIL_REGEX,
       emptyMessage: "Email can't be empty",
@@ -61,6 +53,15 @@ export default function Login() {
       setValid: setIsValidEmail,
       setData: setEmail,
     });
+  };
+
+  /**
+   * Validates the email input against a regex pattern and updates the error message and validity state accordingly.
+   * @param e
+   */
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email: string = e.target.value;
+    validateEmail(email);
   };
 
   /**
@@ -78,6 +79,7 @@ export default function Login() {
    */
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
+    validateEmail(email);
     const userAuth: LoginCredentials = { email, password };
     login(userAuth);
   };
@@ -91,9 +93,10 @@ export default function Login() {
           maxWidth: 400,
           p: 4,
           borderRadius: 3,
-          backdropFilter: 'blur(16px)',
-          background: 'rgba(233, 232, 232, 0.90)',
-          border: '1px solid rgba(255,255,255,0.18)',
+          background: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255,255,255,0.25)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
         }}
       >
         <Logo src={LogoImage} />
@@ -128,12 +131,17 @@ export default function Login() {
             fullWidth
           />
           <Button
+            disabled={!isValidEmail}
             loading={state.loading}
             loadingPosition="start"
+            sx={{
+              color: Colors.tint600,
+              fontWeight: 'bold',
+            }}
             type="submit"
             variant="text"
-            size="large"
             fullWidth
+            size="large"
             endIcon={<LoginTwoTone />}
           >
             LOGIN

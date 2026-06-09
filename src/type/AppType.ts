@@ -134,3 +134,8 @@ export interface DataMapper<T, U> {
 
 export type RepositoryType =
   (typeof REPOSITORY_LIST)[keyof typeof REPOSITORY_LIST];
+
+export type ValidationResult = {
+  success: boolean;
+  message: string;
+};
