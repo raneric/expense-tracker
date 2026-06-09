@@ -26,7 +26,7 @@ import type { DataMapper } from '../../type/AppType';
  */
 export default class FirestoreDataProvider<
   T extends WithFieldValue<DocumentData>,
-> implements DataProvider<T, string, QueryConstraint> {
+> implements DataProvider<T, QueryConstraint> {
   private readonly docsCollection: string;
   private readonly dataMapper: DataMapper<DocumentData, T>;
 

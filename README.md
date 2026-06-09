@@ -135,10 +135,9 @@ Repositories implement a common contract:
  * Generic base repository contract for CRUD operations.
  *
  * @template T Entity/data model type.
- * @template U Unique identifier type used to locate a single entity.
  * @template Q Query constraint/filter type used when retrieving collections.
  */
-interface BaseRepository<T, U, Q>
+interface BaseRepository<T, Q>
 ```
 
 which exposes CRUD operations such as:

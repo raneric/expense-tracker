@@ -79,7 +79,7 @@ export default function Dashboard() {
             twoMontAgoSaving={twoMontAgoSaving}
           />
         </Grid>
-        <Grid size={{ xs: 12, md: 12, lg: 12, xl: 12 }}>
+        <Grid size={{ xs: 12, md: 12, lg: 8, xl: 8 }}>
           <ChartCard>
             <SavingChart
               series={savingSeries}

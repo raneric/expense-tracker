@@ -5,7 +5,7 @@
  * @template U Unique identifier type used to locate a single entity.
  * @template Q Query constraint/filter type used when retrieving collections.
  */
-export default interface BaseRepository<T, U, Q> {
+export default interface BaseRepository<T, Q> {
   /**
    * Retrieves all entities that match the provided constraints.
    *
@@ -28,7 +28,7 @@ export default interface BaseRepository<T, U, Q> {
    * @param unique Unique identifier of the entity.
    * @returns A promise that resolves to the matching entity.
    */
-  getByUnique: (unique: U) => Promise<T>;
+  getByUnique: (unique: string | number) => Promise<T>;
 
   /**
    * Deletes an entity by its unique identifier.
@@ -36,7 +36,7 @@ export default interface BaseRepository<T, U, Q> {
    * @param unique Unique identifier of the entity to delete.
    * @returns A promise that resolves when the entity has been deleted.
    */
-  deleteByUnique: (unique: U) => Promise<void>;
+  deleteByUnique: (unique: string | number) => Promise<void>;
 
   /**
    * Updates an existing entity.

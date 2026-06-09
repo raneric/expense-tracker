@@ -7,7 +7,6 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default class MockWithdrawRepository implements BaseRepository<
   Withdrawal,
-  string,
   QueryConstraint
 > {
   async getAll(constraints?: QueryConstraint[]): Promise<Withdrawal[]> {
@@ -20,13 +19,13 @@ export default class MockWithdrawRepository implements BaseRepository<
     console.log(data);
   }
 
-  async getByUnique(unique: string): Promise<Withdrawal> {
+  async getByUnique(unique: string | number): Promise<Withdrawal> {
     console.log(unique);
     await delay(2000);
     return rows[0];
   }
 
-  async deleteByUnique(unique: string): Promise<void> {
+  async deleteByUnique(unique: string | number): Promise<void> {
     console.log(unique);
   }
 

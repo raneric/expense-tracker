@@ -5,7 +5,7 @@
  * @template U The unique identifier type used to retrieve or delete an entity.
  * @template Q The query constraint type used to filter results.
  */
-export default interface DataProvider<T, U, Q> {
+export default interface DataProvider<T, Q> {
   /**
    * Retrieves all entities matching the provided query constraints.
    *
@@ -29,7 +29,7 @@ export default interface DataProvider<T, U, Q> {
    * @returns A promise that resolves to the matching entity.
    * @throws If no entity matching the identifier can be found.
    */
-  getByUnique(unique: U): Promise<T>;
+  getByUnique(unique: string | number): Promise<T>;
 
   /**
    * Deletes an entity using its unique identifier.
@@ -37,7 +37,7 @@ export default interface DataProvider<T, U, Q> {
    * @param unique The unique identifier of the entity to delete.
    * @returns A promise that resolves when the entity has been deleted.
    */
-  deleteByUnique(unique: U): Promise<void>;
+  deleteByUnique(unique: string | number): Promise<void>;
 
   /**
    * Updates an existing entity.

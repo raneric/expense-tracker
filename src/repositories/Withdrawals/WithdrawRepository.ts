@@ -9,14 +9,9 @@ import { removeDuplicateValues } from '../../utils/validationUtilities';
 
 export default class WithdrawRepository implements BaseRepository<
   Withdrawal,
-  string,
   QueryConstraint
 > {
-  private readonly dataProvider: DataProvider<
-    Withdrawal,
-    string,
-    QueryConstraint
-  >;
+  private readonly dataProvider: DataProvider<Withdrawal, QueryConstraint>;
 
   constructor() {
     this.dataProvider = new FirestoreDataProvider<Withdrawal>(
@@ -43,11 +38,11 @@ export default class WithdrawRepository implements BaseRepository<
     await this.dataProvider.createOne(data);
   }
 
-  async getByUnique(unique: string): Promise<Withdrawal> {
+  async getByUnique(unique: string | number): Promise<Withdrawal> {
     return await this.dataProvider.getByUnique(unique);
   }
 
-  async deleteByUnique(unique: string): Promise<void> {
+  async deleteByUnique(unique: string | number): Promise<void> {
     await this.dataProvider.deleteByUnique(unique);
   }
 

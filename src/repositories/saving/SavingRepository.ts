@@ -8,10 +8,9 @@ import type BaseRepository from '../BaseRepository';
 
 export default class SavingRepository implements BaseRepository<
   Saving,
-  string,
   QueryConstraint
 > {
-  private readonly dataProvider: DataProvider<Saving, string, QueryConstraint>;
+  private readonly dataProvider: DataProvider<Saving, QueryConstraint>;
   constructor() {
     this.dataProvider = new FirestoreDataProvider<Saving>(
       COLLECTIONS.saving,
@@ -22,15 +21,19 @@ export default class SavingRepository implements BaseRepository<
   async getAll(constraints?: QueryConstraint[]): Promise<Saving[]> {
     return await this.dataProvider.getAll(constraints);
   }
+
   async createOne(data: Saving): Promise<void> {
     await this.dataProvider.createOne(data);
   }
-  async getByUnique(unique: string): Promise<Saving> {
+
+  async getByUnique(unique: string | number): Promise<Saving> {
     return await this.dataProvider.getByUnique(unique);
   }
-  async deleteByUnique(unique: string): Promise<void> {
+
+  async deleteByUnique(unique: string | number): Promise<void> {
     await this.dataProvider.deleteByUnique(unique);
   }
+
   async updateOne(data: Saving): Promise<void> {
     await this.dataProvider.updateOne(data.id, data);
   }

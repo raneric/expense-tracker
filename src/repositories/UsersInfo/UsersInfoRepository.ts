@@ -8,14 +8,9 @@ import type { QueryConstraint } from 'firebase/firestore';
 
 export default class UsersInfoRepository implements BaseRepository<
   UserInfo,
-  string,
   QueryConstraint
 > {
-  private readonly dataProvider: DataProvider<
-    UserInfo,
-    string,
-    QueryConstraint
-  >;
+  private readonly dataProvider: DataProvider<UserInfo, QueryConstraint>;
 
   constructor() {
     this.dataProvider = new FirestoreDataProvider<UserInfo>(
@@ -23,18 +18,23 @@ export default class UsersInfoRepository implements BaseRepository<
       userInfoDataMapper
     );
   }
+
   async getAll(): Promise<UserInfo[]> {
     return await this.dataProvider.getAll();
   }
+
   async createOne(data: UserInfo): Promise<void> {
     await this.dataProvider.createOne(data);
   }
-  async getByUnique(unique: string): Promise<UserInfo> {
+
+  async getByUnique(unique: string | number): Promise<UserInfo> {
     return await this.dataProvider.getByUnique(unique);
   }
-  async deleteByUnique(unique: string): Promise<void> {
+
+  async deleteByUnique(unique: string | number): Promise<void> {
     await this.dataProvider.deleteByUnique(unique);
   }
+
   async updateOne(data: UserInfo): Promise<void> {
     await this.dataProvider.updateOne(data.id, data);
   }

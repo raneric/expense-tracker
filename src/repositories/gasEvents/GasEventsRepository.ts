@@ -8,32 +8,33 @@ import type BaseRepository from '../BaseRepository';
 
 export default class GasEventsRepository implements BaseRepository<
   GasEvent,
-  string,
   QueryConstraint
 > {
-  private readonly dataProvider: DataProvider<
-    GasEvent,
-    string,
-    QueryConstraint
-  >;
+  private readonly dataProvider: DataProvider<GasEvent, QueryConstraint>;
+
   constructor() {
     this.dataProvider = new FirestoreDataProvider<GasEvent>(
       COLLECTIONS.gasEvents,
       gasEventsDataMapper
     );
   }
+
   async getAll(constraints?: QueryConstraint[]): Promise<GasEvent[]> {
     return await this.dataProvider.getAll(constraints);
   }
+
   async createOne(data: GasEvent): Promise<void> {
     await this.dataProvider.createOne(data);
   }
-  async getByUnique(unique: string): Promise<GasEvent> {
+
+  async getByUnique(unique: string | number): Promise<GasEvent> {
     return await this.dataProvider.getByUnique(unique);
   }
-  async deleteByUnique(unique: string): Promise<void> {
+
+  async deleteByUnique(unique: string | number): Promise<void> {
     await this.dataProvider.deleteByUnique(unique);
   }
+
   async updateOne(data: GasEvent): Promise<void> {
     const id = data.id;
     delete data.id;
