@@ -1,4 +1,5 @@
 import type { AppRoutes } from '../router/routes';
+import type { REPOSITORY_LIST } from '../utils/Const';
 
 type RoutePath = (typeof AppRoutes)[keyof typeof AppRoutes];
 
@@ -130,13 +131,6 @@ export interface BalanceInfoProps {
 export interface DataMapper<T, U> {
   (input: T): U;
 }
-
-export const REPOSITORY_LIST = {
-  Withdraw: 'withdraw',
-  UserInfo: 'userInfo',
-  GasEvent: 'gasEvent',
-  Saving: 'saving',
-};
 
 export type RepositoryType =
   (typeof REPOSITORY_LIST)[keyof typeof REPOSITORY_LIST];
