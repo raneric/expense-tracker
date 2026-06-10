@@ -16,6 +16,7 @@ import {
   useNavigate,
   useRouteError,
 } from 'react-router-dom';
+import { gradientBackground } from '../../../../utils/Const';
 
 export default function ErrorPage() {
   const error = useRouteError();
@@ -62,13 +63,7 @@ export default function ErrorPage() {
         display: 'grid',
         placeItems: 'center',
         px: 2,
-        background: (theme) => `
-          radial-gradient(
-            circle at top,
-            ${theme.palette.primary.main}15,
-            transparent 40%
-          )
-        `,
+        background: gradientBackground,
       }}
     >
       <Container maxWidth="sm">
@@ -76,8 +71,10 @@ export default function ErrorPage() {
           sx={{
             borderRadius: 6,
             textAlign: 'center',
-            border: (theme) => `1px solid ${theme.palette.divider}`,
-            backdropFilter: 'blur(10px)',
+            background: 'rgba(255, 255, 255, 0.20)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255,255,255,0.25)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
           }}
         >
           <CardContent sx={{ p: 6 }}>
@@ -92,8 +89,8 @@ export default function ErrorPage() {
 
               {status && (
                 <Typography
-                  variant="body1"
-                  color="primary"
+                  variant="h4"
+                  color="error"
                   sx={{ fontWeight: 700 }}
                 >
                   {status}
@@ -137,7 +134,7 @@ export default function ErrorPage() {
                 </Button>
 
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   size="large"
                   startIcon={<RefreshRounded />}
                   onClick={() => navigate(0)}
