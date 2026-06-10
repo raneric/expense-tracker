@@ -15,6 +15,7 @@ import {
 import { firestoreDb } from '../../config/firebase';
 import type DataProvider from './DataProvider';
 import type { DataMapper } from '../../type/AppType';
+import { withTimeout } from '../../utils/networking';
 
 /**
  * Firestore implementation of the {@link DataProvider} contract.
@@ -58,7 +59,7 @@ export default class FirestoreDataProvider<
       dataQuery = query(this.getCollectionReference());
     }
 
-    const data = await getDocs(dataQuery);
+    const data = await withTimeout(getDocs(dataQuery), 10000);
 
     return data.docs.map(this.dataMapper);
   }
@@ -70,7 +71,7 @@ export default class FirestoreDataProvider<
    * @returns A promise that resolves when the document has been created.
    */
   async createOne(data: T): Promise<void> {
-    await addDoc(this.getCollectionReference(), data);
+    await withTimeout(addDoc(this.getCollectionReference(), data), 8000);
   }
 
   /**
@@ -81,7 +82,7 @@ export default class FirestoreDataProvider<
    * @throws If the document does not exist or cannot be mapped.
    */
   async getByUnique(id: string): Promise<T> {
-    const result = await getDoc(this.getDocReference(id));
+    const result = await withTimeout(getDoc(this.getDocReference(id)), 5000);
     return this.dataMapper(result);
   }
 
@@ -92,7 +93,7 @@ export default class FirestoreDataProvider<
    * @returns A promise that resolves when the document has been deleted.
    */
   async deleteByUnique(id: string): Promise<void> {
-    await deleteDoc(this.getDocReference(id));
+    await withTimeout(deleteDoc(this.getDocReference(id)), 5000);
   }
 
   /**
@@ -103,7 +104,7 @@ export default class FirestoreDataProvider<
    * @returns A promise that resolves when the document update is complete.
    */
   async updateOne(id: string, data: T): Promise<void> {
-    await updateDoc(this.getDocReference(id), data);
+    await withTimeout(updateDoc(this.getDocReference(id), data), 5000);
   }
 
   /**
