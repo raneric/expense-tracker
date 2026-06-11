@@ -4,15 +4,26 @@ import type {
   SpeedDialActionElement,
   SpeedDialProps,
 } from '../../../../type/PropsType';
+import { useResponsive } from '../../../../hooks/useResponsive';
 
 export default function AppSpeedDial({ elements }: SpeedDialProps) {
-  return (
-    <SpeedDial
-      sx={{
+  const { isDesktop } = useResponsive();
+
+  const speedDialPosition = isDesktop
+    ? {
         position: 'fixed',
         bottom: 24,
         right: 24,
-      }}
+      }
+    : {
+        position: 'fixed',
+        bottom: 62,
+        right: 8,
+      };
+
+  return (
+    <SpeedDial
+      sx={speedDialPosition}
       ariaLabel="SpeedDial for withdrawal and filter"
       icon={<SpeedDialIcon />}
     >

@@ -15,6 +15,7 @@ import {
 import BalanceInfo from './components/Charts/BalanceInfo';
 import SavingChart from './components/Charts/SavingChart';
 import WeeklySpentChart from './components/Charts/WeeklySpentChart';
+import { useResponsive } from '../../../hooks/useResponsive';
 
 export default function Dashboard() {
   const { state: withdrawalState } = useWithdrawalContext();
@@ -44,6 +45,20 @@ export default function Dashboard() {
     forecastWithdrawalsDataset: charts.forecast.dataset,
     salary: userState.profile?.salary,
   });
+
+  const { isDesktop } = useResponsive();
+
+  const fabPosition = isDesktop
+    ? {
+        position: 'fixed',
+        bottom: 24,
+        right: 24,
+      }
+    : {
+        position: 'fixed',
+        bottom: 62,
+        right: 8,
+      };
 
   return (
     <>
@@ -91,11 +106,7 @@ export default function Dashboard() {
       <Fab
         onClick={openFilterDialog}
         color="primary"
-        sx={{
-          position: 'fixed',
-          bottom: 24,
-          right: 24,
-        }}
+        sx={fabPosition}
       >
         <FilterList />
       </Fab>

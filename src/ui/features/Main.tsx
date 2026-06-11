@@ -10,10 +10,12 @@ import CustomAppBar from './shared/AppBar/CustomAppBar';
 import { Logo } from './shared/Logo/Logo';
 import { SavingProvider } from '../../contexts/saving/SavingProvider';
 import { AppRoutes } from '../../router/routes';
+import { useResponsive } from '../../hooks/useResponsive';
+import MobileNavigation from './shared/BottomNavigation/MobileNavigation';
 
 export default function Main() {
   const { state } = useUserContext();
-
+  const { isDesktop } = useResponsive();
   if (state.isInit && state.loading) {
     return (
       <SplashScreen>
@@ -48,14 +50,13 @@ export default function Main() {
             mt: 8,
           }}
         >
-          <AppDrawer />
           <Box
             component="main"
             sx={{
               flexGrow: 1,
               pt: 2,
               pr: 2,
-              pb: 1,
+              pb: 8,
               pl: 2,
               overflow: 'auto',
             }}
@@ -67,6 +68,7 @@ export default function Main() {
             </WithdrawalProvider>
           </Box>
         </Box>
+        {isDesktop ? <AppDrawer /> : <MobileNavigation />}
       </DrawerProvider>
     </Box>
   );
