@@ -9,28 +9,20 @@ import { useResponsive } from '../../../../hooks/useResponsive';
 export default function AppSpeedDial({ elements }: SpeedDialProps) {
   const { isDesktop } = useResponsive();
 
-  const speedDialPosition = isDesktop
-    ? {
-        position: 'fixed',
-        bottom: 24,
-        right: 24,
-      }
-    : {
-        position: 'fixed',
-        bottom: 62,
-        right: 8,
-      };
-
   return (
     <SpeedDial
-      sx={speedDialPosition}
+      sx={{
+        position: 'fixed',
+        bottom: isDesktop ? 24 : 62,
+        right: isDesktop ? 24 : 8,
+      }}
       ariaLabel="SpeedDial for withdrawal and filter"
       icon={<SpeedDialIcon />}
     >
-      {elements.map((dialAction: SpeedDialActionElement) => (
+      {elements.map(({ name, icon, action }: SpeedDialActionElement) => (
         <SpeedDialAction
-          key={dialAction.name}
-          icon={dialAction.icon}
+          key={name}
+          icon={icon}
           sx={{
             backgroundColor: Colors.tint100,
             '&:hover': {
@@ -39,10 +31,10 @@ export default function AppSpeedDial({ elements }: SpeedDialProps) {
           }}
           slotProps={{
             tooltip: {
-              title: dialAction.name,
+              title: name,
             },
           }}
-          onClick={dialAction.action}
+          onClick={action}
         />
       ))}
     </SpeedDial>

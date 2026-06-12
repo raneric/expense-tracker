@@ -50,6 +50,7 @@ export default function Main() {
             mt: 8,
           }}
         >
+          {isDesktop && <AppDrawer />}
           <Box
             component="main"
             sx={{
@@ -68,7 +69,7 @@ export default function Main() {
             </WithdrawalProvider>
           </Box>
         </Box>
-        {isDesktop ? <AppDrawer /> : <MobileNavigation />}
+        {!isDesktop && <MobileNavigation />}
       </DrawerProvider>
     </Box>
   );

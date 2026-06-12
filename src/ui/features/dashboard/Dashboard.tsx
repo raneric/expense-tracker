@@ -1,5 +1,5 @@
 import { AreaChart, FilterList } from '@mui/icons-material';
-import { Fab, Grid } from '@mui/material';
+import { Fab, Grid, Zoom } from '@mui/material';
 import { useUserContext } from '../../../contexts/auth/UserContext';
 import { useSavingContext } from '../../../contexts/saving/SavingContext';
 import { useWithdrawalContext } from '../../../contexts/withdrawalsRetrieval/WithdrawalContext';
@@ -48,18 +48,6 @@ export default function Dashboard() {
 
   const { isDesktop } = useResponsive();
 
-  const fabPosition = isDesktop
-    ? {
-        position: 'fixed',
-        bottom: 24,
-        right: 24,
-      }
-    : {
-        position: 'fixed',
-        bottom: 62,
-        right: 8,
-      };
-
   return (
     <>
       <FilterDialog
@@ -103,13 +91,19 @@ export default function Dashboard() {
           </ChartCard>
         </Grid>
       </Grid>
-      <Fab
-        onClick={openFilterDialog}
-        color="primary"
-        sx={fabPosition}
-      >
-        <FilterList />
-      </Fab>
+      <Zoom in={true}>
+        <Fab
+          onClick={openFilterDialog}
+          color="primary"
+          sx={{
+            position: 'fixed',
+            bottom: isDesktop ? 24 : 62,
+            right: isDesktop ? 24 : 8,
+          }}
+        >
+          <FilterList />
+        </Fab>
+      </Zoom>
     </>
   );
 }

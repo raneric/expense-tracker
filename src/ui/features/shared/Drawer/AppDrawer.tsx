@@ -10,10 +10,10 @@ import {
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LogoImage from '../../../../assets/logo_v2_xs.png';
-import { useDrawerContext } from '../../../../contexts/drawer/DrawerContext';
+import { useDrawer } from '../../../../hooks/useDrawer';
 import { useResponsive } from '../../../../hooks/useResponsive';
-import { Logo } from '../Logo/Logo';
 import { AppRoutes, RouteList } from '../../../../router/routes';
+import { Logo } from '../Logo/Logo';
 
 const activeItemStyle = {
   '&.Mui-selected': {
@@ -32,12 +32,12 @@ export default function AppDrawer() {
 
   const { isDesktop } = useResponsive();
 
-  const { state, hide } = useDrawerContext();
+  const { drawerState, hide } = useDrawer();
 
   const activeRoute = location.pathname;
 
   const variant = isDesktop ? 'permanent' : 'temporary';
-  const open = isDesktop ? true : state.isOpen;
+  const open = isDesktop ? true : drawerState.isOpen;
 
   const handleNavigate = (path: string) => {
     navigate(path);
@@ -53,10 +53,10 @@ export default function AppDrawer() {
       open={open}
       onClose={hide}
       sx={{
-        width: state.width,
+        width: drawerState.width,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: state.width,
+          width: drawerState.width,
           boxSizing: 'border-box',
         },
       }}
