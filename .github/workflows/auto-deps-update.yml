@@ -56,7 +56,7 @@ jobs:
         if: inputs.should-run-unit-test == true && steps.changes.outputs.is_deps_updated == 'true'
         run: |
           npm install
-          npm test
+          npx vitest run --reporter=verbose
 
       - name: Run build
         working-directory: ${{ inputs.working-dir }}
