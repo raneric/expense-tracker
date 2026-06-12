@@ -22,22 +22,8 @@ jobs:
       working-directory: '.'
       source: 'ci-cd'
 
-  auto-update-dependencies-if-vulnerability-found:
-    uses: ./.github/workflows/auto-deps-update.yml
-    needs: check-dependencies-vulnerability
-    if: needs.check-dependencies-vulnerability.outputs.has_vulnerability == 'true'
-    secrets:
-      PAT: ${{ secrets.PAT_SECRET }}
-    with:
-      working-dir: '.'
-      should-run-unit-test: true
-
   unit-test:
-    needs:
-      [
-        check-dependencies-vulnerability,
-        auto-update-dependencies-if-vulnerability-found,
-      ]
+    needs: check-dependencies-vulnerability
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
