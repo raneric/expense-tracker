@@ -71,10 +71,15 @@ export default function ErrorPage() {
           sx={{
             borderRadius: 6,
             textAlign: 'center',
-            background: 'rgba(255, 255, 255, 0.20)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255,255,255,0.25)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+            background: 'rgba(255,255,255,0.80)',
+            backdropFilter: 'blur(24px)',
+
+            border: '1px solid rgba(255,255,255,0.2)',
+
+            boxShadow: `
+              0 10px 40px rgba(0,0,0,0.15),
+              0 2px 8px rgba(0,0,0,0.08)
+            `,
           }}
         >
           <CardContent sx={{ p: 6 }}>

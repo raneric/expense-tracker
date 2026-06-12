@@ -18,7 +18,8 @@ const LoginContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   padding: theme.spacing(2),
-  background: gradientBackground,
+  backgroundColor: '#001a2d',
+  backgroundImage: gradientBackground,
 }));
 
 export default function Login() {
@@ -89,10 +90,15 @@ export default function Login() {
           maxWidth: 400,
           p: 4,
           borderRadius: 3,
-          background: 'rgba(255, 255, 255, 0.9)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255,255,255,0.25)',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+          background: 'rgba(255,255,255,0.92)',
+          backdropFilter: 'blur(24px)',
+
+          border: '1px solid rgba(255,255,255,0.2)',
+
+          boxShadow: `
+            0 10px 40px rgba(0,0,0,0.15),
+            0 2px 8px rgba(0,0,0,0.08)
+          `,
         }}
       >
         <Logo src={LogoImage} />
@@ -112,9 +118,15 @@ export default function Login() {
             helperText={emailErrorMessage}
             type="email"
             label="Email"
-            variant="standard"
+            variant="outlined"
             onChange={handleEmailChange}
             fullWidth
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+                backgroundColor: 'rgba(255,255,255,0.7)',
+              },
+            }}
           />
 
           <TextField
@@ -122,9 +134,15 @@ export default function Login() {
             name="password"
             type="password"
             label="Password"
-            variant="standard"
             onChange={handlePasswordChange}
             fullWidth
+            variant="outlined"
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+                backgroundColor: 'rgba(255,255,255,0.7)',
+              },
+            }}
           />
           <Button
             disabled={!isValidEmail}

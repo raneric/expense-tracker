@@ -25,8 +25,24 @@ export const initialWithdrawal: Withdrawal = {
 };
 
 export const gradientBackground = `
-  radial-gradient(circle at 15% 20%, rgba(3, 169, 244, 0.35) 0%, transparent 35%),
-  radial-gradient(circle at 80% 30%, rgba(38, 198, 218, 0.25) 0%, transparent 40%),
-  radial-gradient(circle at 50% 90%, rgba(129, 212, 250, 0.30) 0%, transparent 45%),
-  linear-gradient(145deg, #01579b 0%, #0277bd 40%, #039be5 70%, #4fc3f7 100%)
+  radial-gradient(
+    at 15% 20%,
+    rgba(3,169,244,0.35) 0px,
+    transparent 45%
+  ),
+  radial-gradient(
+    at 85% 15%,
+    rgba(178,255,89,0.18) 0px,
+    transparent 35%
+  ),
+  radial-gradient(
+    at 75% 85%,
+    rgba(2,136,209,0.45) 0px,
+    transparent 40%
+  ),
+  linear-gradient(
+    135deg,
+    #001a2d 0%,
+    #01579b 100%
+  )
 `;
