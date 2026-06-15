@@ -113,7 +113,6 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
         type: 'LOGIN_FAILURE',
         payload: errorMessage,
       });
-
       show(errorMessage, 'error');
     }
   };
@@ -127,23 +126,29 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const reauthenticate = async (password: string) => {
-    if (state.user) {
-      dispatch({ type: 'LOGIN_START' });
-      const userCredentials = { email: state.user.email, password };
-      try {
-        await authProvider.reauthenticate(userCredentials);
-        return true;
-      } catch (error: unknown) {
-        dispatch({
-          type: 'LOADING_DONE',
-        });
-        show(getErrorMessage(error), 'error');
-      }
-    } else {
+  const reauthenticate = async (password: string): Promise<boolean> => {
+    const user = state.user;
+
+    if (!user) {
       show("User can't be null", 'error');
+      return false;
     }
-    return false;
+
+    dispatch({ type: 'LOGIN_START' });
+
+    try {
+      await authProvider.reauthenticate({
+        email: user.email,
+        password,
+      });
+
+      return true;
+    } catch (error) {
+      show(getErrorMessage(error), 'error');
+      return false;
+    } finally {
+      dispatch({ type: 'LOADING_DONE' });
+    }
   };
 
   return (
