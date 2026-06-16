@@ -10,16 +10,46 @@ import type { LoginCredentials } from '../../../type/AppType';
 import { EMAIL_REGEX, validateInput } from '../../../utils/validationUtilities';
 import Colors from '../../Theming/Colors';
 import { Logo } from '../shared/Logo/Logo';
-import { gradientBackground } from '../../../utils/Const';
 
 const LoginContainer = styled(Box)(({ theme }) => ({
   minHeight: '100vh',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: theme.spacing(2),
-  backgroundColor: '#001a2d',
-  backgroundImage: gradientBackground,
+  position: 'relative',
+  overflow: 'hidden',
+  padding: theme.spacing(3),
+
+  background: `
+    linear-gradient(
+      135deg,
+      ${Colors.tint900} 0%,
+      ${Colors.tint700} 45%,
+      ${Colors.tint500} 100%
+    )
+  `,
+
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    width: 500,
+    height: 500,
+    borderRadius: '50%',
+    background: 'rgba(255,255,255,0.06)',
+    top: -150,
+    right: -150,
+  },
+
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    width: 350,
+    height: 350,
+    borderRadius: '50%',
+    background: 'rgba(255,255,255,0.05)',
+    bottom: -100,
+    left: -100,
+  },
 }));
 
 export default function Login() {

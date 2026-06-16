@@ -1,10 +1,11 @@
-import { AreaChart, FilterList } from '@mui/icons-material';
-import { Fab, Grid, Zoom } from '@mui/material';
+import { AreaChart, CheckCircle, FilterList } from '@mui/icons-material';
+import { Grid } from '@mui/material';
 import { useUserContext } from '../../../contexts/auth/UserContext';
 import { useSavingContext } from '../../../contexts/saving/SavingContext';
 import { useWithdrawalContext } from '../../../contexts/withdrawalsRetrieval/WithdrawalContext';
 import { useDashboardMetrics } from '../../../hooks/useDashboardMetrics';
 import { useWithdrawalHistory } from '../../../hooks/useWithdrawalHistory';
+import type { SpeedDialActionElement } from '../../../type/PropsType';
 import ChartCard from '../shared/ChartCard/ChartCard';
 import FilterDialog from '../shared/Dialog/FilterDialog';
 import {
@@ -12,10 +13,10 @@ import {
   Tittle,
   TittleHelperInfo,
 } from '../shared/SectionTitle/SectionTitle';
+import AppSpeedDial from '../shared/SpeedDial/AppSpeedDial';
 import BalanceInfo from './components/Charts/BalanceInfo';
 import SavingChart from './components/Charts/SavingChart';
 import WeeklySpentChart from './components/Charts/WeeklySpentChart';
-import { useResponsive } from '../../../hooks/useResponsive';
 
 export default function Dashboard() {
   const { state: withdrawalState } = useWithdrawalContext();
@@ -46,7 +47,10 @@ export default function Dashboard() {
     salary: userState.profile?.salary,
   });
 
-  const { isDesktop } = useResponsive();
+  const speedDialAction: SpeedDialActionElement[] = [
+    { icon: <CheckCircle />, name: 'Validate saving', action: () => {} },
+    { icon: <FilterList />, name: 'Filter', action: openFilterDialog },
+  ];
 
   return (
     <>
@@ -91,19 +95,7 @@ export default function Dashboard() {
           </ChartCard>
         </Grid>
       </Grid>
-      <Zoom in={true}>
-        <Fab
-          onClick={openFilterDialog}
-          color="primary"
-          sx={{
-            position: 'fixed',
-            bottom: isDesktop ? 24 : 62,
-            right: isDesktop ? 24 : 8,
-          }}
-        >
-          <FilterList />
-        </Fab>
-      </Zoom>
+      <AppSpeedDial elements={speedDialAction} />
     </>
   );
 }
