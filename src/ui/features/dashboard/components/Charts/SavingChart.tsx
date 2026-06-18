@@ -28,6 +28,7 @@ export default function SavingChart({
             scaleType: 'point',
             data: dimension,
             height: 28,
+
             tickLabelStyle: {
               fontSize: 14,
               fill: Colors.tint900,
@@ -40,7 +41,6 @@ export default function SavingChart({
             width: 80,
             valueFormatter: (value: number) =>
               `${isDesktop ? toLocalMgCurrency(value) : toLocalMgCurrencyCompact(value)}`,
-            min: 0,
             tickLabelStyle: {
               fontSize: 14,
               fill: Colors.tint900,

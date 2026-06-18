@@ -100,7 +100,7 @@ export type GasFormDialogData = {
 };
 
 export interface Saving {
-  id: string;
+  id?: string;
   amount: number;
   month: Date;
   ownerId: string;

@@ -1,5 +1,6 @@
 import { AreaChart, CheckCircle, FilterList } from '@mui/icons-material';
 import { Grid } from '@mui/material';
+import { useState } from 'react';
 import { useUserContext } from '../../../contexts/auth/UserContext';
 import { useSavingContext } from '../../../contexts/saving/SavingContext';
 import { useWithdrawalContext } from '../../../contexts/withdrawalsRetrieval/WithdrawalContext';
@@ -17,10 +18,11 @@ import AppSpeedDial from '../shared/SpeedDial/AppSpeedDial';
 import BalanceInfo from './components/Charts/BalanceInfo';
 import SavingChart from './components/Charts/SavingChart';
 import WeeklySpentChart from './components/Charts/WeeklySpentChart';
+import SavingDialog from './components/Dialog/SavingDialog';
 
 export default function Dashboard() {
+  const [savingDialogIsOpen, setSavingDialogIsOpen] = useState(false);
   const { state: withdrawalState } = useWithdrawalContext();
-
   const { dialog, charts, closeDialog, openFilterDialog } =
     useWithdrawalHistory(withdrawalState.data);
 
@@ -48,12 +50,22 @@ export default function Dashboard() {
   });
 
   const speedDialAction: SpeedDialActionElement[] = [
-    { icon: <CheckCircle />, name: 'Validate saving', action: () => {} },
+    {
+      icon: <CheckCircle />,
+      name: 'Validate saving',
+      action: () => {
+        setSavingDialogIsOpen(true);
+      },
+    },
     { icon: <FilterList />, name: 'Filter', action: openFilterDialog },
   ];
 
   return (
     <>
+      <SavingDialog
+        isOpen={savingDialogIsOpen}
+        onClose={() => setSavingDialogIsOpen(false)}
+      />
       <FilterDialog
         isOpen={dialog.type === 'filter'}
         onClose={closeDialog}

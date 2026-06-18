@@ -6,6 +6,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import type { WithdrawTableProps } from '../../../../../type/PropsType';
+import { useWithdrawalContext } from '../../../../../contexts/withdrawalsRetrieval/WithdrawalContext';
 
 /**
  * A table for displaying withdrawal information.
@@ -21,6 +22,7 @@ export default function WithdrawalTable({
   onRowPerPageChange,
   children,
 }: WithdrawTableProps) {
+  const { state } = useWithdrawalContext();
   return (
     <Box>
       <TableContainer component={Paper}>
@@ -28,7 +30,7 @@ export default function WithdrawalTable({
       </TableContainer>
       <TablePagination
         component="div"
-        count={tablePaginationState.page * tablePaginationState.rowsPerPage}
+        count={state.data.length}
         page={tablePaginationState.page}
         onPageChange={onPageChange}
         rowsPerPage={tablePaginationState.rowsPerPage}
