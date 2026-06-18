@@ -1,7 +1,9 @@
+import { FirstPage, LastPage } from '@mui/icons-material';
 import {
   Box,
   Divider,
   Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -10,7 +12,8 @@ import {
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import LogoImage from '../../../../assets/logo_v2_xs.png';
-import { useDrawer } from '../../../../hooks/useDrawer';
+import CollapsedLogoImage from '../../../../assets/logo_v2_xs_collapsed.png';
+import { useDrawerContext } from '../../../../contexts/drawer/DrawerContext';
 import { useResponsive } from '../../../../hooks/useResponsive';
 import { AppRoutes, RouteList } from '../../../../router/routes';
 import { Logo } from '../Logo/Logo';
@@ -32,7 +35,7 @@ export default function AppDrawer() {
 
   const { isDesktop } = useResponsive();
 
-  const { drawerState, hide } = useDrawer();
+  const { state: drawerState, hide, toggleCollapse } = useDrawerContext();
 
   const activeRoute = location.pathname;
 
@@ -58,11 +61,18 @@ export default function AppDrawer() {
         '& .MuiDrawer-paper': {
           width: drawerState.width,
           boxSizing: 'border-box',
+          overflowX: 'hidden',
+          transition: (theme) =>
+            theme.transitions.create('width', {
+              easing: theme.transitions.easing.sharp,
+              duration: theme.transitions.duration.standard,
+            }),
+          display: 'flex',
+          flexDirection: 'column',
         },
       }}
     >
-      <Logo src={LogoImage} />
-
+      <Logo src={drawerState.collapsed ? CollapsedLogoImage : LogoImage} />
       <Box sx={{ p: 1 }}>
         <List>
           {RouteList.filter((route) => route.path !== AppRoutes.LOGIN).map(
@@ -77,13 +87,29 @@ export default function AppDrawer() {
                   sx={activeItemStyle}
                 >
                   <ListItemIcon>{route.icon}</ListItemIcon>
-                  <ListItemText primary={route.displayName} />
+                  {!drawerState.collapsed && (
+                    <ListItemText primary={route.displayName} />
+                  )}
                 </ListItemButton>
               </ListItem>
             )
           )}
         </List>
         <Divider sx={{ my: 1 }} />
+      </Box>
+      <Box
+        sx={{
+          p: 1,
+          display: 'flex',
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          justifyContent: drawerState.collapsed ? 'center' : 'flex-end',
+        }}
+      >
+        <IconButton onClick={() => toggleCollapse(!drawerState.collapsed)}>
+          {drawerState.collapsed ? <LastPage /> : <FirstPage />}
+        </IconButton>
       </Box>
     </Drawer>
   );

@@ -89,6 +89,7 @@ export type TablePaginationState = {
 
 export interface DrawerState {
   isOpen: boolean;
+  collapsed: boolean;
   variant?: 'permanent' | 'persistent' | 'temporary';
   width: number;
 }

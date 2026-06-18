@@ -1,20 +1,22 @@
 import { Box } from '@mui/material';
-import { LOGO_SIZES, type LogoWidth } from '../../../../type/UIType';
+import { LOGO_HEIGHT_SIZES, type LogoHeight } from '../../../../type/UIType';
 
 type LogoProps = {
   src: string;
-  logoSize?: LogoWidth;
+  logoSize?: LogoHeight;
 };
 
 export function Logo({ logoSize, src }: LogoProps) {
-  const maxWidth: LogoWidth = logoSize || LOGO_SIZES.Small;
+  const height: LogoHeight = logoSize || LOGO_HEIGHT_SIZES.Small;
+
   return (
     <Box
       sx={{
+        height: 64,
         display: 'flex',
-        justifyContent: 'center',
         alignItems: 'center',
-        p: 1,
+        justifyContent: 'center',
+        overflow: 'hidden',
       }}
     >
       <Box
@@ -22,8 +24,8 @@ export function Logo({ logoSize, src }: LogoProps) {
         src={src}
         alt="Logo"
         sx={{
-          width: '100%',
-          maxWidth,
+          height,
+          width: 'auto',
         }}
       />
     </Box>

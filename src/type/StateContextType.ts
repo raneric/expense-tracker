@@ -127,11 +127,11 @@ export interface DrawerContextType {
   state: DrawerState;
   hide: () => void;
   show: () => void;
-  toggle: () => void;
+  toggleCollapse: (nexCollapseState: boolean) => void;
 }
 
 export type DrawerAction =
-  | { type: 'TOGGLE' }
+  | { type: 'TOGGLE'; payload: number }
   | { type: 'OPEN' }
   | { type: 'CLOSE' };
 

@@ -9,7 +9,8 @@ export const drawerReducer = (
     case 'TOGGLE':
       return {
         ...state,
-        isOpen: !state.isOpen,
+        collapsed: !state.collapsed,
+        width: action.payload,
       };
     case 'OPEN':
       return {

@@ -1,7 +1,7 @@
 import { ExitToAppTwoTone } from '@mui/icons-material';
 import { AppBar, Avatar, Chip, IconButton, Toolbar } from '@mui/material';
 import { useUserContext } from '../../../../contexts/auth/UserContext';
-import { useDrawer } from '../../../../hooks/useDrawer';
+import { useDrawerContext } from '../../../../contexts/drawer/DrawerContext';
 import { useResponsive } from '../../../../hooks/useResponsive';
 import Colors from '../../../Theming/Colors';
 
@@ -9,7 +9,7 @@ export default function CustomAppBar() {
   const { logout, state } = useUserContext();
 
   const { isDesktop } = useResponsive();
-  const { drawerState } = useDrawer();
+  const { state: drawerState } = useDrawerContext();
 
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -21,8 +21,10 @@ export default function CustomAppBar() {
       position="fixed"
       elevation={1}
       sx={{
-        width: isDesktop ? `calc(100% - ${drawerState.width}px)` : '100%',
-        ml: isDesktop ? `${drawerState.width}px` : 0,
+        width: drawerState.collapsed
+          ? `calc(100% - ${drawerState.width}px)`
+          : '100%',
+        ml: drawerState.width,
       }}
     >
       <Toolbar

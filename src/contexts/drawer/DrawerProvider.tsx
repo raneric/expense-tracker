@@ -46,11 +46,13 @@ import { useReducer, type PropsWithChildren } from 'react';
 import type { DrawerState } from '../../type/AppType';
 import { DrawerContext } from './DrawerContext';
 import { drawerReducer } from './drawerReducer';
+import { DRAWER_COLLAPSED_WIDTH, DRAWER_NORMAL_WIDTH } from '../../utils/Const';
 
 const initialState: DrawerState = {
   isOpen: false,
+  collapsed: false,
   variant: 'permanent',
-  width: 240,
+  width: DRAWER_NORMAL_WIDTH,
 };
 
 export const DrawerProvider = ({ children }: PropsWithChildren) => {
@@ -64,12 +66,15 @@ export const DrawerProvider = ({ children }: PropsWithChildren) => {
     dispatch({ type: 'OPEN' });
   };
 
-  const toggle = () => {
-    dispatch({ type: 'TOGGLE' });
+  const toggleCollapse = (nexCollapseState: boolean) => {
+    dispatch({
+      type: 'TOGGLE',
+      payload: nexCollapseState ? DRAWER_COLLAPSED_WIDTH : DRAWER_NORMAL_WIDTH,
+    });
   };
 
   return (
-    <DrawerContext.Provider value={{ state, hide, show, toggle }}>
+    <DrawerContext.Provider value={{ state, hide, show, toggleCollapse }}>
       {children}
     </DrawerContext.Provider>
   );

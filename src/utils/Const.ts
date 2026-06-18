@@ -16,6 +16,9 @@ export const REPOSITORY_LIST = {
   Saving: 'saving',
 };
 
+export const DRAWER_COLLAPSED_WIDTH = 72;
+export const DRAWER_NORMAL_WIDTH = 240;
+
 export const initialWithdrawal: Withdrawal = {
   reasons: [],
   date: new Date(),

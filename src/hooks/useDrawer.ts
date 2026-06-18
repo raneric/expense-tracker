@@ -4,6 +4,7 @@ import type { DrawerState } from '../type/AppType';
 const initialState: DrawerState = {
   isOpen: false,
   variant: 'permanent',
+  collapsed: false,
   width: 240,
 };
 

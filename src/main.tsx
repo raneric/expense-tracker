@@ -7,6 +7,7 @@ import { UserProvider } from './contexts/auth/UserProvider.tsx';
 import theme from './ui/Theming/AppTheme.tsx';
 import { SnackbarProvider } from './contexts/snackbar/SnackbarProvider.tsx';
 import GlobalSnackbar from './ui/features/shared/Snackbar/GlobalSnackbar.tsx';
+import { DrawerProvider } from './contexts/drawer/DrawerProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,7 +16,9 @@ createRoot(document.getElementById('root')!).render(
         <CssBaseline />
         <UserProvider>
           <GlobalSnackbar />
-          <App />
+          <DrawerProvider>
+            <App />
+          </DrawerProvider>
         </UserProvider>
       </SnackbarProvider>
     </ThemeProvider>
