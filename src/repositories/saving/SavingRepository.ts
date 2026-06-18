@@ -35,6 +35,8 @@ export default class SavingRepository implements BaseRepository<
   }
 
   async updateOne(data: Saving): Promise<void> {
-    await this.dataProvider.updateOne(data.id, data);
+    const idToUpdate = data.id!;
+    delete data.id;
+    await this.dataProvider.updateOne(idToUpdate, data);
   }
 }
