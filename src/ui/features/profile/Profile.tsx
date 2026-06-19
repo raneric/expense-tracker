@@ -14,16 +14,19 @@ import {
 import { useUserContext } from '../../../contexts/auth/UserContext';
 import { Edit, Visibility, VisibilityOff } from '@mui/icons-material';
 import useTemporaryVisibility from '../../../hooks/useTemporaryVisibility';
-import InfoCard from './component/InfoCard';
-import ProfileSkeleton from './component/ProfileSkeleton';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Colors from '../../Theming/Colors';
 import PasswordConfirmationDialog from '../shared/Dialog/PasswordConfirmationDialog';
 import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
 import { HIDDEN_AMOUNT } from '../../../utils/Const';
+import ProfileSkeleton from './components/Skeleton/ProfileSkeleton';
+import InfoCard from './components/Card/InfoCard';
+import SalaryEditDialog from './components/Dialog/SalaryEditDialog';
 
 export default function Profile() {
   const { state } = useUserContext();
+
+  const [editDialog, setEditDialog] = useState(false);
 
   const user = useMemo(() => {
     return state.profile;
@@ -34,6 +37,12 @@ export default function Profile() {
 
   return (
     <>
+      <SalaryEditDialog
+        isOpen={editDialog}
+        onClose={() => {
+          setEditDialog(false);
+        }}
+      />
       <PasswordConfirmationDialog
         isOpen={passwordDialog}
         onClose={hide}
@@ -179,7 +188,9 @@ export default function Profile() {
                   <Tooltip title="Edit salary">
                     <IconButton
                       size="small"
-                      onClick={() => {}}
+                      onClick={() => {
+                        setEditDialog(true);
+                      }}
                     >
                       <Edit fontSize="small" />
                     </IconButton>
