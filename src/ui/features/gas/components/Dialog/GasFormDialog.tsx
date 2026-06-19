@@ -3,6 +3,7 @@ import {
   Button,
   Dialog,
   DialogContent,
+  InputAdornment,
   Stack,
   TextField,
 } from '@mui/material';
@@ -98,6 +99,11 @@ export default function GasFormDialog({
               htmlInput: {
                 min: 0,
                 step: 0.01,
+              },
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">Ar</InputAdornment>
+                ),
               },
             }}
           />

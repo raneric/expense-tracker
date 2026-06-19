@@ -6,10 +6,10 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import type { DialogFormProps } from '../../../../../type/PropsType';
-import DialogHeader from '../../../shared/Dialog/DialogHeader';
+import type { DialogFormProps } from '../../../../type/PropsType';
 import { useCallback, useState } from 'react';
-import { useUserContext } from '../../../../../contexts/auth/UserContext';
+import { useUserContext } from '../../../../contexts/auth/UserContext';
+import DialogHeader from './DialogHeader';
 
 export default function PasswordConfirmationDialog({
   isOpen,

@@ -16,7 +16,7 @@ import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
 import { HIDDEN_AMOUNT } from '../../../../../utils/Const';
 import ChartCard from '../../../shared/ChartCard/ChartCard';
 import { calculateTrendRate } from '../../../../../utils/computingFunction';
-import PasswordConfirmationDialog from '../Dialog/PasswordConfirmationDialog';
+import PasswordConfirmationDialog from '../../../shared/Dialog/PasswordConfirmationDialog';
 
 export default function BalanceInfo({
   currentWithdrawals,
