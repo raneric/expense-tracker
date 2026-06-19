@@ -12,6 +12,7 @@ export default function useSavingSubmit() {
   const { state: userState } = useUserContext();
   const { show } = useSnackbarContext();
   const { load } = useSavingContext();
+
   const repository = useMemo(
     () => RepositoryRegistry.get(REPOSITORY_LIST.Saving),
     []
@@ -32,6 +33,7 @@ export default function useSavingSubmit() {
         try {
           await repository.createOne(saving);
           load();
+          show('New saving added', 'success');
           return true;
         } catch (error: unknown) {
           show(getErrorMessage(error), 'error');
