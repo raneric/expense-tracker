@@ -22,7 +22,7 @@ import GasFormDialog from '../Dialog/GasFormDialog';
 const skeletonTextSx = { fontSize: '2rem', width: '100%' };
 
 export default function GasStatus() {
-  const { state, submit, load } = useGasEventsContext();
+  const { state, submit } = useGasEventsContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const gasStatusInfo = useMemo<GasStatusInfo | null>(
     () => generateGasStatusInfo(state.data),
@@ -33,11 +33,6 @@ export default function GasStatus() {
   const handleConfirm = async (data: GasFormDialogData) => {
     const result = await submit(data);
     setIsDialogOpen(false);
-
-    if (result) {
-      load();
-    }
-
     return result;
   };
 

@@ -113,9 +113,15 @@ export const GasEventsProvider = ({ children }: PropsWithChildren) => {
 
   const submit = useCallback(
     async (data: GasFormDialogData) => {
-      return gasEventSubmit(data, state.data);
+      const result = await gasEventSubmit(data, state.data);
+
+      if (result) {
+        load();
+      }
+
+      return result;
     },
-    [gasEventSubmit, state.data]
+    [gasEventSubmit, state.data, load]
   );
 
   /**
