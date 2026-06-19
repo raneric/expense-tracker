@@ -8,10 +8,11 @@ import {
   IconButton,
   Paper,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { useUserContext } from '../../../contexts/auth/UserContext';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Edit, Visibility, VisibilityOff } from '@mui/icons-material';
 import useTemporaryVisibility from '../../../hooks/useTemporaryVisibility';
 import InfoCard from './component/InfoCard';
 import ProfileSkeleton from './component/ProfileSkeleton';
@@ -161,7 +162,7 @@ export default function Profile() {
               }}
             >
               <Stack
-                direction={'row'}
+                direction="row"
                 sx={{ justifyContent: 'space-between', alignItems: 'center' }}
               >
                 <Typography
@@ -170,12 +171,37 @@ export default function Profile() {
                 >
                   Salary
                 </Typography>
-                <IconButton
-                  size="small"
-                  onClick={hide}
+
+                <Stack
+                  direction="row"
+                  spacing={0.5}
                 >
-                  {sensitiveDataVisibility ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
+                  <Tooltip title="Edit salary">
+                    <IconButton
+                      size="small"
+                      onClick={() => {}}
+                    >
+                      <Edit fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Tooltip
+                    title={
+                      sensitiveDataVisibility ? 'Hide salary' : 'Show salary'
+                    }
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={hide}
+                    >
+                      {sensitiveDataVisibility ? (
+                        <VisibilityOff fontSize="small" />
+                      ) : (
+                        <Visibility fontSize="small" />
+                      )}
+                    </IconButton>
+                  </Tooltip>
+                </Stack>
               </Stack>
               <Typography
                 variant="h4"
