@@ -5,11 +5,13 @@ import { useUserContext } from '../contexts/auth/UserContext';
 import type { Saving } from '../type/AppType';
 import { useSnackbarContext } from '../contexts/snackbar/SnackbarContext';
 import { getErrorMessage } from '../utils/errorFunctions';
+import { useSavingContext } from '../contexts/saving/SavingContext';
 
 export default function useSavingSubmit() {
   const [submitInProgress, setSubmitInProgress] = useState(false);
   const { state: userState } = useUserContext();
   const { show } = useSnackbarContext();
+  const { load } = useSavingContext();
   const repository = useMemo(
     () => RepositoryRegistry.get(REPOSITORY_LIST.Saving),
     []
@@ -29,6 +31,7 @@ export default function useSavingSubmit() {
         };
         try {
           await repository.createOne(saving);
+          load();
           return true;
         } catch (error: unknown) {
           show(getErrorMessage(error), 'error');
@@ -38,7 +41,7 @@ export default function useSavingSubmit() {
         }
       }
     },
-    [repository, userState, show]
+    [repository, userState, show, load]
   );
 
   return {

@@ -7,7 +7,7 @@ export const UserReducerActions = {
   LOGOUT: 'LOGOUT',
 };
 
-export const HIDDEN_AMOUNT = '** *** *** Ar';
+export const HIDDEN_AMOUNT = '********** Ar';
 
 export const REPOSITORY_LIST = {
   Withdraw: 'withdraw',
