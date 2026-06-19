@@ -2,9 +2,9 @@ import dayjs from 'dayjs';
 import { useCallback, useMemo } from 'react';
 import { useUserContext } from '../contexts/auth/UserContext';
 import { useSnackbarContext } from '../contexts/snackbar/SnackbarContext';
+import { RepositoryRegistry } from '../repositories/RepositoryRegistry';
 import type { GasEvent, GasFormDialogData } from '../type/AppType';
 import { REPOSITORY_LIST } from '../utils/Const';
-import { RepositoryRegistry } from '../repositories/RepositoryRegistry';
 
 /**
  * Custom hook for handling gas event submission logic and state transitions.
@@ -37,6 +37,7 @@ import { RepositoryRegistry } from '../repositories/RepositoryRegistry';
 export function useGasEventSubmit() {
   const { state } = useUserContext();
   const { show } = useSnackbarContext();
+
   const gasEventsRepository = useMemo(
     () => RepositoryRegistry.get(REPOSITORY_LIST.GasEvent),
     []
