@@ -46,5 +46,5 @@ export const COLLECTIONS = {
   withdrawals: import.meta.env.DEV ? 'withdrawals_dev' : 'withdrawals',
   saving: import.meta.env.DEV ? 'saving_dev' : 'saving',
   gasEvents: import.meta.env.DEV ? 'gas_events_dev' : 'gas_events',
-  userInfo: 'users',
+  userInfo: import.meta.env.DEV ? 'users_dev' : 'users',
 } as const;

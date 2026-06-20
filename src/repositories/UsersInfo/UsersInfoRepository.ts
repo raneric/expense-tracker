@@ -6,10 +6,9 @@ import { userInfoDataMapper } from '../../utils/dataMappers';
 import type { UserInfo } from '../../type/AppType';
 import type { QueryConstraint } from 'firebase/firestore';
 
-export default class UsersInfoRepository implements BaseRepository<
-  UserInfo,
-  QueryConstraint
-> {
+export default class UsersInfoRepository
+  implements BaseRepository<UserInfo, QueryConstraint>
+{
   private readonly dataProvider: DataProvider<UserInfo, QueryConstraint>;
 
   constructor() {

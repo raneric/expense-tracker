@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Box,
   Card,
   Chip,
@@ -12,9 +13,15 @@ import {
   Typography,
 } from '@mui/material';
 import { useUserContext } from '../../../contexts/auth/UserContext';
-import { Edit, Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+  AttachMoney,
+  Camera,
+  Edit,
+  Visibility,
+  VisibilityOff,
+} from '@mui/icons-material';
 import useTemporaryVisibility from '../../../hooks/useTemporaryVisibility';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import Colors from '../../Theming/Colors';
 import PasswordConfirmationDialog from '../shared/Dialog/PasswordConfirmationDialog';
 import { toLocalMgCurrency } from '../../../utils/formatterUtilities';
@@ -24,7 +31,7 @@ import InfoCard from './components/Card/InfoCard';
 import SalaryEditDialog from './components/Dialog/SalaryEditDialog';
 
 export default function Profile() {
-  const { state } = useUserContext();
+  const { state, updateUserInfo } = useUserContext();
 
   const [editDialog, setEditDialog] = useState(false);
 
@@ -35,6 +42,27 @@ export default function Profile() {
   const { sensitiveDataVisibility, passwordDialog, hide, confirmPassword } =
     useTemporaryVisibility();
 
+  const handleSalaryUpdate = useCallback(
+    async (amount: number) => {
+      const userProfile = state.profile;
+      let updateSuccess = false;
+
+      if (userProfile) {
+        updateSuccess = await updateUserInfo({
+          ...userProfile,
+          salary: amount,
+        });
+      }
+
+      if (updateSuccess) {
+        setEditDialog(false);
+      }
+
+      return updateSuccess;
+    },
+    [state.profile, updateUserInfo]
+  );
+
   return (
     <>
       <SalaryEditDialog
@@ -42,6 +70,8 @@ export default function Profile() {
         onClose={() => {
           setEditDialog(false);
         }}
+        initialData={0}
+        onSubmit={handleSalaryUpdate}
       />
       <PasswordConfirmationDialog
         isOpen={passwordDialog}
@@ -70,9 +100,9 @@ export default function Profile() {
               background: `
               linear-gradient(
                 135deg,
-                #03a9f4 0%,
-                #0288d1 60%,
-                #01579b 100%
+                ${Colors.tint500} 0%,
+                 ${Colors.tint700} 60%,
+                ${Colors.tint900} 100%
               )
             `,
               position: 'relative',
@@ -91,16 +121,50 @@ export default function Profile() {
               sx={{ alignItems: 'center' }}
               spacing={1.5}
             >
-              <Avatar
-                src={user.pictureUrl}
-                alt={`${user.firstName} ${user.lastName}`}
-                sx={{
-                  width: 120,
-                  height: 120,
-                  border: '5px solid white',
-                  boxShadow: 3,
-                }}
-              />
+              <Box sx={{ position: 'relative', display: 'inline-block' }}>
+                <Badge
+                  overlap="circular"
+                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  badgeContent={
+                    <IconButton
+                      size="small"
+                      sx={{
+                        bgcolor: 'background.paper',
+                        '&:hover': { bgcolor: 'grey.100' },
+                        boxShadow: 2,
+                      }}
+                    >
+                      <Camera fontSize="small" />
+                    </IconButton>
+                  }
+                >
+                  <Avatar
+                    src={user.pictureUrl}
+                    alt={`${user.firstName} ${user.lastName}`}
+                    sx={{
+                      width: 120,
+                      height: 120,
+                      border: '5px solid white',
+                      boxShadow: 3,
+                    }}
+                  />
+                </Badge>
+
+                {/* Online status indicator - more prominent */}
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    bottom: 8,
+                    right: 8,
+                    width: 16,
+                    height: 16,
+                    borderRadius: '50%',
+                    bgcolor: Colors.A700,
+                    border: '3px solid white',
+                    boxShadow: 1,
+                  }}
+                />
+              </Box>
 
               <Typography
                 variant="h4"
@@ -166,63 +230,85 @@ export default function Profile() {
               sx={{
                 p: 3,
                 borderRadius: 3,
-                bgcolor: '#e1f5fe',
-                border: '1px solid #81d4fa',
+                background: 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)',
+                border: '1px solid',
+                borderColor: 'primary.light',
+                position: 'relative',
+                overflow: 'hidden',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: -50,
+                  right: -50,
+                  width: 100,
+                  height: 100,
+                  borderRadius: '50%',
+                  background: 'rgba(25, 118, 210, 0.1)',
+                },
               }}
             >
-              <Stack
-                direction="row"
-                sx={{ justifyContent: 'space-between', alignItems: 'center' }}
-              >
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                >
-                  Salary
-                </Typography>
-
+              <Stack spacing={2}>
                 <Stack
                   direction="row"
-                  spacing={0.5}
+                  sx={{
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
                 >
-                  <Tooltip title="Edit salary">
-                    <IconButton
-                      size="small"
-                      onClick={() => {
-                        setEditDialog(true);
-                      }}
-                    >
-                      <Edit fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
-
-                  <Tooltip
-                    title={
-                      sensitiveDataVisibility ? 'Hide salary' : 'Show salary'
-                    }
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    sx={{ alignItems: 'center' }}
                   >
-                    <IconButton
-                      size="small"
-                      onClick={hide}
+                    <AttachMoney color="primary" />
+                    <Typography
+                      variant="body2"
+                      sx={{ fontWeight: 600 }}
+                      color="primary.dark"
                     >
-                      {sensitiveDataVisibility ? (
-                        <VisibilityOff fontSize="small" />
-                      ) : (
-                        <Visibility fontSize="small" />
-                      )}
-                    </IconButton>
-                  </Tooltip>
+                      Salary
+                    </Typography>
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    spacing={0.5}
+                  >
+                    <Tooltip title="Edit salary">
+                      <IconButton
+                        size="small"
+                        onClick={() => setEditDialog(true)}
+                      >
+                        <Edit fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip
+                      title={
+                        sensitiveDataVisibility ? 'Hide salary' : 'Show salary'
+                      }
+                    >
+                      <IconButton
+                        size="small"
+                        onClick={hide}
+                      >
+                        {sensitiveDataVisibility ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </Tooltip>
+                  </Stack>
                 </Stack>
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 800 }}
+                  color="primary.dark"
+                >
+                  {sensitiveDataVisibility
+                    ? toLocalMgCurrency(user.salary)
+                    : HIDDEN_AMOUNT}
+                </Typography>
               </Stack>
-              <Typography
-                variant="h4"
-                sx={{ fontWeight: 800 }}
-                color="#01579b"
-              >
-                {sensitiveDataVisibility
-                  ? toLocalMgCurrency(user.salary)
-                  : HIDDEN_AMOUNT}
-              </Typography>
             </Paper>
           </Box>
         </Card>

@@ -7,10 +7,30 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
+import { useCallback, useState } from 'react';
+import type { DialogFormProps } from '../../../../../type/PropsType';
 import DialogHeader from '../../../shared/Dialog/DialogHeader';
-import type { DialogProps } from '../../../../../type/PropsType';
 
-export default function SalaryEditDialog({ isOpen, onClose }: DialogProps) {
+export default function SalaryEditDialog({
+  isOpen,
+  onClose,
+  onSubmit,
+}: DialogFormProps<number>) {
+  const [amount, setAmount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAmountChange = useCallback((value: string) => {
+    const parsed = parseFloat(value);
+
+    setAmount(Number.isNaN(parsed) ? 0 : parsed);
+  }, []);
+
+  const handleSubmit = useCallback(async () => {
+    setIsLoading(true);
+    await onSubmit(amount);
+    setIsLoading(false);
+  }, [onSubmit, setIsLoading, amount]);
+
   return (
     <Dialog
       open={isOpen}
@@ -26,8 +46,8 @@ export default function SalaryEditDialog({ isOpen, onClose }: DialogProps) {
             label="Amount"
             type="number"
             error={false}
-            value={0}
-            onChange={() => {}}
+            value={amount}
+            onChange={(e) => handleAmountChange(e.target.value)}
             fullWidth
             margin="normal"
             slotProps={{
@@ -49,7 +69,7 @@ export default function SalaryEditDialog({ isOpen, onClose }: DialogProps) {
           >
             <Button
               variant="contained"
-              onClick={() => {}}
+              onClick={() => setAmount(0)}
               color="error"
               fullWidth
             >
@@ -57,8 +77,9 @@ export default function SalaryEditDialog({ isOpen, onClose }: DialogProps) {
             </Button>
 
             <Button
+              loading={isLoading}
               variant="contained"
-              onClick={() => {}}
+              onClick={() => handleSubmit()}
               disabled={false}
               fullWidth
             >

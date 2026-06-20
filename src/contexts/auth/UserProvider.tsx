@@ -36,9 +36,15 @@
  * @note Authentication persists across page reloads via Firebase
  */
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useMemo, useReducer, type PropsWithChildren } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  type PropsWithChildren,
+} from 'react';
 import AuthProviderFactory from '../../services/Auth/AuthProviderFactory';
-import type { LoginCredentials } from '../../type/AppType';
+import type { LoginCredentials, UserInfo } from '../../type/AppType';
 import type { AuthState } from '../../type/StateContextType';
 import { getErrorMessage } from '../../utils/errorFunctions';
 import { useSnackbarContext } from '../snackbar/SnackbarContext';
@@ -68,6 +74,17 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     []
   );
 
+  const loaduserInfo = useCallback(
+    async (id: string) => {
+      const userInfo = await userInfoRepo.getByUnique(id);
+      dispatch({
+        type: 'LOAD_PROFILE',
+        payload: userInfo,
+      });
+    },
+    [userInfoRepo]
+  );
+
   useEffect(() => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -90,17 +107,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     if (!state.user) return;
-
-    const load = async () => {
-      const userInfo = await userInfoRepo.getByUnique(state.user!.id);
-      dispatch({
-        type: 'LOAD_PROFILE',
-        payload: userInfo,
-      });
-    };
-
-    load();
-  }, [state.user, userInfoRepo]);
+    loaduserInfo(state.user!.id);
+  }, [state.user, userInfoRepo, loaduserInfo]);
 
   const login = async (credentials: LoginCredentials) => {
     dispatch({ type: 'LOGIN_START' });
@@ -151,9 +159,21 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const updateUserInfo = async (userInfo: UserInfo) => {
+    try {
+      await userInfoRepo.updateOne(userInfo);
+      loaduserInfo(userInfo.id);
+      show('User Info updated', 'success');
+      return true;
+    } catch (error) {
+      show(getErrorMessage(error), 'error');
+      return false;
+    }
+  };
+
   return (
     <UserContext.Provider
-      value={{ state, dispatch, login, logout, reauthenticate }}
+      value={{ state, dispatch, login, logout, reauthenticate, updateUserInfo }}
     >
       {children}
     </UserContext.Provider>

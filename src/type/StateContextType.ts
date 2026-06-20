@@ -27,6 +27,7 @@ export interface UserContextType {
   login: (user: LoginCredentials) => void;
   logout: () => void;
   reauthenticate: (password: string) => Promise<boolean>;
+  updateUserInfo: (userInfo: UserInfo) => Promise<boolean>;
 }
 
 export interface AuthState {
@@ -92,17 +93,13 @@ export type DataRetrievalAction<T, U> =
   | { type: 'ERROR' };
 
 //---------------------- Withdrawals context -----------------------
-export interface WithdrawalRetrievalState extends DataRetrievalState<
-  Withdrawal,
-  DateFilter
-> {
+export interface WithdrawalRetrievalState
+  extends DataRetrievalState<Withdrawal, DateFilter> {
   reasons: string[];
 }
 
-export interface WithdrawalRetrievalContextType extends DataRetrievalContextType<
-  Withdrawal,
-  DateFilter
-> {
+export interface WithdrawalRetrievalContextType
+  extends DataRetrievalContextType<Withdrawal, DateFilter> {
   state: WithdrawalRetrievalState;
   load: () => Promise<void>;
   filterBy: (filter: DateFilter) => Promise<void>;
@@ -148,10 +145,8 @@ export interface GasEventDataRetrievalContextType {
 }
 
 //---------------------- Saving context -----------------------
-export interface SavingContextType extends DataRetrievalContextType<
-  Saving,
-  DateFilter | null
-> {
+export interface SavingContextType
+  extends DataRetrievalContextType<Saving, DateFilter | null> {
   state: DataRetrievalState<Saving, DateFilter | null>;
 }
 
@@ -163,4 +158,5 @@ export interface WithdrawalActionsContextType {
 }
 
 export interface WithdrawalActionsProviderType
-  extends WithdrawalActionsContextType, PropsWithChildren {}
+  extends WithdrawalActionsContextType,
+    PropsWithChildren {}
