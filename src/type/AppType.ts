@@ -126,7 +126,7 @@ export interface BalanceInfoProps {
   forecastedSaving: number;
   previousMonthSaving: number;
   currentBalance: number;
-  twoMontAgoSaving: number;
+  twoMonthsAgoSaving: number;
 }
 
 export interface DataMapper<T, U> {

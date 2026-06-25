@@ -21,7 +21,7 @@ export function useDashboardMetrics({
     [savings]
   );
 
-  const twoMontAgoSaving = useMemo(
+  const twoMonthsAgoSaving = useMemo(
     () => savings.at(-2)?.amount ?? 0,
     [savings]
   );
@@ -104,7 +104,7 @@ export function useDashboardMetrics({
     spendingSeries,
     spendingDimensions,
     savingSeries,
-    twoMontAgoSaving,
+    twoMonthsAgoSaving,
     savingDimensions,
   };
 }

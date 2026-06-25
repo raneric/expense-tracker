@@ -24,7 +24,7 @@ export default function BalanceInfo({
   forecastedSaving,
   previousMonthSaving,
   currentBalance,
-  twoMontAgoSaving,
+  twoMonthsAgoSaving,
 }: BalanceInfoProps) {
   const { sensitiveDataVisibility, passwordDialog, hide, confirmPassword } =
     useTemporaryVisibility();
@@ -86,8 +86,8 @@ export default function BalanceInfo({
               label="Previous month saving"
               value={toLocalMgCurrency(previousMonthSaving)}
               color="success.main"
-              trendingUp={twoMontAgoSaving < previousMonthSaving}
-              rate={calculateTrendRate(twoMontAgoSaving, previousMonthSaving)}
+              trendingUp={twoMonthsAgoSaving < previousMonthSaving}
+              rate={calculateTrendRate(twoMonthsAgoSaving, previousMonthSaving)}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>

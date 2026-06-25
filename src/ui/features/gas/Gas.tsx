@@ -3,7 +3,7 @@ import { Stack } from '@mui/material';
 import { useState } from 'react';
 import { GasEventsProvider } from '../../../contexts/gasEvents/GasEventsProvider';
 import { useResponsive } from '../../../hooks/useResponsive';
-import { SectionTitle, Tittle } from '../shared/SectionTitle/SectionTitle';
+import { SectionTitle, Title } from '../shared/SectionTitle/SectionTitle';
 import Calendar from './components/Calendar/Calendar';
 import EditFormDialog from './components/Dialog/EditFormDialog';
 import GasStatus from './components/GasDetails/GasStatus';
@@ -20,7 +20,7 @@ export default function Gas() {
         onClose={() => setIsEditDialogOpen(false)}
       />
       <SectionTitle>
-        <Tittle
+        <Title
           icon={<CalendarMonth />}
           displayText="Gas schedule"
         />

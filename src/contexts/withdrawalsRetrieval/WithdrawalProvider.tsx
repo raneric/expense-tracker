@@ -158,7 +158,7 @@ export const WithdrawalProvider = ({ children }: PropsWithChildren) => {
    */
   useEffect(() => {
     void load();
-  }, [load, state.filter]);
+  }, [load]);
 
   const values = useMemo(
     () => ({

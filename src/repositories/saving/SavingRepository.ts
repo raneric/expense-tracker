@@ -6,10 +6,9 @@ import type { Saving } from '../../type/AppType';
 import { savingDataMapper } from '../../utils/dataMappers';
 import type BaseRepository from '../BaseRepository';
 
-export default class SavingRepository implements BaseRepository<
-  Saving,
-  QueryConstraint
-> {
+export default class SavingRepository
+  implements BaseRepository<Saving, QueryConstraint>
+{
   private readonly dataProvider: DataProvider<Saving, QueryConstraint>;
   constructor() {
     this.dataProvider = new FirestoreDataProvider<Saving>(
@@ -35,8 +34,7 @@ export default class SavingRepository implements BaseRepository<
   }
 
   async updateOne(data: Saving): Promise<void> {
-    const idToUpdate = data.id!;
-    delete data.id;
-    await this.dataProvider.updateOne(idToUpdate, data);
+    const { id: idToUpdate, ...rest } = data;
+    await this.dataProvider.updateOne(idToUpdate!, rest);
   }
 }

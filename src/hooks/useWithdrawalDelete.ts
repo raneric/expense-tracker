@@ -3,6 +3,7 @@ import { useWithdrawalContext } from '../contexts/withdrawalsRetrieval/Withdrawa
 import { useSnackbarContext } from '../contexts/snackbar/SnackbarContext';
 import { RepositoryRegistry } from '../repositories/RepositoryRegistry';
 import { REPOSITORY_LIST } from '../utils/Const';
+import { getErrorMessage } from '../utils/errorFunctions';
 
 /**
  * Custom hook for handling withdrawal deletion operations.
@@ -40,7 +41,7 @@ export default function useWithdrawalDelete(closeDialog: () => void) {
         setDeletionInProgress(false);
         closeDialog();
       } catch (error: unknown) {
-        show((error as Error).message, 'error');
+        show(getErrorMessage(error), 'error');
         setDeletionInProgress(false);
       }
     },

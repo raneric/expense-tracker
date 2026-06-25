@@ -6,6 +6,7 @@ import { RepositoryRegistry } from '../repositories/RepositoryRegistry';
 import { type Withdrawal } from '../type/AppType';
 import { toLocalMgCurrency } from '../utils/formatterUtilities';
 import { REPOSITORY_LIST } from '../utils/Const';
+import { getErrorMessage } from '../utils/errorFunctions';
 
 /**
  * Determines if a withdrawal is new (not yet persisted to database).
@@ -94,7 +95,7 @@ export default function useWithdrawalSubmit(closeDialog: () => void) {
         setSubmitInProgress(false);
         return true;
       } catch (error: unknown) {
-        show((error as Error).message, 'error');
+        show(getErrorMessage(error), 'error');
         setSubmitInProgress(false);
         return false;
       }
@@ -118,7 +119,7 @@ export default function useWithdrawalSubmit(closeDialog: () => void) {
         setSubmitInProgress(false);
         return true;
       } catch (error: unknown) {
-        show((error as Error).message, 'error');
+        show(getErrorMessage(error), 'error');
         setSubmitInProgress(false);
         return false;
       }

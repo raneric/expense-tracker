@@ -7,10 +7,9 @@ import { withdrawalDataMapper } from '../../utils/dataMappers';
 import type BaseRepository from '../BaseRepository';
 import { removeDuplicateValues } from '../../utils/validationUtilities';
 
-export default class WithdrawRepository implements BaseRepository<
-  Withdrawal,
-  QueryConstraint
-> {
+export default class WithdrawRepository
+  implements BaseRepository<Withdrawal, QueryConstraint>
+{
   private readonly dataProvider: DataProvider<Withdrawal, QueryConstraint>;
 
   constructor() {
@@ -47,8 +46,7 @@ export default class WithdrawRepository implements BaseRepository<
   }
 
   async updateOne(data: Withdrawal): Promise<void> {
-    const idToUpdate = data.id!;
-    delete data.id;
-    await this.dataProvider.updateOne(idToUpdate, data);
+    const { id: idToUpdate, ...rest } = data;
+    await this.dataProvider.updateOne(idToUpdate!, rest);
   }
 }

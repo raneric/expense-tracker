@@ -113,7 +113,8 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const login = async (credentials: LoginCredentials) => {
     dispatch({ type: 'LOGIN_START' });
     try {
-      await authProvider.signIn(credentials);
+      const user = await authProvider.signIn(credentials);
+      dispatch({ type: 'LOGIN_SUCCESS', payload: user });
       show('Successfully logged in', 'success');
     } catch (error: unknown) {
       const errorMessage = getErrorMessage(error);
@@ -162,7 +163,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const updateUserInfo = async (userInfo: UserInfo) => {
     try {
       await userInfoRepo.updateOne(userInfo);
-      loaduserInfo(userInfo.id);
+      await loaduserInfo(userInfo.id);
       show('User Info updated', 'success');
       return true;
     } catch (error) {

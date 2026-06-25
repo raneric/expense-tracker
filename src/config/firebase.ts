@@ -28,19 +28,21 @@ class FirebaseService {
   private constructor() {
     this.app = initializeApp(firebaseConfig);
     this.auth = getAuth(this.app);
-    setPersistence(this.auth, browserLocalPersistence);
     this.db = getFirestore(this.app);
   }
 
-  public static getInstance(): FirebaseService {
+  public static async getInstance(): Promise<FirebaseService> {
     if (!FirebaseService.instance) {
-      FirebaseService.instance = new FirebaseService();
+      const svc = new FirebaseService();
+      await setPersistence(svc.auth, browserLocalPersistence);
+
+      FirebaseService.instance = svc;
     }
     return FirebaseService.instance;
   }
 }
 
-export const firebaseService = FirebaseService.getInstance();
+export const firebaseService = await FirebaseService.getInstance();
 export const { auth: firebaseAuth, db: firestoreDb } = firebaseService;
 export const COLLECTIONS = {
   withdrawals: import.meta.env.DEV ? 'withdrawals_dev' : 'withdrawals',

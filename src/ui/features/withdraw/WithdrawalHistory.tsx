@@ -23,8 +23,8 @@ import ConfirmationDialog from '../shared/Dialog/ConfirmationDialog';
 import FilterDialog from '../shared/Dialog/FilterDialog';
 import {
   SectionTitle,
-  Tittle,
-  TittleHelperInfo,
+  Title,
+  TitleHelperInfo,
 } from '../shared/SectionTitle/SectionTitle';
 import SkeletonTableBody from '../shared/Table/SkeletonTableBody';
 import { WithdrawalCharts } from './components/Chart/WithdrawalCharts';
@@ -89,11 +89,11 @@ export default function WithdrawalHistory() {
   return (
     <Stack spacing={2}>
       <SectionTitle>
-        <Tittle
+        <Title
           displayText="Withdrawal Activities"
           icon={<AccountBalanceWallet />}
         />
-        <TittleHelperInfo displayText="Track your recent transactions" />
+        <TitleHelperInfo displayText="Track your recent transactions" />
       </SectionTitle>
 
       <WithdrawalCharts

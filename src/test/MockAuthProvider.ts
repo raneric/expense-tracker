@@ -1,7 +1,7 @@
-import { users } from '../../test/MockData';
-import type { LoginCredentials } from '../../type/AppType';
-import { validateCredentials } from '../../utils/validationUtilities';
-import type AuthProvider from './AuthProvider';
+import { users } from './MockData';
+import type { LoginCredentials } from '../type/AppType';
+import { validateCredentials } from '../utils/validationUtilities';
+import type AuthProvider from '../services/Auth/AuthProvider';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

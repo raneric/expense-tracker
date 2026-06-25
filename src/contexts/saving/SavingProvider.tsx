@@ -61,6 +61,7 @@ export const SavingProvider = ({ children }: PropsWithChildren) => {
    */
   const load = useCallback(async () => {
     try {
+      dispatch({ type: 'LOADING' });
       const savings = await savingRepository.getAll(defaultConstraints);
       dispatch({ type: 'LOADED', payload: savings });
     } catch (error) {

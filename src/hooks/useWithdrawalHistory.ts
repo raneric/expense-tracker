@@ -75,7 +75,6 @@ export function useWithdrawalHistory(withdrawals: Withdrawal[]) {
   };
 
   const openForecastValidationDialog = (withdrawal: Withdrawal) => {
-    console.log('called');
     setDialog({ type: 'forecast', withdrawal });
   };
 

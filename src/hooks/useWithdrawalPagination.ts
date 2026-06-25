@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import type { TablePaginationState, Withdrawal } from '../type/AppType';
 
 /**
- * Default pagination configuration: first page with 5 rows per page
+ * Default pagination configuration: first page with 10 rows per page
  */
 const defaultPaginationState: TablePaginationState = {
   page: 0,

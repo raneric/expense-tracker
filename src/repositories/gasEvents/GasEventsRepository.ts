@@ -6,10 +6,9 @@ import { type GasEvent } from '../../type/AppType';
 import { gasEventsDataMapper } from '../../utils/dataMappers';
 import type BaseRepository from '../BaseRepository';
 
-export default class GasEventsRepository implements BaseRepository<
-  GasEvent,
-  QueryConstraint
-> {
+export default class GasEventsRepository
+  implements BaseRepository<GasEvent, QueryConstraint>
+{
   private readonly dataProvider: DataProvider<GasEvent, QueryConstraint>;
 
   constructor() {
@@ -36,8 +35,7 @@ export default class GasEventsRepository implements BaseRepository<
   }
 
   async updateOne(data: GasEvent): Promise<void> {
-    const id = data.id;
-    delete data.id;
-    await this.dataProvider.updateOne(id!, data);
+    const { id: idToUpdate, ...rest } = data;
+    await this.dataProvider.updateOne(idToUpdate!, rest);
   }
 }

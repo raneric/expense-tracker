@@ -1,14 +1,13 @@
 import type { QueryConstraint } from 'firebase/firestore';
-import type { Withdrawal } from '../../type/AppType';
-import type BaseRepository from '../BaseRepository';
-import { rows } from '../../test/MockData';
+import type BaseRepository from '../repositories/BaseRepository';
+import type { Withdrawal } from '../type/AppType';
+import { rows } from './MockData';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export default class MockWithdrawRepository implements BaseRepository<
-  Withdrawal,
-  QueryConstraint
-> {
+export default class MockWithdrawRepository
+  implements BaseRepository<Withdrawal, QueryConstraint>
+{
   async getAll(constraints?: QueryConstraint[]): Promise<Withdrawal[]> {
     console.log(constraints);
     await delay(2000);

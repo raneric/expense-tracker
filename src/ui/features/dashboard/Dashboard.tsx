@@ -11,8 +11,8 @@ import ChartCard from '../shared/ChartCard/ChartCard';
 import FilterDialog from '../shared/Dialog/FilterDialog';
 import {
   SectionTitle,
-  Tittle,
-  TittleHelperInfo,
+  Title,
+  TitleHelperInfo,
 } from '../shared/SectionTitle/SectionTitle';
 import AppSpeedDial from '../shared/SpeedDial/AppSpeedDial';
 import BalanceInfo from './components/Charts/BalanceInfo';
@@ -40,7 +40,7 @@ export default function Dashboard() {
     spendingDimensions,
     savingSeries,
     savingDimensions,
-    twoMontAgoSaving,
+    twoMonthsAgoSaving,
   } = useDashboardMetrics({
     withdrawals: withdrawalState.data,
     savings: savingSate.data,
@@ -71,11 +71,11 @@ export default function Dashboard() {
         onClose={closeDialog}
       />
       <SectionTitle>
-        <Tittle
+        <Title
           icon={<AreaChart />}
           displayText="Dashboard"
         />
-        <TittleHelperInfo displayText="Display charts related to withdrawals" />
+        <TitleHelperInfo displayText="Display charts related to withdrawals" />
       </SectionTitle>
       <Grid
         container
@@ -95,7 +95,7 @@ export default function Dashboard() {
             previousMonthSaving={previousMonthSaving}
             forecastedSaving={forecastedSaving}
             currentBalance={currentBalance}
-            twoMontAgoSaving={twoMontAgoSaving}
+            twoMonthsAgoSaving={twoMonthsAgoSaving}
           />
         </Grid>
         <Grid size={{ xs: 12, md: 12, lg: 8, xl: 8 }}>

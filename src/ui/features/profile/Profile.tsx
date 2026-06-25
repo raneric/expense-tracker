@@ -1,22 +1,24 @@
 import {
   Avatar,
-  Badge,
   Box,
   Card,
   Chip,
   Divider,
+  Fade,
   Grid,
   IconButton,
   Paper,
   Stack,
   Tooltip,
   Typography,
+  Zoom,
 } from '@mui/material';
 import { useUserContext } from '../../../contexts/auth/UserContext';
 import {
   AttachMoney,
-  Camera,
   Edit,
+  EmailOutlined,
+  PersonOutlined,
   Visibility,
   VisibilityOff,
 } from '@mui/icons-material';
@@ -82,236 +84,425 @@ export default function Profile() {
       {!user ? (
         <ProfileSkeleton />
       ) : (
-        <Card
-          elevation={0}
-          sx={{
-            maxWidth: 850,
-            mx: 'auto',
-            overflow: 'hidden',
-            borderRadius: 5,
-            border: '1px solid',
-            borderColor: 'grey.200',
-          }}
+        <Fade
+          in
+          timeout={600}
         >
-          {/* Header */}
-          <Box
+          <Card
+            elevation={0}
             sx={{
-              height: 180,
-              background: `
-              linear-gradient(
-                135deg,
-                ${Colors.tint500} 0%,
-                 ${Colors.tint700} 60%,
-                ${Colors.tint900} 100%
-              )
-            `,
+              maxWidth: 880,
+              mx: 'auto',
+              overflow: 'visible',
+              borderRadius: 5,
+              border: '1px solid',
+              borderColor: 'divider',
               position: 'relative',
             }}
-          />
-
-          {/* Profile */}
-          <Box
-            sx={{
-              px: 4,
-              pb: 4,
-              mt: '-60px',
-            }}
           >
-            <Stack
-              sx={{ alignItems: 'center' }}
-              spacing={1.5}
+            {/* ── Header Banner ── */}
+            <Box
+              sx={{
+                height: 200,
+                position: 'relative',
+                overflow: 'hidden',
+                borderRadius: '20px 20px 0 0',
+                background: `
+                  radial-gradient(
+                    ellipse 70% 50% at 30% 20%,
+                    rgba(255,255,255,0.15) 0%,
+                    transparent 60%
+                  ),
+                  radial-gradient(
+                    ellipse 50% 40% at 80% 80%,
+                    ${Colors.A200}30 0%,
+                    transparent 50%
+                  ),
+                  linear-gradient(
+                    135deg,
+                    ${Colors.tint400} 0%,
+                    ${Colors.tint600} 40%,
+                    ${Colors.tint800} 100%
+                  )
+                `,
+              }}
             >
-              <Box sx={{ position: 'relative', display: 'inline-block' }}>
-                <Badge
-                  overlap="circular"
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                  badgeContent={
-                    <IconButton
-                      size="small"
-                      sx={{
-                        bgcolor: 'background.paper',
-                        '&:hover': { bgcolor: 'grey.100' },
-                        boxShadow: 2,
-                      }}
-                    >
-                      <Camera fontSize="small" />
-                    </IconButton>
-                  }
-                >
+              {/* Decorative circles */}
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: -60,
+                  right: -40,
+                  width: 200,
+                  height: 200,
+                  borderRadius: '50%',
+                  border: '2px solid rgba(255,255,255,0.12)',
+                }}
+              />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: -80,
+                  left: '10%',
+                  width: 160,
+                  height: 160,
+                  borderRadius: '50%',
+                  border: '2px solid rgba(255,255,255,0.08)',
+                }}
+              />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 30,
+                  right: '25%',
+                  width: 8,
+                  height: 8,
+                  borderRadius: '50%',
+                  bgcolor: 'rgba(255,255,255,0.3)',
+                }}
+              />
+              <Box
+                sx={{
+                  position: 'absolute',
+                  bottom: 40,
+                  right: '15%',
+                  width: 6,
+                  height: 6,
+                  borderRadius: '50%',
+                  bgcolor: 'rgba(255,255,255,0.2)',
+                }}
+              />
+            </Box>
+
+            {/* ── Avatar Section ── */}
+            <Box
+              sx={{
+                px: { xs: 3, md: 5 },
+                pb: 4,
+                mt: '-64px',
+                position: 'relative',
+                zIndex: 1,
+              }}
+            >
+              <Stack
+                sx={{ alignItems: 'center' }}
+                spacing={2}
+              >
+                {/* Avatar with ring */}
+                <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                  {/* Outer glow ring */}
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      inset: -6,
+                      borderRadius: '50%',
+                      background: `conic-gradient(${Colors.tint400}, ${Colors.A200}, ${Colors.tint600}, ${Colors.tint400})`,
+                      opacity: 0.3,
+                      filter: 'blur(8px)',
+                    }}
+                  />
                   <Avatar
                     src={user.pictureUrl}
                     alt={`${user.firstName} ${user.lastName}`}
                     sx={{
-                      width: 120,
-                      height: 120,
-                      border: '5px solid white',
-                      boxShadow: 3,
+                      width: 128,
+                      height: 128,
+                      border: '4px solid white',
+                      boxShadow: `
+                        0 8px 32px rgba(0,0,0,0.12),
+                        0 2px 8px rgba(0,0,0,0.06)
+                      `,
+                      position: 'relative',
                     }}
                   />
-                </Badge>
+                  {/* Online indicator */}
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      bottom: 10,
+                      right: 10,
+                      width: 18,
+                      height: 18,
+                      borderRadius: '50%',
+                      bgcolor: Colors.A700,
+                      border: '3px solid white',
+                      boxShadow: `0 0 0 4px ${Colors.A700}30`,
+                    }}
+                  />
+                </Box>
 
-                {/* Online status indicator - more prominent */}
+                {/* Name */}
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontWeight: 800,
+                    color: Colors.tint900,
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  {user.firstName} {user.lastName}
+                </Typography>
+
+                {/* Email */}
+                <Stack
+                  direction="row"
+                  spacing={0.75}
+                  sx={{ alignItems: 'center' }}
+                >
+                  <EmailOutlined
+                    sx={{ fontSize: 18, color: 'text.secondary' }}
+                  />
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                    {user.email}
+                  </Typography>
+                </Stack>
+
+                {/* Status chip */}
+                <Zoom
+                  in
+                  timeout={400}
+                  style={{ transitionDelay: '200ms' }}
+                >
+                  <Chip
+                    label="Active"
+                    size="small"
+                    variant="outlined"
+                    color="success"
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: '0.75rem',
+                      borderRadius: 2,
+                      px: 0.5,
+                    }}
+                  />
+                </Zoom>
+              </Stack>
+
+              <Divider sx={{ my: 4 }}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    px: 2,
+                    color: 'text.disabled',
+                    fontWeight: 500,
+                    textTransform: 'uppercase',
+                    letterSpacing: 1.5,
+                    fontSize: '0.7rem',
+                  }}
+                >
+                  Details
+                </Typography>
+              </Divider>
+
+              {/* ── Personal Information ── */}
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
+                <PersonOutlined
+                  fontSize="small"
+                  sx={{ color: Colors.tint600 }}
+                />
+                Personal Information
+              </Typography>
+
+              <Grid
+                container
+                spacing={2}
+              >
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <InfoCard
+                    label="First Name"
+                    value={user.firstName}
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <InfoCard
+                    label="Last Name"
+                    value={user.lastName}
+                  />
+                </Grid>
+
+                <Grid size={{ xs: 12 }}>
+                  <InfoCard
+                    label="Email"
+                    value={user.email}
+                  />
+                </Grid>
+              </Grid>
+
+              {/* ── Financial Information ── */}
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  fontWeight: 700,
+                  mt: 4,
+                  mb: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
+                <AttachMoney
+                  fontSize="small"
+                  sx={{ color: Colors.tint600 }}
+                />
+                Financial Information
+              </Typography>
+
+              <Paper
+                elevation={0}
+                sx={{
+                  p: 3,
+                  borderRadius: 4,
+                  background: `
+                    linear-gradient(
+                      135deg,
+                      ${Colors.tint50} 0%,
+                      ${Colors.tint100}60 50%,
+                      ${Colors.A100}30 100%
+                    )
+                  `,
+                  border: '1px solid',
+                  borderColor: `${Colors.tint200}80`,
+                  position: 'relative',
+                  overflow: 'hidden',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    borderColor: Colors.tint300,
+                    boxShadow: `0 4px 20px ${Colors.tint200}40`,
+                  },
+                }}
+              >
+                {/* Decorative accent */}
                 <Box
                   sx={{
                     position: 'absolute',
-                    bottom: 8,
-                    right: 8,
-                    width: 16,
-                    height: 16,
-                    borderRadius: '50%',
-                    bgcolor: Colors.A700,
-                    border: '3px solid white',
-                    boxShadow: 1,
+                    top: 0,
+                    left: 0,
+                    width: 4,
+                    height: '100%',
+                    background: `linear-gradient(180deg, ${Colors.tint500}, ${Colors.tint700})`,
+                    borderRadius: '4px 0 0 4px',
                   }}
                 />
-              </Box>
 
-              <Typography
-                variant="h4"
-                sx={{ fontWeight: 700, color: Colors.tint900 }}
-              >
-                {user.firstName} {user.lastName}
-              </Typography>
-
-              <Typography color="text.secondary">{user.email}</Typography>
-
-              <Chip
-                label="🟢 Connected"
-                variant="outlined"
-                color="success"
-              />
-            </Stack>
-
-            <Divider sx={{ my: 4 }} />
-
-            {/* Personal Info */}
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: 700, mb: 2 }}
-            >
-              Personal Information
-            </Typography>
-
-            <Grid
-              container
-              spacing={2}
-            >
-              <Grid size={{ xs: 12, md: 6 }}>
-                <InfoCard
-                  label="First Name"
-                  value={user.firstName}
-                />
-              </Grid>
-
-              <Grid size={{ xs: 12, md: 6 }}>
-                <InfoCard
-                  label="Last Name"
-                  value={user.lastName}
-                />
-              </Grid>
-
-              <Grid size={{ xs: 12 }}>
-                <InfoCard
-                  label="Email"
-                  value={user.email}
-                />
-              </Grid>
-            </Grid>
-
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: 700, mt: 4, mb: 2 }}
-            >
-              Financial Information
-            </Typography>
-
-            <Paper
-              elevation={0}
-              sx={{
-                p: 3,
-                borderRadius: 3,
-                background: 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)',
-                border: '1px solid',
-                borderColor: 'primary.light',
-                position: 'relative',
-                overflow: 'hidden',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  top: -50,
-                  right: -50,
-                  width: 100,
-                  height: 100,
-                  borderRadius: '50%',
-                  background: 'rgba(25, 118, 210, 0.1)',
-                },
-              }}
-            >
-              <Stack spacing={2}>
                 <Stack
-                  direction="row"
-                  sx={{
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
+                  spacing={2}
+                  sx={{ pl: 1 }}
                 >
+                  {/* Header row */}
                   <Stack
                     direction="row"
-                    spacing={1}
-                    sx={{ alignItems: 'center' }}
+                    sx={{
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
                   >
-                    <AttachMoney color="primary" />
-                    <Typography
-                      variant="body2"
-                      sx={{ fontWeight: 600 }}
-                      color="primary.dark"
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      sx={{ alignItems: 'center' }}
                     >
-                      Salary
-                    </Typography>
+                      <Box
+                        sx={{
+                          width: 36,
+                          height: 36,
+                          borderRadius: 2.5,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          bgcolor: `${Colors.tint500}18`,
+                        }}
+                      >
+                        <AttachMoney
+                          sx={{ color: Colors.tint700, fontSize: 22 }}
+                        />
+                      </Box>
+                      <Typography
+                        variant="body2"
+                        sx={{ fontWeight: 600 }}
+                        color="text.secondary"
+                      >
+                        Monthly Salary
+                      </Typography>
+                    </Stack>
+
+                    {/* Action buttons */}
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                    >
+                      <Tooltip title="Edit salary">
+                        <IconButton
+                          size="small"
+                          onClick={() => setEditDialog(true)}
+                          sx={{
+                            color: Colors.tint600,
+                            '&:hover': {
+                              bgcolor: `${Colors.tint500}18`,
+                            },
+                          }}
+                        >
+                          <Edit fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip
+                        title={
+                          sensitiveDataVisibility
+                            ? 'Hide salary'
+                            : 'Show salary'
+                        }
+                      >
+                        <IconButton
+                          size="small"
+                          onClick={hide}
+                          sx={{
+                            color: Colors.tint600,
+                            '&:hover': {
+                              bgcolor: `${Colors.tint500}18`,
+                            },
+                          }}
+                        >
+                          {sensitiveDataVisibility ? (
+                            <VisibilityOff fontSize="small" />
+                          ) : (
+                            <Visibility fontSize="small" />
+                          )}
+                        </IconButton>
+                      </Tooltip>
+                    </Stack>
                   </Stack>
-                  <Stack
-                    direction="row"
-                    spacing={0.5}
+
+                  {/* Amount */}
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      fontWeight: 800,
+                      color: Colors.tint900,
+                      letterSpacing: '-0.02em',
+                      transition: 'all 0.3s ease',
+                    }}
                   >
-                    <Tooltip title="Edit salary">
-                      <IconButton
-                        size="small"
-                        onClick={() => setEditDialog(true)}
-                      >
-                        <Edit fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip
-                      title={
-                        sensitiveDataVisibility ? 'Hide salary' : 'Show salary'
-                      }
-                    >
-                      <IconButton
-                        size="small"
-                        onClick={hide}
-                      >
-                        {sensitiveDataVisibility ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </Tooltip>
-                  </Stack>
+                    {sensitiveDataVisibility
+                      ? toLocalMgCurrency(user.salary)
+                      : HIDDEN_AMOUNT}
+                  </Typography>
                 </Stack>
-                <Typography
-                  variant="h4"
-                  sx={{ fontWeight: 800 }}
-                  color="primary.dark"
-                >
-                  {sensitiveDataVisibility
-                    ? toLocalMgCurrency(user.salary)
-                    : HIDDEN_AMOUNT}
-                </Typography>
-              </Stack>
-            </Paper>
-          </Box>
-        </Card>
+              </Paper>
+            </Box>
+          </Card>
+        </Fade>
       )}
     </>
   );

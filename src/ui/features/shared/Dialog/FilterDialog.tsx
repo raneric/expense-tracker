@@ -30,22 +30,22 @@ export default function FilterDialog({ isOpen, onClose }: DialogProps) {
   const { filter } = state;
   const isCustom = filter.type === 'custom';
 
-  const updateFilter = (updatedFields: Partial<typeof filter>) => {
-    filterBy({ ...filter, ...updatedFields });
+  const updateFilter = async (updatedFields: Partial<typeof filter>) => {
+    await filterBy({ ...filter, ...updatedFields });
   };
 
-  const handleRadioChange = (
+  const handleRadioChange = async (
     event: React.ChangeEvent<HTMLInputElement, Element>
   ) => {
     const selected = event.target.value as FilterType;
 
     if (selected === 'current') {
-      filterBy(getDefaultDateFilterRange());
+      await filterBy(getDefaultDateFilterRange());
       return;
     }
 
     if (selected === 'previous') {
-      filterBy(getPreviousDateFilterRange());
+      await filterBy(getPreviousDateFilterRange());
       return;
     }
 
