@@ -39,6 +39,7 @@ runs:
         firebase deploy \
           --only hosting \
           --project "${{ inputs.project_id }}" \
+          --force \
           --non-interactive
       env:
         FIREBASE_SERVICE_ACCOUNT: ${{ inputs.firebase_service_account }}

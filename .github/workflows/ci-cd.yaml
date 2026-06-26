@@ -19,8 +19,8 @@ jobs:
       endsWith(github.event.head_commit.message, 'cd:auto')
     uses: ./.github/workflows/vulnerabilities-checker.yml
     with:
-      working-directory: '.'
-      source: 'ci-cd'
+      working-directory: "."
+      source: "ci-cd"
 
   unit-test:
     needs: check-dependencies-vulnerability
@@ -70,9 +70,19 @@ jobs:
           VITE_APP_ID: ${{ secrets.APP_ID }}
           VITE_MEASUREMENT_ID: ${{ secrets.MEASUREMENT_ID }}
 
+      - name: Install Firebase CLI
+        shell: bash
+        run: npm install -g firebase-tools
+
       - name: Deploy to Firebase Hosting
-        uses: ./.github/actions/firebase-hosting-deploy
-        with:
-          firebase_service_account: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
-          channel_id: live
+        shell: bash
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT" > "$GOOGLE_APPLICATION_CREDENTIALS"
+          firebase deploy \
+            --only hosting \
+            --project "${{ secrets.FIREBASE_PROJECT_ID  }}" \
+            --non-interactive
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-key.json
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
