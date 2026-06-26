@@ -71,9 +71,8 @@ jobs:
           VITE_MEASUREMENT_ID: ${{ secrets.MEASUREMENT_ID }}
 
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
+        uses: ./.github/actions/firebase-hosting-deploy
         with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: ${{ secrets.FIREBASE_PROJECT_ID }}
-          channelId: live
+          firebase_service_account: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
+          channel_id: live
