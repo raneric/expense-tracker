@@ -1,14 +1,12 @@
-import { ExitToAppTwoTone, Menu as MenuIcon } from '@mui/icons-material';
+import { ExitToAppTwoTone } from '@mui/icons-material';
 import {
   AppBar,
   Avatar,
-  Box,
   Chip,
   IconButton,
   Toolbar,
   Tooltip,
   Typography,
-  Zoom,
 } from '@mui/material';
 import { useUserContext } from '../../../../contexts/auth/UserContext';
 import { useDrawerContext } from '../../../../contexts/drawer/DrawerContext';
@@ -19,7 +17,7 @@ export default function CustomAppBar() {
   const { logout, state } = useUserContext();
 
   const { isDesktop } = useResponsive();
-  const { state: drawerState, show } = useDrawerContext();
+  const { state: drawerState } = useDrawerContext();
 
   const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -36,10 +34,10 @@ export default function CustomAppBar() {
       position="fixed"
       elevation={0}
       sx={{
-        width: !drawerState.collapsed
+        width: isDesktop
           ? `calc(100% - ${drawerState.width}px)`
           : '100%',
-        ml: `${drawerState.width}px`,
+        ml: isDesktop ? `${drawerState.width}px` : 0,
 
         backdropFilter: 'blur(12px)',
         borderBottom: '1px solid',
@@ -62,21 +60,6 @@ export default function CustomAppBar() {
           gap: 1.5,
         }}
       >
-        {/* Mobile menu toggle */}
-        {!isDesktop && (
-          <Zoom in>
-            <IconButton
-              onClick={show}
-              aria-label="Open navigation menu"
-              sx={{ color: Colors.tint50 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Zoom>
-        )}
-
-        {/* Spacer for mobile layout */}
-        {!isDesktop && <Box sx={{ flexGrow: 1 }} />}
 
         {/* User chip */}
         <Tooltip title={state.profile?.email ?? 'User'}>
@@ -107,9 +90,9 @@ export default function CustomAppBar() {
                   color: Colors.tint50,
                 }}
               >
-                {state.profile?.firstName
-                  ? `${state.profile.firstName} ${state.profile.lastName}`
-                  : state.profile?.email}
+                {isDesktop ?
+                  `${state.profile?.firstName} ${state.profile?.lastName}`
+                  : state.profile?.firstName}
               </Typography>
             }
             variant="filled"
