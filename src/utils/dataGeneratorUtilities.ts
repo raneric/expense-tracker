@@ -198,7 +198,7 @@ export function getPreviousDateFilterRange(): DateFilter {
  * @returns Chart dimensions and series configuration.
  */
 export function generateSavingSeries(saving: Saving[]) {
-  const dimensions = saving.map((value) => dayjs(value.month).format('MMM'));
+  const dimensions = saving.map((value) => dayjs(value.month).format('MMM YYYY'));
   const seriesData = saving.map((value) => value.amount);
 
   const series = [
