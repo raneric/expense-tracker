@@ -44,4 +44,3 @@ runs:
       env:
         FIREBASE_SERVICE_ACCOUNT: ${{ inputs.firebase_service_account }}
         GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-key.json
-        FIREBASE_CLI_EXPERIMENTS: webframeworks
