@@ -100,35 +100,35 @@ export default function WithdrawalHistory() {
         current={charts.current}
         forecast={charts.forecast}
       />
+      <WithdrawalActionsProvider
+        onEdit={openEditDialog}
+        onDelete={openDeleteDialog}
+        onForecastValidated={openForecastValidationDialog}
+      >
+        {isDesktop ? (
+          <WithdrawalTable
+            tablePaginationState={pagination}
+            onPageChange={onPageChange}
+            onRowPerPageChange={onRowsPerPageChange}
+          >
+            <WithdrawalTableHeader />
+            {withdrawalState.isLoading ? (
+              <SkeletonTableBody
+                rowPerPage={pagination.rowsPerPage}
+                columnNumber={5}
+              />
+            ) : (
 
-      {isDesktop ? (
-        <WithdrawalTable
-          tablePaginationState={pagination}
-          onPageChange={onPageChange}
-          onRowPerPageChange={onRowsPerPageChange}
-        >
-          <WithdrawalTableHeader />
-          {withdrawalState.isLoading ? (
-            <SkeletonTableBody
-              rowPerPage={pagination.rowsPerPage}
-              columnNumber={5}
-            />
-          ) : (
-            <WithdrawalActionsProvider
-              onEdit={openEditDialog}
-              onDelete={openDeleteDialog}
-              onForecastValidated={openForecastValidationDialog}
-            >
               <WithdrawalTableBody withdrawals={currentPage} />
-            </WithdrawalActionsProvider>
-          )}
-        </WithdrawalTable>
-      ) : withdrawalState.isLoading ? (
-        <ListSkeleton rows={pagination.rowsPerPage} />
-      ) : (
-        <WithdrawalList withdrawals={withdrawalState.data} />
-      )}
 
+            )}
+          </WithdrawalTable>
+        ) : withdrawalState.isLoading ? (
+          <ListSkeleton rows={pagination.rowsPerPage} />
+        ) : (
+          <WithdrawalList withdrawals={withdrawalState.data} />
+        )}
+      </WithdrawalActionsProvider>
       <WithdrawalFormDialog
         key={isEdit ? `edit-${dialog.withdrawal.id}` : 'create'}
         isOpen={isFormDialogOpen}
@@ -153,6 +153,6 @@ export default function WithdrawalHistory() {
         message={confirmationMessage}
       />
       <AppSpeedDial elements={speedDialAction} />
-    </Stack>
+    </Stack >
   );
 }

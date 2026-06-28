@@ -70,19 +70,10 @@ jobs:
           VITE_APP_ID: ${{ secrets.APP_ID }}
           VITE_MEASUREMENT_ID: ${{ secrets.MEASUREMENT_ID }}
 
-      - name: Install Firebase CLI
-        shell: bash
-        run: npm install -g firebase-tools
-
       - name: Deploy to Firebase Hosting
-        shell: bash
-        run: |
-          echo "$FIREBASE_SERVICE_ACCOUNT" > "$GOOGLE_APPLICATION_CREDENTIALS"
-          firebase deploy \
-            --only hosting \
-            --project "${{ secrets.FIREBASE_PROJECT_ID  }}" \
-            --non-interactive
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-key.json
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: ${{ secrets.FIREBASE_PROJECT_ID }}
+          channelId: live
