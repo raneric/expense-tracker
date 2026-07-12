@@ -110,7 +110,12 @@ export type WithdrawalRetrievalAction =
   | DataRetrievalAction<Withdrawal, DateFilter>
   | { type: 'LOAD_REASONS'; payload: string[] };
 
-export type FilterType = 'current' | 'previous' | 'custom';
+export type FilterType =
+  | 'current'
+  | 'previous'
+  | 'current-week'
+  | 'previous-week'
+  | 'custom';
 
 export type DateFilter = {
   startDate?: Date;

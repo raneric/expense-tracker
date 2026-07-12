@@ -188,6 +188,45 @@ export function getPreviousDateFilterRange(): DateFilter {
 }
 
 /**
+ * Returns the date filter range for the current week
+ * (Monday through Sunday).
+ *
+ * @returns Current week date filter range.
+ */
+export function getCurrentWeekFilterRange(): DateFilter {
+  const today = dayjs();
+  const startOfWeek = today.startOf('week').add(1, 'day'); // Monday
+  const endOfWeek = today.endOf('week').add(1, 'day'); // Sunday
+
+  return {
+    startDate: startOfWeek.startOf('day').toDate(),
+    endDate: endOfWeek.endOf('day').toDate(),
+    type: 'current-week',
+  };
+}
+
+/**
+ * Returns the date filter range for the previous week
+ * (Monday through Sunday of last week).
+ *
+ * @returns Previous week date filter range.
+ */
+export function getPreviousWeekFilterRange(): DateFilter {
+  const today = dayjs();
+  const startOfLastWeek = today
+    .subtract(1, 'week')
+    .startOf('week')
+    .add(1, 'day');
+  const endOfLastWeek = today.subtract(1, 'week').endOf('week').add(1, 'day');
+
+  return {
+    startDate: startOfLastWeek.startOf('day').toDate(),
+    endDate: endOfLastWeek.endOf('day').toDate(),
+    type: 'previous-week',
+  };
+}
+
+/**
  * Converts saving records into chart-ready data.
  *
  * Creates:
@@ -198,7 +237,9 @@ export function getPreviousDateFilterRange(): DateFilter {
  * @returns Chart dimensions and series configuration.
  */
 export function generateSavingSeries(saving: Saving[]) {
-  const dimensions = saving.map((value) => dayjs(value.month).format('MMM YYYY'));
+  const dimensions = saving.map((value) =>
+    dayjs(value.month).format('MMM YYYY')
+  );
   const seriesData = saving.map((value) => value.amount);
 
   const series = [
