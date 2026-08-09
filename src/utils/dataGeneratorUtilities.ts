@@ -134,29 +134,22 @@ export function calculateInUseDays(value: string) {
 }
 
 /**
- * Returns the current gas tracking period.
+ * Returns the current month's date filter range.
  *
- * The billing/usage cycle runs from the 28th of one month
- * through the 27th of the next month.
+ * The range runs from the 1st of the current month
+ * through the last day of the current month.
  *
  * Examples:
- * - If today is Feb 10 → Jan 28 to Feb 27
- * - If today is Feb 28 → Feb 28 to Mar 27
+ * - If today is Feb 10 → Feb 1 to Feb 28
+ * - If today is Dec 15 → Dec 1 to Dec 31
  *
- * @returns Current date filter range.
+ * @returns Current month date filter range.
  */
 export function getDefaultDateFilterRange(): DateFilter {
   const today = dayjs();
 
-  const isAfterOrOn28th = today.date() >= 28;
-
-  const startDate = isAfterOrOn28th
-    ? today.date(28)
-    : today.subtract(1, 'month').date(28);
-
-  const endDate = isAfterOrOn28th
-    ? today.add(1, 'month').date(27)
-    : today.date(27);
+  const startDate = today.startOf('month');
+  const endDate = today.endOf('month');
 
   return {
     startDate: startDate.startOf('day').toDate(),
