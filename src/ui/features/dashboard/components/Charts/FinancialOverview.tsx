@@ -103,7 +103,7 @@ export default function FinancialOverview({
           <Grid size={{ xs: 12, sm: 6 }}>
             <SecondaryMetrics
               icon={<SyncAlt color="success" />}
-              label="Withdrawals up to today"
+              label="Total Withdrawals"
               value={toLocalMgCurrency(currentWithdrawals)}
               color="success.main"
               trendingUp={false}
