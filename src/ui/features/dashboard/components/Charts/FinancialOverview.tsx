@@ -10,7 +10,7 @@ import { Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
 import MainMetrics from './MainMetrics';
 import SecondaryMetrics from './SecondaryMetrics';
 import { useCallback } from 'react';
-import type { BalanceInfoProps } from '../../../../../type/AppType';
+import type { FinancialOverview } from '../../../../../type/AppType';
 import useTemporaryVisibility from '../../../../../hooks/useTemporaryVisibility';
 import { toLocalMgCurrency } from '../../../../../utils/formatterUtilities';
 import { HIDDEN_AMOUNT } from '../../../../../utils/Const';
@@ -18,14 +18,14 @@ import ChartCard from '../../../shared/ChartCard/ChartCard';
 import { calculateTrendRate } from '../../../../../utils/computingFunction';
 import PasswordConfirmationDialog from '../../../shared/Dialog/PasswordConfirmationDialog';
 
-export default function BalanceInfo({
+export default function FinancialOverview({
   currentWithdrawals,
   forecastedWithdrawals,
   forecastedSaving,
   previousMonthSaving,
   currentBalance,
   twoMonthsAgoSaving,
-}: BalanceInfoProps) {
+}: FinancialOverview) {
   const { sensitiveDataVisibility, passwordDialog, hide, confirmPassword } =
     useTemporaryVisibility();
 

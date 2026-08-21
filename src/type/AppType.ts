@@ -120,7 +120,7 @@ export type MetricItemProps = {
   rate?: string;
 };
 
-export interface BalanceInfoProps {
+export interface FinancialOverview {
   currentWithdrawals: number;
   forecastedWithdrawals: number;
   forecastedSaving: number;

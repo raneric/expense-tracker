@@ -15,7 +15,7 @@ import {
   TitleHelperInfo,
 } from '../shared/SectionTitle/SectionTitle';
 import AppSpeedDial from '../shared/SpeedDial/AppSpeedDial';
-import BalanceInfo from './components/Charts/BalanceInfo';
+import FinancialOverview from './components/Charts/FinancialOverview';
 import SavingChart from './components/Charts/SavingChart';
 import WeeklySpentChart from './components/Charts/WeeklySpentChart';
 import SavingDialog from './components/Dialog/SavingDialog';
@@ -89,7 +89,7 @@ export default function Dashboard() {
         </Grid>
 
         <Grid size={{ xs: 12, md: 12, lg: 4, xl: 4 }}>
-          <BalanceInfo
+          <FinancialOverview
             currentWithdrawals={currentWithdrawals}
             forecastedWithdrawals={forecastedWithdrawals}
             previousMonthSaving={previousMonthSaving}
