@@ -299,7 +299,6 @@ export default function Login() {
             </Button>
           </Box>
 
-          {/* Footer */}
           <Typography
             variant="caption"
             sx={{

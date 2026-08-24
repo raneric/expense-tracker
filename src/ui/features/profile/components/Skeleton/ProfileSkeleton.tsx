@@ -20,7 +20,6 @@ export default function ProfileSkeleton() {
           borderColor: 'grey.200',
         }}
       >
-        {/* Header */}
         <Skeleton
           variant="rectangular"
           height={180}

@@ -53,9 +53,7 @@ export default function WithdrawalList({ withdrawals }: WithdrawalsDataProps) {
           variant="outlined"
           sx={{
             borderRadius: 3,
-            borderColor: withdrawal.isForecast
-              ? 'warning.main'
-              : 'divider',
+            borderColor: withdrawal.isForecast ? 'warning.main' : 'divider',
             borderWidth: withdrawal.isForecast ? 1.5 : 1,
             transition: 'box-shadow 0.2s, border-color 0.2s',
             '&:hover': {
@@ -68,7 +66,6 @@ export default function WithdrawalList({ withdrawals }: WithdrawalsDataProps) {
         >
           <CardContent sx={{ pb: '12px !important' }}>
             <Stack spacing={1.5}>
-              {/* Header: location + date + forecast chip */}
               <Stack
                 direction="row"
                 spacing={1}
@@ -77,7 +74,10 @@ export default function WithdrawalList({ withdrawals }: WithdrawalsDataProps) {
                   alignItems: 'flex-start',
                 }}
               >
-                <Stack spacing={0.25} sx={{ minWidth: 0, flex: 1 }}>
+                <Stack
+                  spacing={0.25}
+                  sx={{ minWidth: 0, flex: 1 }}
+                >
                   <Typography
                     variant="subtitle1"
                     sx={{
@@ -107,7 +107,6 @@ export default function WithdrawalList({ withdrawals }: WithdrawalsDataProps) {
                 )}
               </Stack>
 
-              {/* Amount + reasons */}
               <Stack
                 direction="row"
                 sx={{
@@ -142,7 +141,6 @@ export default function WithdrawalList({ withdrawals }: WithdrawalsDataProps) {
                 </Typography>
               </Stack>
 
-              {/* Comments */}
               {withdrawal.comments && (
                 <Typography
                   variant="body2"
@@ -159,7 +157,6 @@ export default function WithdrawalList({ withdrawals }: WithdrawalsDataProps) {
                 </Typography>
               )}
 
-              {/* Action buttons */}
               <Stack
                 direction="row"
                 spacing={0.5}
@@ -182,7 +179,10 @@ export default function WithdrawalList({ withdrawals }: WithdrawalsDataProps) {
                         '&:hover': { bgcolor: 'warning.50' },
                       }}
                     >
-                      <CheckCircleTwoTone color="warning" fontSize="small" />
+                      <CheckCircleTwoTone
+                        color="warning"
+                        fontSize="small"
+                      />
                     </IconButton>
                   </Tooltip>
                 )}
