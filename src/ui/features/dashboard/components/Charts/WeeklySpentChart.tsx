@@ -20,7 +20,7 @@ const WeeklySpentChartContainer = styled(Stack)(({ theme }) => ({
 }));
 
 const ChartHeader = styled(Typography)(({ theme }) => ({
-  with: '100%',
+  width: '100%',
   textAlign: 'center',
   color: theme.palette.primary.contrastText,
   fontWeight: 'bold',

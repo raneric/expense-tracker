@@ -57,6 +57,7 @@ describe('useWithdrawalSubmit', () => {
       amount: 45.5,
       location: 'Market',
       isForecast: false,
+      details: [],
     };
 
     let success = false;
@@ -95,6 +96,7 @@ describe('useWithdrawalSubmit', () => {
       amount: 120,
       location: 'Train',
       isForecast: false,
+      details: [],
     };
 
     let success = false;
@@ -126,6 +128,7 @@ describe('useWithdrawalSubmit', () => {
       amount: 10,
       location: 'Cafe',
       isForecast: false,
+      details: [],
     };
 
     let success = false;
@@ -152,6 +155,7 @@ describe('useWithdrawalSubmit', () => {
       amount: 30,
       location: 'Utility',
       isForecast: false,
+      details: [],
     };
 
     let success = false;

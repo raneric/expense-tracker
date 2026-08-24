@@ -11,6 +11,7 @@ const baseWithdrawal = {
   location: 'Market',
   comments: 'Weekly groceries',
   isForecast: false,
+  details: [],
 };
 
 describe('WithdrawalFormDialog', () => {

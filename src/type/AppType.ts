@@ -10,6 +10,11 @@ export type AppRoute = {
   icon?: React.ReactNode;
 };
 
+export interface WithdrawalDetail {
+  reason: string;
+  price: number;
+}
+
 export interface Withdrawal {
   id?: string;
   ownerId?: string;
@@ -20,6 +25,7 @@ export interface Withdrawal {
   location: string;
   isForecast: boolean;
   comments?: string;
+  details: WithdrawalDetail[];
 }
 
 export interface User {

@@ -25,6 +25,7 @@ export const initialWithdrawal: Withdrawal = {
   amount: 0,
   location: '',
   isForecast: false,
+  details: [],
 };
 
 export const gradientBackground = `

@@ -91,6 +91,7 @@ export const rows: Withdrawal[] = [
     location: 'New York',
     amount: 200000,
     isForecast: true,
+    details: [],
   },
   {
     id: '2',
@@ -99,6 +100,7 @@ export const rows: Withdrawal[] = [
     location: 'Los Angeles',
     amount: 30000,
     isForecast: true,
+    details: [],
   },
   {
     id: '3',
@@ -107,6 +109,7 @@ export const rows: Withdrawal[] = [
     location: 'Chicago',
     amount: 42000,
     isForecast: true,
+    details: [],
   },
   {
     id: '4',
@@ -115,6 +118,7 @@ export const rows: Withdrawal[] = [
     location: 'Houston',
     amount: 315000,
     isForecast: false,
+    details: [],
   },
   {
     id: '5',
@@ -123,6 +127,7 @@ export const rows: Withdrawal[] = [
     location: 'San Francisco',
     amount: 13500,
     isForecast: false,
+    details: [],
   },
   {
     id: '6',
@@ -131,6 +136,7 @@ export const rows: Withdrawal[] = [
     location: 'Seattle',
     amount: 100000,
     isForecast: false,
+    details: [],
   },
   {
     id: '7',
@@ -139,6 +145,7 @@ export const rows: Withdrawal[] = [
     location: 'Austin',
     amount: 22000,
     isForecast: false,
+    details: [],
   },
   {
     id: '8',
@@ -147,6 +154,7 @@ export const rows: Withdrawal[] = [
     location: 'Miami',
     amount: 30000,
     isForecast: false,
+    details: [],
   },
   {
     id: '9',
@@ -155,6 +163,7 @@ export const rows: Withdrawal[] = [
     location: 'Denver',
     amount: 40000,
     isForecast: false,
+    details: [],
   },
   {
     id: '10',
@@ -163,6 +172,7 @@ export const rows: Withdrawal[] = [
     location: 'Boston',
     amount: 63000,
     isForecast: false,
+    details: [],
   },
   {
     id: '11',
@@ -171,6 +181,7 @@ export const rows: Withdrawal[] = [
     location: 'Portland',
     amount: 15000,
     isForecast: false,
+    details: [],
   },
   {
     id: '12',
@@ -179,6 +190,7 @@ export const rows: Withdrawal[] = [
     location: 'San Diego',
     amount: 16000,
     isForecast: false,
+    details: [],
   },
   {
     id: '13',
@@ -187,6 +199,7 @@ export const rows: Withdrawal[] = [
     location: 'Philadelphia',
     amount: 17000,
     isForecast: false,
+    details: [],
   },
   {
     id: '14',
@@ -195,6 +208,7 @@ export const rows: Withdrawal[] = [
     location: 'Atlanta',
     amount: 18000,
     isForecast: false,
+    details: [],
   },
   {
     id: '15',
@@ -203,6 +217,7 @@ export const rows: Withdrawal[] = [
     location: 'Dallas',
     amount: 19000,
     isForecast: false,
+    details: [],
   },
   {
     id: '16',
@@ -211,6 +226,7 @@ export const rows: Withdrawal[] = [
     location: 'Phoenix',
     amount: 20000,
     isForecast: false,
+    details: [],
   },
   {
     id: '17',
@@ -219,6 +235,7 @@ export const rows: Withdrawal[] = [
     location: 'Las Vegas',
     amount: 21000,
     isForecast: false,
+    details: [],
   },
   {
     id: '18',
@@ -227,6 +244,7 @@ export const rows: Withdrawal[] = [
     location: 'San Jose',
     amount: 22000,
     isForecast: false,
+    details: [],
   },
   {
     id: '19',
@@ -235,6 +253,7 @@ export const rows: Withdrawal[] = [
     location: 'Orlando',
     amount: 23000,
     isForecast: false,
+    details: [],
   },
   {
     id: '20',
@@ -243,6 +262,7 @@ export const rows: Withdrawal[] = [
     location: 'Nashville',
     amount: 24000,
     isForecast: false,
+    details: [],
   },
 ];
 
