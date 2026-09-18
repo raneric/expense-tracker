@@ -45,7 +45,7 @@ class FirebaseService {
 export const firebaseService = await FirebaseService.getInstance();
 export const { auth: firebaseAuth, db: firestoreDb } = firebaseService;
 export const COLLECTIONS = {
-  withdrawals: import.meta.env.DEV ? 'withdrawals_dev' : 'withdrawals',
+  withdrawals: import.meta.env.DEV ? 'withdrawals' : 'withdrawals',
   saving: import.meta.env.DEV ? 'saving_dev' : 'saving',
   gasEvents: import.meta.env.DEV ? 'gas_events_dev' : 'gas_events',
   userInfo: import.meta.env.DEV ? 'users_dev' : 'users',

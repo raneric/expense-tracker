@@ -39,6 +39,26 @@ export function getWeeklyAmounts(withdrawals: Withdrawal[]): PeriodicAmount[] {
     .map(([, value]) => value);
 }
 
+export function getAmountsByReason(
+  withdrawals: Withdrawal[]
+): PeriodicAmount[] {
+  const totals = new Map<string, number>();
+
+  withdrawals.forEach((withdrawal) => {
+    withdrawal.details.forEach(({ reason, price }) => {
+      totals.set(reason, (totals.get(reason) ?? 0) + price);
+    });
+  });
+
+  // Legacy withdrawals may carry zero-price details (rebuilt from the old
+  // `reasons` field by the form), so drop reasons that sum to 0. Reasons are
+  // grouped by exact match (case-sensitive).
+  return Array.from(totals.entries())
+    .map(([label, amount]) => ({ label, amount }))
+    .filter(({ amount }) => amount > 0)
+    .sort((a, b) => b.amount - a.amount);
+}
+
 export function calculateTrendRate(previous: number, current: number): string {
   if (previous === 0) {
     if (current === 0) return '0.00%';

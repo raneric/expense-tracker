@@ -2,7 +2,11 @@ import { useCallback, useMemo } from 'react';
 import type { UseDashboardMetricsProps } from '../type/PropsType';
 import { toLocalMgCurrencyCompact } from '../utils/formatterUtilities';
 import type { BarItem } from '@mui/x-charts';
-import { calculateSaving, getWeeklyAmounts } from '../utils/computingFunction';
+import {
+  calculateSaving,
+  getAmountsByReason,
+  getWeeklyAmounts,
+} from '../utils/computingFunction';
 import Colors from '../ui/Theming/Colors';
 import { generateSavingSeries } from '../utils/dataGeneratorUtilities';
 import { useResponsive } from './useResponsive';
@@ -95,6 +99,27 @@ export function useDashboardMetrics({
     [savings]
   );
 
+  const { reasonsSeries, reasonsDimensions } = useMemo(() => {
+    const amountsByReason = getAmountsByReason(
+      withdrawals.filter((withdrawal) => !withdrawal.isForecast)
+    );
+
+    const topFive = amountsByReason.slice(0, 5);
+
+    return {
+      reasonsDimensions: topFive.map((reason) => reason.label),
+      reasonsSeries: [
+        {
+          data: topFive.map((reason) => reason.amount ?? 0),
+          label: 'Spent',
+          id: 'reasons',
+          color: Colors.tint300,
+          barLabel: barLabelFormatter,
+        },
+      ],
+    };
+  }, [withdrawals, barLabelFormatter]);
+
   return {
     currentWithdrawals,
     forecastedWithdrawals,
@@ -106,5 +131,7 @@ export function useDashboardMetrics({
     savingSeries,
     twoMonthsAgoSaving,
     savingDimensions,
+    reasonsSeries,
+    reasonsDimensions,
   };
 }

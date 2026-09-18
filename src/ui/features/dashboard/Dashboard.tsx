@@ -17,6 +17,7 @@ import {
 import AppSpeedDial from '../shared/SpeedDial/AppSpeedDial';
 import FinancialOverview from './components/Charts/FinancialOverview';
 import SavingChart from './components/Charts/SavingChart';
+import TopReasonsChart from './components/Charts/TopReasonsChart';
 import WeeklySpentChart from './components/Charts/WeeklySpentChart';
 import SavingDialog from './components/Dialog/SavingDialog';
 
@@ -40,6 +41,8 @@ export default function Dashboard() {
     spendingDimensions,
     savingSeries,
     savingDimensions,
+    reasonsSeries,
+    reasonsDimensions,
     twoMonthsAgoSaving,
   } = useDashboardMetrics({
     withdrawals: withdrawalState.data,
@@ -105,6 +108,12 @@ export default function Dashboard() {
               dimension={savingDimensions}
             />
           </ChartCard>
+        </Grid>
+        <Grid size={{ xs: 12, md: 12, lg: 4, xl: 4 }}>
+          <TopReasonsChart
+            series={reasonsSeries}
+            dimension={reasonsDimensions}
+          />
         </Grid>
       </Grid>
       <AppSpeedDial elements={speedDialAction} />
