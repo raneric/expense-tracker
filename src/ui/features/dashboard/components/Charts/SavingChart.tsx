@@ -17,7 +17,7 @@ export default function SavingChart({
   dimension,
 }: ChartSeriesProps<LineSeries, string>) {
   const { isDesktop, isFHD } = useResponsive();
-  const height = isFHD ? 500 : 400;
+  const height = isFHD ? 500 : 450;
   return (
     <Box sx={{ width: '100%', height }}>
       <LineChart

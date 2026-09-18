@@ -49,7 +49,6 @@ export default function TopReasonsChart({
               {
                 scaleType: 'band',
                 data: dimension,
-                reverse: true,
                 width: 130,
                 tickLabelStyle: {
                   fontSize: 14,
