@@ -5,8 +5,33 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { keyframes } from '@mui/material/styles';
 import type { WithdrawTableProps } from '../../../../../type/PropsType';
 import { useWithdrawalContext } from '../../../../../contexts/withdrawalsRetrieval/WithdrawalContext';
+
+// Stretch-in with a small bounce when the rows-per-page value changes:
+// keying the container on rowsPerPage remounts it, which restarts the
+// animation. The table grows from its top edge, overshoots, then settles.
+const tableStretchIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: scaleY(0.75);
+  }
+  55% {
+    opacity: 1;
+    transform: scaleY(1.04);
+  }
+  75% {
+    transform: scaleY(0.97);
+  }
+  90% {
+    transform: scaleY(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+`;
 
 /**
  * A table for displaying withdrawal information.
@@ -25,7 +50,14 @@ export default function WithdrawalTable({
   const { state } = useWithdrawalContext();
   return (
     <Box>
-      <TableContainer component={Paper}>
+      <TableContainer
+        key={tablePaginationState.rowsPerPage}
+        component={Paper}
+        sx={{
+          transformOrigin: 'top',
+          animation: `${tableStretchIn} 480ms ease-out both`,
+        }}
+      >
         <Table>{children}</Table>
       </TableContainer>
       <TablePagination
