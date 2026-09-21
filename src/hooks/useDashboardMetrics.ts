@@ -11,6 +11,8 @@ import Colors from '../ui/Theming/Colors';
 import { generateSavingSeries } from '../utils/dataGeneratorUtilities';
 import { useResponsive } from './useResponsive';
 
+const MAX_REASONS = 10;
+
 export function useDashboardMetrics({
   withdrawals,
   savings,
@@ -104,17 +106,20 @@ export function useDashboardMetrics({
       withdrawals.filter((withdrawal) => !withdrawal.isForecast)
     );
 
-    const topFive = amountsByReason.slice(0, 10);
+    const topReasons = amountsByReason.slice(0, MAX_REASONS);
 
     return {
-      reasonsDimensions: topFive.map((reason) => reason.label),
+      reasonsDimensions: topReasons.map((reason) => reason.label),
       reasonsSeries: [
         {
-          data: topFive.map((reason) => reason.amount ?? 0),
+          data: topReasons.map((reason) => reason.amount ?? 0),
           label: 'Spent',
           id: 'reasons',
-          color: Colors.tint300,
+          color: Colors.tint600,
           barLabel: barLabelFormatter,
+          barLabelPlacement: 'center' as const,
+          valueFormatter: (value: number | null) =>
+            toLocalMgCurrencyCompact(value ?? 0),
         },
       ],
     };
