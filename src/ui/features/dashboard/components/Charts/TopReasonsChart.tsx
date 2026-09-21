@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Divider, Stack, Typography } from '@mui/material';
 import { BarChart, type BarSeries } from '@mui/x-charts/BarChart';
 import { useResponsive } from '../../../../../hooks/useResponsive';
 import type { ChartSeriesProps } from '../../../../../type/PropsType';
@@ -26,6 +26,7 @@ export default function TopReasonsChart({
       >
         Top spending reasons
       </Typography>
+      <Divider />
       {dimension.length === 0 ? (
         <Stack
           sx={{

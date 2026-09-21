@@ -104,7 +104,7 @@ export function useDashboardMetrics({
       withdrawals.filter((withdrawal) => !withdrawal.isForecast)
     );
 
-    const topFive = amountsByReason.slice(0, 5);
+    const topFive = amountsByReason.slice(0, 10);
 
     return {
       reasonsDimensions: topFive.map((reason) => reason.label),
