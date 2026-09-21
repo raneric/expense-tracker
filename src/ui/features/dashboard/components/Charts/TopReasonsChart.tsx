@@ -2,18 +2,15 @@ import { Box, Divider, Stack, Typography } from '@mui/material';
 import { BarChart, type BarSeries } from '@mui/x-charts/BarChart';
 import { useResponsive } from '../../../../../hooks/useResponsive';
 import type { ChartSeriesProps } from '../../../../../type/PropsType';
+import { toLocalMgCurrencyCompact } from '../../../../../utils/formatterUtilities';
 import Colors from '../../../../Theming/Colors';
 import ChartCard from '../../../shared/ChartCard/ChartCard';
-import {
-  toLocalMgCurrency,
-  toLocalMgCurrencyCompact,
-} from '../../../../../utils/formatterUtilities';
 
 export default function TopReasonsChart({
   series,
   dimension,
 }: ChartSeriesProps<BarSeries, string>) {
-  const { isDesktop, isFHD } = useResponsive();
+  const { isFHD } = useResponsive();
   const height = isFHD ? 500 : 400;
 
   return (
@@ -61,7 +58,7 @@ export default function TopReasonsChart({
             xAxis={[
               {
                 valueFormatter: (value: number) =>
-                  `${isDesktop ? toLocalMgCurrency(value) : toLocalMgCurrencyCompact(value)}`,
+                  `${toLocalMgCurrencyCompact(value)}`,
                 tickLabelStyle: {
                   fontSize: 14,
                   fill: Colors.tint900,

@@ -38,11 +38,11 @@ export function toLocalMgCurrencyCompact(amount: number): string {
   });
 
   if (amount >= 1_000_000) {
-    return `${formatter.format(amount / 1_000_000)} M Ar`;
+    return `${formatter.format(amount / 1_000_000)}M Ar`;
   }
 
   if (amount >= 1_000) {
-    return `${formatter.format(amount / 1_000)} k Ar`;
+    return `${formatter.format(amount / 1_000)}k Ar`;
   }
 
   return `${formatter.format(amount)} Ar`;
